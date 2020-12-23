@@ -13,11 +13,11 @@ Funding
 * React, Express, PSQL
 
 ### Intended Contributions:
-* Andrew: 
-* Donna: 
-* Emily: 
-* Benjamin:
-* Peter:
+* Andrew: Database, PM Proj Page
+* Donna: Create Project Page
+* Emily: Main Page, Goddess of CSS
+* Benjamin: Developer Proj Page
+* Peter: Login/Registration, General Manager Page
 
 ### Daily Ceremonies - 
 * 7 AM PST Stand up
