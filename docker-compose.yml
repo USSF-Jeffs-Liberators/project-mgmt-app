@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+  freejeffrootconfig:
+    build: root-config
+    ports:
+      - 9000:9000
+
+  freejeffmainpage:
+    build: main-page
+    ports:
+      - 9001:9001
