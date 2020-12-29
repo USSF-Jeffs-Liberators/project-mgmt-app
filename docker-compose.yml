@@ -36,7 +36,5 @@ services:
     depends_on:
       - "database"
 
-
-
 volumes:
   project-mgt: {}
