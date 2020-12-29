@@ -8,8 +8,8 @@ module.exports = (webpackConfigEnv, argv) => {
     webpackConfigEnv,
     argv,
     watchOptions: {
-      poll: true
-    }
+      poll: true,
+    },
   });
 
   return webpackMerge.smart(defaultConfig, {

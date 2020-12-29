@@ -1,28 +1,16 @@
 import React from "react";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import LoginForm from "./login.component";
+import SignupForm from "./signup.component";
+import LoggedOut from "./loggedout.component";
 
 export default function Root(props) {
-  const formStyle = {"max-width": "300px", margin: "auto", "margin-top": "100px"}
-
-  return  (
-    <div style={formStyle}>
-      <h4>Log in to view your Dashboard:</h4>
-
-      <form className="rux-form">
-        <div className="rux-form-field">
-          <label htmlFor="input__text">Username</label>
-          <input id="input__text" className="rux-input" type="text" required />
-        </div> <br/>
-        <div className="rux-form-field">
-          <label htmlFor="input__password">Password</label>
-          <input id="input__password" className="rux-input" type="password" required />
-        </div> <br/>
-        <rux-button type="button">
-          Submit
-        </rux-button>
-      </form>
-
-      <h6>Need an account? Sign up <a href="/signup">here</a>.</h6>
-    </div>
+  return (
+    <BrowserRouter>
+      <Route exact path="/" component={LoggedOut} />
+      <Route exact path="/login" component={LoginForm} />
+      <Route exact path="/signup" component={SignupForm} />
+    </BrowserRouter>
   );
 }
 
