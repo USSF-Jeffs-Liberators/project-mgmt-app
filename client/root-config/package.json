@@ -7,7 +7,6 @@
     "format": "prettier --write \"./**\"",
     "build": "webpack --mode=production"
   },
-  "proxy": "http://server:8000",
   "husky": {
     "hooks": {
       "pre-commit": "pretty-quick --staged && concurrently npm:test npm:lint"
@@ -43,6 +42,7 @@
   },
   "dependencies": {
     "single-spa": "^5.8.3",
-    "single-spa-layout": "1.2.1"
+    "single-spa-layout": "1.2.1",
+    "@astrouxds/rux-button": "^4.1.2"
   }
 }

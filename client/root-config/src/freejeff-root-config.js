@@ -5,7 +5,14 @@ import {
   constructLayoutEngine,
 } from "single-spa-layout";
 
-const routes = constructRoutes(document.querySelector("#single-spa-layout"));
+const routes = constructRoutes(document.querySelector("#single-spa-layout"), {
+  loaders: {
+    topNav: "<h1>Loading topnav</h1>",
+  },
+  errors: {
+    topNav: "<h1>Failed to load topnav</h1>",
+  },
+});
 const applications = constructApplications({
   routes,
   loadApp({ name }) {

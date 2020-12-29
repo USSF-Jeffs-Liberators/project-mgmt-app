@@ -4,9 +4,12 @@ const singleSpaDefaults = require("webpack-config-single-spa-react");
 module.exports = (webpackConfigEnv, argv) => {
   const defaultConfig = singleSpaDefaults({
     orgName: "freejeff",
-    projectName: "users-service",
+    projectName: "navbar",
     webpackConfigEnv,
     argv,
+    watchOptions: {
+      poll: true
+    }
   });
 
   return webpackMerge.smart(defaultConfig, {
