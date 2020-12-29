@@ -16,7 +16,7 @@ services:
   api:
     build: api
     volumes:
-      - ./api:/app
+      - ./api:/index
     ports:
       - 3001:3001
     depends_on:
