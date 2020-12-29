@@ -8,8 +8,9 @@ export default function Root(props) {
   const buttonMargin = {margin: "2px"} 
 
   return (
-    <rux-global-status-bar class="dark-theme" appname="Project Management App">
-      <rux-tabs id="navigation-tabs">
+    <rux-global-status-bar className="dark-theme">
+      <h2 onClick={() => history.push("/")}>Project Management App</h2>
+      <rux-tabs small id="navigation-tabs">
         {links.developer.map((link) => {
           return (
             <rux-tab 
