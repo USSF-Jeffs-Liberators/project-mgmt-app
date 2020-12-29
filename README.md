@@ -28,6 +28,12 @@ Funding
 
 ### Start the App:
 1. Run `docker-compose build`, then `docker-compose up`
-2. OR run `npm start` from within the `root-config` and `main-page` folders
+2. View the app at `localhost:9000`
+3. Query the API at `localhost:3001`
 
-View the app at `localhost:9000`!
+### API endpoints
+##### Users Service
+* GET `/users` - gets all users
+
+##### Projects Service
+* GET `/projects` - gets all projects
