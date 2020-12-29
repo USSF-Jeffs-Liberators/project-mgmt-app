@@ -1,7 +1,7 @@
 {
-  "name": "@freejeff/navbar",
+  "name": "@freejeff/create-project-page",
   "scripts": {
-    "start": "webpack-dev-server --host 0.0.0.0 --port 8002",
+    "start": "webpack-dev-server --host 0.0.0.0 --port 8003",
     "start:standalone": "webpack-dev-server --env.standalone",
     "build": "webpack --mode=production",
     "analyze": "webpack --mode=production --env.analyze=true",
@@ -43,13 +43,12 @@
     "single-spa-react": "^2.14.0",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10",
-    "webpack-config-single-spa-react": "^1.0.3",
-    "webpack-dev-server": "^3.11.0",
+    "webpack-config-single-spa-react": "^1.18.0",
+    "webpack-dev-server": "^3.9.0",
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
     "@astrouxds/rux-button": "^4.1.2",
-    "@astrouxds/rux-global-status-bar": "^4.0.3",
     "@astrouxds/rux-tabs": "^4.0.5",
     "react": "^16.12.0",
     "react-dom": "^16.12.0"
