@@ -27,8 +27,8 @@ Funding
 * 2:50 PM PST Stand Down
 
 ### Start the App:
-1. Run `docker-compose build`, then `docker-compose up` in server
-2. Use same commands in client, or `npm start` in each client folder
+1. Server (Express + PSQL): Run `docker-compose build`, then `docker-compose up`
+2. Client (React): Use the same commands as above OR `npm start` in individual client folders
 3. View the app at `localhost:9000`
 4. Query the API at `localhost:3001`
 
