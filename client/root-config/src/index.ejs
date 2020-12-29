@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Project Management App</title>
   <link rel="stylesheet" href="/static/css/astro.css" />
+  <link rel="stylesheet" href="/static/css/custom.css" />
   <link href="/static/favicon.ico" rel="icon" type="image/x-icon" /> 
   <!--
     Remove this if you only support browsers that support async/await.
@@ -37,7 +38,8 @@
       "imports": {
         "single-spa": "https://cdn.jsdelivr.net/npm/single-spa@5.8.3/lib/system/single-spa.min.js",
         "react": "https://cdn.jsdelivr.net/npm/react@16.13.1/umd/react.production.min.js",
-        "react-dom": "https://cdn.jsdelivr.net/npm/react-dom@16.13.1/umd/react-dom.production.min.js"
+        "react-dom": "https://cdn.jsdelivr.net/npm/react-dom@16.13.1/umd/react-dom.production.min.js",
+        "history": "https://cdn.jsdelivr.net/npm/history@5.0.0/main.min.js"
       }
     }
   </script>
@@ -51,12 +53,8 @@
     {
       "imports": {
         "@freejeff/root-config": "//localhost:9000/freejeff-root-config.js",
-<<<<<<< HEAD:root-config/src/index.ejs
-        "@freejeff/main-page": "//localhost:9001/freejeff-main-page.js"
-=======
         "@freejeff/main-page": "//localhost:9001/freejeff-main-page.js",
         "@freejeff/navbar": "//localhost:9002/freejeff-navbar.js"
->>>>>>> users-service:client/root-config/src/index.ejs
       }
     }
   </script>
@@ -81,11 +79,11 @@
   <template id="single-spa-layout">
     <single-spa-router>
       <nav>
-        <application name="@freejeff/navbar" loader="topNav" error="topNav"></application>
+        <application name="@freejeff/navbar" loader="navbar" error="navbar"></application>
       </nav>
       <main>
         <route default>
-          <application name="@freejeff/main-page"></application>
+          <application name="@freejeff/main-page" loader="mainPage" error="mainPage"></application>
         </route>
       </main>
     </single-spa-router>
