@@ -29,7 +29,7 @@ Funding
 ### Start the App:
 1. Server (Express + PSQL): Run `docker-compose build`, then `docker-compose up`
 2. Client (React): Use the same commands as above OR `npm start` in individual client folders
-3. View the app at `localhost:9000`
+3. View the app at `localhost:8000`
 4. Query the API at `localhost:3001`
 
 ### API endpoints

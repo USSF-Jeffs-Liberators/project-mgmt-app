@@ -22,24 +22,5 @@ services:
     depends_on:
       - "database"
 
-  # freejeffrootconfig:
-  #   build: root-config
-  #   ports:
-  #     - 9000:9000
-  #   depends_on:
-  #     - "database"
-
-  # freejeffmainpage:
-  #   build: main-page
-  #   ports:
-  #     - 9001:9001
-  #   # depends_on:
-  #     # - "database"
-
-  # freejeffnavbar:
-  #   build: navbar
-  #   ports:
-  #   - 9002:9002
-
 volumes:
   project-mgt: {}

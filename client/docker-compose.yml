@@ -4,17 +4,17 @@ services:
   freejeffrootconfig:
     build: root-config
     ports:
-      - 9000:9000
+      - 8000:8000
 
   freejeffmainpage:
     build: main-page
     ports:
-      - 9001:9001
+      - 8001:8001
 
   freejeffnavbar:
     build: navbar
     ports:
-    - 9002:9002
+    - 8002:8002
 
 volumes:
   project-mgt: {}

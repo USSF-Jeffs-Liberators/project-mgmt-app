@@ -5,6 +5,7 @@ import {
   constructLayoutEngine,
 } from "single-spa-layout";
 
+// Astro UI shared components
 import { RuxGlobalStatusBar } from '@astrouxds/rux-global-status-bar/rux-global-status-bar.js';
 import { RuxButton } from '@astrouxds/rux-button/rux-button.js';
 import { RuxTabs } from '@astrouxds/rux-tabs/rux-tabs.js';

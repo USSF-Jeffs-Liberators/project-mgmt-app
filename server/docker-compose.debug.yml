@@ -9,6 +9,6 @@ services:
     environment:
       NODE_ENV: development
     ports:
-      - 9000:9000
-      - 9229:9229
-    command: ["node", "--inspect=0.0.0.0:9229", "index.js"]
+      - 8000:8000
+      - 8229:8229
+    command: ["node", "--inspect=0.0.0.0:8229", "index.js"]

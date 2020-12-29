@@ -2,8 +2,9 @@ import React from "react";
 import { createBrowserHistory } from 'history';
 import { links } from "./links.js";
 
+const history = createBrowserHistory();
+
 export default function Root(props) {
-  const history = createBrowserHistory();
   const buttonMargin = {margin: "2px"} 
 
   return (
