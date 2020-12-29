@@ -1,1 +1,1 @@
-Each service gets its own folder. Components will be imported into /main-page/src/root.component.js and rendered simultaneously.
+Testing creating components here and then importing into /main-page/src/root.component.js
