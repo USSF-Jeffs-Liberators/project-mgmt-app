@@ -6,11 +6,12 @@ const history = createBrowserHistory();
 const buttonMargin = {margin: "2px"};
 
 export default function Root(props) {
-  
+
   // mock user is logged in/out
   let loggedIn = false;
   let buttonLinks = [];
 
+  // show login/signup buttons if logged out; otherwise enable log out if logged in
   loggedIn ? 
   buttonLinks = links.loggedIn :
   buttonLinks = links.loggedOut
@@ -19,6 +20,7 @@ export default function Root(props) {
   let userType = "Project Manager";
   let tabLinks = [];
 
+  // tabs vary depending on the type of user logged in
   switch (userType) {
     case "Developer":
       tabLinks = links.developer;
