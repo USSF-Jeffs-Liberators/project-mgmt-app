@@ -21,14 +21,22 @@ export const links = {
             href: "project",
         },
         {
+            name: "View Tasks",
+            href: "tasks",
+        },
+        {
             name: "Submit Issue",
             href: "issue",
         }
     ],
     projectManager: [
         {
-            name: "Manage Team",
-            href: "team",
+            name: "Project Dashboard",
+            href: "project",
+        },
+        {
+            name: "Manage Tasks",
+            href: "tasks",
         },
         {
             name: "Submit Funding Request",
@@ -37,7 +45,7 @@ export const links = {
     ],
     generalManager: [
         {
-            name: "Create a Project",
+            name: "Manage All Projects",
             href: "projects",
         },
         {
@@ -45,7 +53,7 @@ export const links = {
             href: "teams",
         },
         {
-            name: "View Funding Request",
+            name: "View Funding Requests",
             href: "funding-requests",
         }
     ]

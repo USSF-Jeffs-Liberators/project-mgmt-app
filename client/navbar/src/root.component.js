@@ -17,7 +17,7 @@ export default function Root(props) {
   buttonLinks = links.loggedOut
 
   // mock different User_Types
-  let userType = "Project Manager";
+  let userType = "Developer";
   let tabLinks = [];
 
   // tabs vary depending on the type of user logged in
