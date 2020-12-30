@@ -4,14 +4,9 @@ import { createBrowserHistory } from "history";
 const history = createBrowserHistory();
 
 export default function LoginForm(props) {
-  const formStyle = {
-    "max-width": "300px",
-    margin: "auto",
-    "margin-top": "100px",
-  };
 
   return (
-    <div style={formStyle}>
+    <div id="loginPage">
       <h4>Log in to view your Dashboard:</h4>
 
       <form className="rux-form">

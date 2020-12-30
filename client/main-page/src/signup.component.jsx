@@ -4,14 +4,9 @@ import { createBrowserHistory } from "history";
 const history = createBrowserHistory();
 
 export default function SignupForm(props) {
-  const formStyle = {
-    "max-width": "300px",
-    margin: "auto",
-    "margin-top": "50px",
-  };
 
   return (
-    <div style={formStyle}>
+    <div id="signupPage">
       <h4>Sign up for an account:</h4>
 
       <form className="rux-form">

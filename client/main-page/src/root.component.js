@@ -15,7 +15,7 @@ export default function Root(props) {
   );
 }
 
-// switch case dependant on User_Type
+// switch case dependant on User_Type when Route path is "/":
 // case "Developer", render developer view
 // case "Project Manager", render PM view
 // case "General Manager", render GM view

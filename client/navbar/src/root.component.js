@@ -3,7 +3,6 @@ import { createBrowserHistory } from 'history';
 import { links } from "./links.js";
 
 const history = createBrowserHistory();
-const buttonMargin = {margin: "2px"};
 
 export default function Root(props) {
 
@@ -55,7 +54,6 @@ export default function Root(props) {
           return (
             <rux-button 
               key={link.href} 
-              style={buttonMargin} 
               onClick={() => history.push("/" + link.href)}>
                 {link.name}
             </rux-button>

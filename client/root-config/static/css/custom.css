@@ -1,0 +1,28 @@
+/* Navbar Styling
+========================================================================== */
+
+nav rux-button {
+    margin: 2px;
+}
+
+
+/* Main-Page Styling
+========================================================================== */
+
+#loggedOutPage {
+    text-align: center;
+    margin-top: 100px;
+}
+
+#signupPage, #loginPage {
+    max-width: 300px;
+    margin: auto;
+}
+
+#signupPage {
+    margin-top: 50px;
+}
+
+#loginPage {
+    margin-top: 100px;
+}
