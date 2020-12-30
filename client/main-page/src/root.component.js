@@ -10,6 +10,7 @@ export default function Root(props) {
       <Route exact path="/" component={LoggedOut} />
       <Route exact path="/login" component={LoginForm} />
       <Route exact path="/signup" component={SignupForm} />
+      <Route exact path="/logout" component={LoggedOut} />
     </BrowserRouter>
   );
 }

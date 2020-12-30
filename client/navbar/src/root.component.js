@@ -1,17 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { createBrowserHistory } from 'history';
 import { links } from "./links.js";
 
 const history = createBrowserHistory();
+const buttonMargin = {margin: "2px"};
 
 export default function Root(props) {
-  const buttonMargin = {margin: "2px"} 
+  
+  // mock user is logged in/out
+  let loggedIn = false;
+  let buttonLinks = [];
+
+  loggedIn ? 
+  buttonLinks = links.loggedIn :
+  buttonLinks = links.loggedOut
+
+  // mock different User_Types
+  let userType = "Project Manager";
+  let tabLinks = [];
+
+  switch (userType) {
+    case "Developer":
+      tabLinks = links.developer;
+      break;
+    case "Project Manager":
+      tabLinks = links.projectManager;
+      break;
+    case "General Manager":
+      tabLinks = links.generalManager;
+      break;
+    default:
+      tabLinks = [];
+  }
 
   return (
     <rux-global-status-bar className="dark-theme">
       <h2 onClick={() => history.push("/")}>Project Management App</h2>
       <rux-tabs small id="navigation-tabs">
-        {links.developer.map((link) => {
+        {tabLinks.map((link) => {
           return (
             <rux-tab 
               key={link.href}
@@ -23,29 +49,17 @@ export default function Root(props) {
         }
       </rux-tabs>
       <rux-button-group>
-        {links.loggedOut.map((link) => {
-            return (
-              <rux-button 
-                key={link.href} 
-                onClick={() => history.push("/" + link.href)}
-                style={buttonMargin}>
+        {buttonLinks.map((link) => {
+          return (
+            <rux-button 
+              key={link.href} 
+              style={buttonMargin} 
+              onClick={() => history.push("/" + link.href)}>
                 {link.name}
-              </rux-button>
-            );
-          })
-        }
+            </rux-button>
+          );
+        })}
       </rux-button-group>
     </rux-global-status-bar>
   )
 }
-
-// dashboard tabs:
-// logged in User_Type -> switch case
-// case "Developer", map developer links into tabs
-// case "Project Manager", map projectManager links into tabs
-// case "General Manager", map generalManager links into tabs
-// default does not display any links or tabs
-
-// login/signup/logout buttons:
-// if logged out, map loggedOut links
-// else if logged in, render "Log Out" button

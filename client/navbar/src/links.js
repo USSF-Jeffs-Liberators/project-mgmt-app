@@ -9,6 +9,12 @@ export const links = {
             href: "signup",
         }
     ],
+    loggedIn: [
+        {
+            name: "Log Out",
+            href: "logout",
+        }
+    ],
     developer: [
         {
             name: "Project Dashboard",
