@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-import LoginForm from "./views/login.component";
-import SignupForm from "./views/signup.component";
-import LoggedOut from "./views/loggedout.component";
+import LoginForm from "./views/login-page";
+import SignupForm from "./views/signup-page";
+import LoggedOut from "./views/loggedout-page";
 import DeveloperDashboard from "./views/developer-dashboard";
 import ProjectManagerDashboard from "./views/pm-dashboard";
 import GeneralManagerDashboard from "./views/gm-dashboard";
