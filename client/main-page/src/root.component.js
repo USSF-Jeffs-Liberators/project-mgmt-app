@@ -1,22 +1,37 @@
 import React from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-import LoginForm from "./login.component";
-import SignupForm from "./signup.component";
-import LoggedOut from "./loggedout.component";
+import LoginForm from "./views/login.component";
+import SignupForm from "./views/signup.component";
+import LoggedOut from "./views/loggedout.component";
+import DeveloperDashboard from "./views/developer-dashboard";
+import ProjectManagerDashboard from "./views/pm-dashboard";
+import GeneralManagerDashboard from "./views/gm-dashboard";
+
 
 export default function Root(props) {
+  // mock different User_Types
+  let userType = "Developer";
+  
+  // "/" path will render a different page depending on user type
+  const renderSwitch = (userType) => {
+    switch (userType) {
+      case "Developer": 
+        return <Route exact path="/" component={DeveloperDashboard} />;
+      case "Project Manager": 
+        return <Route exact path="/" component={ProjectManagerDashboard} />;
+      case "General Manager": 
+        return <Route exact path="/" component={GeneralManagerDashboard} />;
+      default: 
+        return <Route exact path="/" component={LoggedOut} />
+    }
+  }
+  
   return (
     <BrowserRouter>
-      <Route exact path="/" component={LoggedOut} />
+      {renderSwitch(userType)}
       <Route exact path="/login" component={LoginForm} />
       <Route exact path="/signup" component={SignupForm} />
       <Route exact path="/logout" component={LoggedOut} />
     </BrowserRouter>
   );
 }
-
-// switch case dependant on User_Type when Route path is "/":
-// case "Developer", render developer view
-// case "Project Manager", render PM view
-// case "General Manager", render GM view
-// default is logged out view, which displays text "Log in or sign Up to view Dashboard"
