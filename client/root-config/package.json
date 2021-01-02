@@ -43,6 +43,9 @@
   "dependencies": {
     "single-spa": "^5.8.3",
     "single-spa-layout": "1.2.1",
-    "@astrouxds/rux-button": "^4.1.2"
+    "@astrouxds/rux-button": "^4.1.2",
+    "@astrouxds/rux-global-status-bar": "^4.0.3",
+    "@astrouxds/rux-tabs": "^4.0.5",
+    "history": "^5.0.0"
   }
 }

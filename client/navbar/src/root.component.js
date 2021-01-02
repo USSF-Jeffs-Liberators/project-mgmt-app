@@ -1,19 +1,64 @@
-import React from "react";
-import { RuxGlobalStatusBar } from '@astrouxds/rux-global-status-bar/rux-global-status-bar.js';
-import { RuxButton } from '@astrouxds/rux-button/rux-button.js';
-import { RuxTabs } from '@astrouxds/rux-tabs/rux-tabs.js';
+import React, { useEffect, useState } from "react";
+import { createBrowserHistory } from 'history';
+import { links } from "./links.js";
+
+const history = createBrowserHistory();
 
 export default function Root(props) {
+
+  // mock user is logged in/out
+  let loggedIn = false;
+  let buttonLinks = [];
+
+  // show login/signup buttons if logged out; otherwise enable log out if logged in
+  loggedIn ? 
+  buttonLinks = links.loggedIn :
+  buttonLinks = links.loggedOut
+
+  // mock different User_Types
+  let userType = "Developer";
+  let tabLinks = [];
+
+  // tabs vary depending on the type of user logged in
+  switch (userType) {
+    case "Developer":
+      tabLinks = links.developer;
+      break;
+    case "Project Manager":
+      tabLinks = links.projectManager;
+      break;
+    case "General Manager":
+      tabLinks = links.generalManager;
+      break;
+    default:
+      tabLinks = [];
+  }
+
   return (
-    <rux-global-status-bar class="dark-theme" appname="Project Management App">
-      <rux-tabs id="tab-set-id-1">
-        <rux-tab id="tab-id-1">Project Dashboard</rux-tab>
-        <rux-tab id="tab-id-2">Manage Team</rux-tab>
-        <rux-tab id="tab-id-3">Submit Funding Request</rux-tab>
+    <rux-global-status-bar className="dark-theme">
+      <h2 onClick={() => history.push("/")}>Project Management App</h2>
+      <rux-tabs small id="navigation-tabs">
+        {tabLinks.map((link) => {
+          return (
+            <rux-tab 
+              key={link.href}
+              onClick={() => history.push("/" + link.href)}>
+                {link.name}
+            </rux-tab>
+          );
+        })
+        }
       </rux-tabs>
       <rux-button-group>
-        <rux-button>Log In</rux-button>&nbsp;
-        <rux-button>Sign Up</rux-button>
+        {buttonLinks.map((link) => {
+          return (
+            <rux-button 
+              key={link.href} 
+              onClick={() => history.push("/" + link.href)}>
+                {link.name}
+            </rux-button>
+          );
+        })}
       </rux-button-group>
     </rux-global-status-bar>
   )
