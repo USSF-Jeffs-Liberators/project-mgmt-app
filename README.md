@@ -31,3 +31,10 @@ Funding
 2. Client (React): Use the same commands as above OR `npm start` in individual client folders
 3. View the app at `localhost:8000`
 4. Query the API at `localhost:3001`
+
+### API endpoints
+##### Users Service
+* GET `/users` - gets all users
+
+##### Projects Service
+* GET `/projects` - gets all projects

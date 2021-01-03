@@ -14,7 +14,12 @@ services:
   freejeffnavbar:
     build: navbar
     ports:
-    - 8002:8002
+      - 8002:8002
+
+  freejeffcreateprojectpage:
+    build: create-project-page
+    ports:
+      - 8003:8003
 
 volumes:
   project-mgt: {}
