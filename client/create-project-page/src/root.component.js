@@ -1,9 +1,11 @@
 import React from "react";
-import { RuxTabs } from '@astrouxds/rux-tabs';
-import CreateProjectPage from "./a/create-project-page.component.js"
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import CreateProjectPage from "./a/create-project-page.component";
 
 export default function Root(props) {
-  return  (
-    <CreateProjectPage/>
+  return (
+    <BrowserRouter>
+      <Route exact path="/create-project" component={CreateProjectPage} />
+    </BrowserRouter>
   );
 }
