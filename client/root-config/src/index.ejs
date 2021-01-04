@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Project Management App</title>
-  <link rel="stylesheet" href="/static/css/astro.min.css" />
+  <link rel="stylesheet" href="/static/css/astro.css" />
   <link rel="stylesheet" href="/static/css/custom.css" />
   <link href="/static/favicon.ico" rel="icon" type="image/x-icon" /> 
   <!--
@@ -55,7 +55,8 @@
         "@freejeff/root-config": "//localhost:8000/freejeff-root-config.js",
         "@freejeff/main-page": "//localhost:8001/freejeff-main-page.js",
         "@freejeff/navbar": "//localhost:8002/freejeff-navbar.js",
-        "@freejeff/create-project-page": "//localhost:8003/freejeff-create-project-page.js"
+        "@freejeff/create-project-page": "//localhost:8003/freejeff-create-project-page.js",
+        "@freejeff/gantt-chart": "//localhost:8010/freejeff-gantt-chart.js"
       }
     }
   </script>
@@ -88,6 +89,9 @@
         </route>
         <route path="create-project">
           <application name="@freejeff/create-project-page" loader="createProjectPage" error="createProjectPage"></application>
+        </route>
+        <route path="timeline">
+          <application name="@freejeff/gantt-chart" loader="ganttChart" error="ganttChart"></application>
         </route>
       </main>
     </single-spa-router>

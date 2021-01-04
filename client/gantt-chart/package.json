@@ -1,7 +1,7 @@
 {
-  "name": "@freejeff/navbar",
+  "name": "@freejeff/gantt-chart",
   "scripts": {
-    "start": "webpack-dev-server --host 0.0.0.0 --port 8002",
+    "start": "webpack-dev-server --host 0.0.0.0 --port 8010",
     "start:standalone": "webpack-dev-server --env.standalone",
     "build": "webpack --mode=production",
     "analyze": "webpack --mode=production --env.analyze=true",
@@ -30,9 +30,6 @@
     "babel-jest": "^24.9.0",
     "concurrently": "^5.0.1",
     "cross-env": "^7.0.2",
-    "cypress": "^6.2.0",
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.5",
     "eslint": "^6.7.2",
     "eslint-config-prettier": "^6.7.0",
     "eslint-config-react-important-stuff": "^2.0.0",
@@ -47,12 +44,13 @@
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10",
     "webpack-config-single-spa-react": "^1.0.3",
-    "webpack-dev-server": "^3.11.0",
+    "webpack-dev-server": "^3.9.0",
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
-    "history": "^5.0.0",
+    "dhtmlx-gantt": "^7.0.11",
     "react": "^16.12.0",
-    "react-dom": "^16.12.0"
+    "react-dom": "^16.12.0",
+    "react-router-dom": "^5.2.0"
   }
 }
