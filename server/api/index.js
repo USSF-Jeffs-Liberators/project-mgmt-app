@@ -187,6 +187,62 @@ app.get("/projects/:id/tasks", (req, res) => {
   );
 });
 
+// Inserts New Task Into Database
+app.post("/tasks", (req, res) => {
+  pool.query(
+    "INSERT INTO Task (project_id, assigned_to, task_name, start_date, duration, progress) VALUES ($1, $2, $3, $4, $5, $6)",
+    [
+      req.body.project_id,
+      req.body.assigned_to,
+      req.body.task_name,
+      req.body.start_date,
+      req.body.duration,
+      req.body.progress,
+    ],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+});
+
+// Updates Task In Database By Task_ID
+app.post("/tasks/:task_id/update", (req, res) => {
+  pool.query(
+    "UPDATE Task SET Assigned_To = $1, Task_Name = $2, Start_Date = $3, Duration = $4, Progress = $5 WHERE Task_ID = $6",
+    [
+      req.body.assigned_to,
+      req.body.task_name,
+      req.body.start_date,
+      req.body.duration,
+      req.body.progress,
+      req.params.task_id,
+    ],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+});
+
+// Deletes Task In Database By Task_ID
+app.delete("/tasks/:task_id", (req, res) => {
+  pool.query(
+    "DELETE FROM Task WHERE Task_ID = $1",
+    [req.params.task_id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+});
+
 // get all dependencies
 app.get("/dependencies", (req, res) => {
   pool.query("SELECT * FROM Dependency", (error, results) => {
@@ -203,6 +259,34 @@ app.get("/projects/:id/dependencies", (req, res) => {
   pool.query(
     "SELECT * FROM Dependency WHERE Project_ID = $1",
     [id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+});
+
+// Inserts New Dependency Into Database
+app.post("/dependencies", (req, res) => {
+  pool.query(
+    "INSERT INTO Dependency (project_id, source_task, target_task) VALUES ($1, $2, $3)",
+    [req.body.project_id, req.body.source_task, req.body.target_task],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+});
+
+// Deletes Dependency In Database By Dependency_ID
+app.delete("/dependencies/:dependency_id", (req, res) => {
+  pool.query(
+    "DELETE FROM Dependency WHERE Dependency_ID = $1",
+    [req.params.dependency_id],
     (error, results) => {
       if (error) {
         throw error;
