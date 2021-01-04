@@ -4,7 +4,7 @@ import { gantt } from "dhtmlx-gantt";
 
 var data = {};
 
-class App extends React.Component {
+class Root extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -100,9 +100,7 @@ class App extends React.Component {
     const json2 = await response2.json();
     this.setState({ dependencies: json2 });
 
-    const response3 = await fetch(
-      `http://localhost:3001/projects/${this.state.project_id}/team`
-    );
+    const response3 = await fetch(`http://localhost:3001/users`);
     const json3 = await response3.json();
     this.setState({ members: json3 });
 
@@ -189,9 +187,10 @@ class App extends React.Component {
   render() {
     return (
       <div>
+        {console.log(data)}
         {this.state.taskFlag && this.state.linksFlag ? (
           <div className="gantt-container">
-            <Gantt tasks={data}/>
+            <Gantt tasks={data} />
           </div>
         ) : null}
       </div>
@@ -199,4 +198,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default Root;
