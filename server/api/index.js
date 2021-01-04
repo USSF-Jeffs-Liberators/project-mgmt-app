@@ -27,6 +27,21 @@ app.get("/users", (req, res) => {
   });
 });
 
+// get all users of a type
+app.get("/users/:type", (req, res) => {
+  const { type } = req.params;
+  pool.query(
+    "SELECT * FROM App_User WHERE User_Type = $1",
+    [type],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+});
+
 // get a user by ID
 app.get("/users/:id", (req, res) => {
   const { id } = req.params;
