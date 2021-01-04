@@ -11,6 +11,7 @@ class CreateProjectPage extends React.Component {
     };
   };
 
+  //fetches users by type, sets state
   async fetchUsers(type) {
     var res = await fetch("http://localhost:3001/users/"+type);
     var json = await res.json();
@@ -32,6 +33,8 @@ class CreateProjectPage extends React.Component {
     }
     
   }
+
+  //TODO: create fetch to POST a project
 
   async componentDidMount() {
     this.fetchUsers("Developer");
