@@ -9,6 +9,33 @@ class CreateProjectPage extends React.Component {
       developerList: [],
       pmList: []
     };
+  };
+
+  async fetchUsers(type) {
+    var res = await fetch("http://localhost:3001/users/"+type);
+    var json = await res.json();
+    switch(type) {
+      case "Developer":
+        this.setState({
+          ...this.state,
+          developerList: json,
+        });
+      case "Project Manager":
+        this.setState({
+          ...this.state,
+          pmList: json,
+        });
+      default:
+        this.setState({
+          ...this.state,
+        })        
+    }
+    
+  }
+
+  async componentDidMount() {
+    this.fetchUsers("Developer");
+    this.fetchUsers("Project Manager");
   }
 
   render() {
@@ -17,8 +44,11 @@ class CreateProjectPage extends React.Component {
         <header>
           <h1> This is from create-project-page.component.js! </h1>
         </header>
-        <Form/>
-        {/* <UserList/> */}
+        <UserList 
+        developers={this.state.developerList}
+        projectManagers={this.state.pmList}
+        />
+        
         <ul>
           <li>Be able to assign developers to work on a project.</li>
           <li>
