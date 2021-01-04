@@ -1,10 +1,14 @@
 import React, { useReducer, useEffect } from "react";
 import Form from "./Form";
+import UserList from "./UserList";
 
 class CreateProjectPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      developerList: [],
+      pmList: []
+    };
   }
 
   render() {
@@ -14,6 +18,7 @@ class CreateProjectPage extends React.Component {
           <h1> This is from create-project-page.component.js! </h1>
         </header>
         <Form/>
+        <UserList/>
         <ul>
           <li>Be able to assign developers to work on a project.</li>
           <li>
