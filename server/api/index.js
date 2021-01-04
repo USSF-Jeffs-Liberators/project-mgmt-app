@@ -16,6 +16,9 @@ const pool = new Pool({
 app.use(bodyParser.json());
 app.use(cors());
 app.options("*", cors());
+pool.on('error', (err, client) => {
+  console.error('Error:', err);
+})
 
 // get all users
 app.get("/users", (req, res) => {
@@ -25,6 +28,21 @@ app.get("/users", (req, res) => {
     }
     res.status(200).json(results.rows);
   });
+});
+
+// get all users of a type
+app.get("/users/:type", (req, res) => {
+  const { type } = req.params;
+  pool.query(
+    "SELECT * FROM App_User WHERE User_Type = $1",
+    [type],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
 });
 
 // get a user by ID
@@ -389,5 +407,5 @@ app.get("/projects/:id/expenses", (req, res) => {
 // other endpoints...
 
 app.listen(port, () =>
-  console.log(`Example app listening at http://localhost:${port}`)
+  console.log(`Project Management API listening at http://localhost:${port}`)
 );
