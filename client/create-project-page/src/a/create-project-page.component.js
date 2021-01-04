@@ -1,4 +1,5 @@
 import React, { useReducer, useEffect } from "react";
+import Form from "./Form";
 
 class CreateProjectPage extends React.Component {
   constructor(props) {
@@ -12,6 +13,7 @@ class CreateProjectPage extends React.Component {
         <header>
           <h1> This is from create-project-page.component.js! </h1>
         </header>
+        <Form/>
         <ul>
           <li>Be able to assign developers to work on a project.</li>
           <li>
