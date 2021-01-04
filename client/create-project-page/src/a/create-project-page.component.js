@@ -18,7 +18,7 @@ class CreateProjectPage extends React.Component {
           <h1> This is from create-project-page.component.js! </h1>
         </header>
         <Form/>
-        <UserList/>
+        {/* <UserList/> */}
         <ul>
           <li>Be able to assign developers to work on a project.</li>
           <li>
