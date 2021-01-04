@@ -25,6 +25,11 @@ services:
     build: finance-page
     ports:
       - 8006:8006
+  
+  freejeffganttchart:
+    build: gantt-chart
+    ports:
+    - 8010:8010
 
 volumes:
   project-mgt: {}
