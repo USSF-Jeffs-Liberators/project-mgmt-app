@@ -16,6 +16,9 @@ const pool = new Pool({
 app.use(bodyParser.json());
 app.use(cors());
 app.options("*", cors());
+pool.on('error', (err, client) => {
+  console.error('Error:', err);
+})
 
 // get all users
 app.get("/users", (req, res) => {
