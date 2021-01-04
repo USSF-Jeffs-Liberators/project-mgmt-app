@@ -56,6 +56,7 @@
         "@freejeff/main-page": "//localhost:8001/freejeff-main-page.js",
         "@freejeff/navbar": "//localhost:8002/freejeff-navbar.js",
         "@freejeff/create-project-page": "//localhost:8003/freejeff-create-project-page.js",
+        "@freejeff/finance-page": "//localhost:8006/freejeff-finance-page.js",
         "@freejeff/gantt-chart": "//localhost:8010/freejeff-gantt-chart.js"
       }
     }
@@ -90,6 +91,8 @@
         <route path="create-project">
           <application name="@freejeff/create-project-page" loader="createProjectPage" error="createProjectPage"></application>
         </route>
+        <route path="finance">
+          <application name="@freejeff/finance-page" loader="financePage" error="financePage"></application>
         <route path="timeline">
           <application name="@freejeff/gantt-chart" loader="ganttChart" error="ganttChart"></application>
         </route>

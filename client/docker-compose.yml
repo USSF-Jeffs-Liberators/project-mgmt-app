@@ -1,4 +1,4 @@
-version: '3.4'
+version: "3.4"
 
 services:
   freejeffrootconfig:
@@ -20,6 +20,11 @@ services:
     build: create-project-page
     ports:
       - 8003:8003
+
+  freejefffinancepage:
+    build: finance-page
+    ports:
+      - 8006:8006
 
 volumes:
   project-mgt: {}
