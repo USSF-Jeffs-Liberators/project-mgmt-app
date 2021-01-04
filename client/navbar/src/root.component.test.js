@@ -1,10 +1,11 @@
 import React from "react";
 import { render } from "@testing-library/react";
+import { shallow } from "enzyme";
 import Root from "./root.component";
 
-describe("Root component", () => {
+describe("Navbar", () => {
   it("should be in the document", () => {
-    const { getByText } = render(<Root name="Testapp" />);
-    expect(getByText(/Testapp is mounted!/i)).toBeInTheDocument();
+    const navbarWrapper = mount(<Root />);
+    expect(navbarWrapper).toBeInTheDocument();
   });
 });

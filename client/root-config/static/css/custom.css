@@ -129,14 +129,9 @@ nav rux-button {
 
 .project-timeline,
 .project-requirements,
-.project-tasks {
-  float: left;
-}
-
 .project-issues,
-.project-budget,
 .project-team {
-  float: right;
+  float: left;
 }
 
 .project-timeline {
@@ -148,7 +143,7 @@ nav rux-button {
 .project-issues,
 .project-budget,
 .project-team {
-  height: 250px;
+  height: 400px;
 }
 
 .gm-funding-requests,

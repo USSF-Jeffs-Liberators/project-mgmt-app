@@ -7,25 +7,24 @@ import DeveloperDashboard from "./views/developer-dashboard";
 import ProjectManagerDashboard from "./views/pm-dashboard";
 import GeneralManagerDashboard from "./views/gm-dashboard";
 
-
 export default function Root(props) {
   // mock different User_Types
-  let userType = "Developer";
-  
+  let userType = "General Manager";
+
   // "/" path will render a different page depending on user type
   const renderSwitch = (userType) => {
     switch (userType) {
-      case "Developer": 
+      case "Developer":
         return <Route exact path="/" component={DeveloperDashboard} />;
-      case "Project Manager": 
+      case "Project Manager":
         return <Route exact path="/" component={ProjectManagerDashboard} />;
-      case "General Manager": 
+      case "General Manager":
         return <Route exact path="/" component={GeneralManagerDashboard} />;
-      default: 
-        return <Route exact path="/" component={LoggedOut} />
+      default:
+        return <Route exact path="/" component={LoggedOut} />;
     }
-  }
-  
+  };
+
   return (
     <BrowserRouter>
       {renderSwitch(userType)}
