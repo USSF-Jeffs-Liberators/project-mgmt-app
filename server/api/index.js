@@ -320,5 +320,5 @@ app.get("/projects/:id/expenses", (req, res) => {
 // other endpoints...
 
 app.listen(port, () =>
-  console.log(`Example app listening at http://localhost:${port}`)
+  console.log(`Project Management API listening at http://localhost:${port}`)
 );
