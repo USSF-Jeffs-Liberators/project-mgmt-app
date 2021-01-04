@@ -9,7 +9,7 @@ import GeneralManagerDashboard from "./views/gm-dashboard";
 
 export default function Root(props) {
   // mock different User_Types
-  let userType = "General Manager";
+  let userType = "Developer";
 
   // "/" path will render a different page depending on user type
   const renderSwitch = (userType) => {
