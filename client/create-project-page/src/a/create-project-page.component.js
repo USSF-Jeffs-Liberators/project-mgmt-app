@@ -49,12 +49,11 @@ class CreateProjectPage extends React.Component {
   render() {
     return (
       <div>
-        <header>
-          <h1> This is from create-project-page.component.js! </h1>
-        </header>
+        <header/>
         <UserList 
         developers={this.state.developerList}
         projectManagers={this.state.pmList}
+        generalManagers={this.state.gmList}
         />
         {/* <Form onSubmit={this.handleSubmit.bind(this)}/> */}
         <ul>
