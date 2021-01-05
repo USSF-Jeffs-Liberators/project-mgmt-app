@@ -37,6 +37,24 @@ const TeamRoster = () => {
         getTeamRoster();
     }, []);
 
+
+    // match team roster to users
+    const getMatches = () => {
+        team.map(each => (users.map(user => {
+            each.user_id === user.user_id 
+                ? matches.push(user) 
+                : null
+        })))
+
+        // sort by last name
+        matches.sort((a, b) => (a.last_name > b.last_name ? 1 : -1))
+        matches.map(each => {
+            if (each.user_type === "Project Manager") {
+                matches.splice(matches.indexOf(each), 1)
+                matches.unshift(each)
+            }
+        })
+    }
     
     return (
         <table className="rux-table">
@@ -46,9 +64,7 @@ const TeamRoster = () => {
                     <th>First Name</th>
                     <th>Role</th>
                 </tr>
-                {team.map(each => (users.map(user => {each.user_id === user.user_id 
-                    ? matches.push(user) 
-                    : null })))}
+                {getMatches()}
                 {matches.map(user => (
                     <tr key={user.user_id}>
                         <td>{user.last_name}</td>

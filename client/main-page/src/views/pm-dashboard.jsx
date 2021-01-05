@@ -16,6 +16,7 @@ export default function ProjectManagerDashboard(props) {
       </section>
       <section class="project-team col-s-6 col-4">
         <h5>Team Members</h5>
+        <Team />
       </section>
     </div>
   );
