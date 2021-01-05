@@ -28,6 +28,7 @@ pool.on("error", (err, client) => {
 //
 // ~~~~~ /users Endpoints: ~~~~~
 //
+
 // SELECT all Users
 app.get("/users", (req, res) => {
   pool.query("SELECT * FROM app_user", (error, results) => {
