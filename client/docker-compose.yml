@@ -20,6 +20,11 @@ services:
     build: create-project-page
     ports:
       - 8003:8003
+       
+  freejeffdeveloperpage:
+    build: developer-page
+    ports:
+      - 8004:8004
 
 volumes:
   project-mgt: {}

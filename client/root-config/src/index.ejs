@@ -55,7 +55,8 @@
         "@freejeff/root-config": "//localhost:8000/freejeff-root-config.js",
         "@freejeff/main-page": "//localhost:8001/freejeff-main-page.js",
         "@freejeff/navbar": "//localhost:8002/freejeff-navbar.js",
-        "@freejeff/create-project-page": "//localhost:8003/freejeff-create-project-page.js"
+        "@freejeff/create-project-page": "//localhost:8003/freejeff-create-project-page.js",
+        "@freejeff/developer-page": "//localhost:8004/freejeff-developer-page.js"
       }
     }
   </script>
@@ -88,6 +89,9 @@
         </route>
         <route path="create-project">
           <application name="@freejeff/create-project-page" loader="createProjectPage" error="createProjectPage"></application>
+        </route>
+        <route path="developer-page">
+          <application name="@freejeff/developer-page" loader="developerPage" error="developerPage"></application>
         </route>
       </main>
     </single-spa-router>
