@@ -4,7 +4,7 @@ import { gantt } from "dhtmlx-gantt";
 
 var data = {};
 
-class Root extends React.Component {
+class GanttChart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -198,4 +198,4 @@ class Root extends React.Component {
   }
 }
 
-export default Root;
+export default GanttChart;
