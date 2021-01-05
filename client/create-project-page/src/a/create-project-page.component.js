@@ -13,7 +13,7 @@ class CreateProjectPage extends React.Component {
 
   //fetches users by type, sets state
   async fetchUsers(type) {
-    var res = await fetch("http://localhost:3001/users/"+type);
+    var res = await fetch("http://localhost:3001/users/type/"+type);
     var json = await res.json();
     switch(type) {
       case "Developer":
@@ -34,8 +34,6 @@ class CreateProjectPage extends React.Component {
     
   }
 
-  //TODO: create fetch to POST a project
-
   async componentDidMount() {
     this.fetchUsers("Developer");
     this.fetchUsers("Project Manager");
@@ -51,7 +49,7 @@ class CreateProjectPage extends React.Component {
         developers={this.state.developerList}
         projectManagers={this.state.pmList}
         />
-        
+        <Form onSubmit={this.handleSubmit.bind(this)}/>
         <ul>
           <li>Be able to assign developers to work on a project.</li>
           <li>
