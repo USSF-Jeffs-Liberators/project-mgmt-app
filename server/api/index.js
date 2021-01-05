@@ -50,7 +50,7 @@ pool.on('error', (err, client) => {
 
   // SELECT a User by User_ID
   app.get("/users/:id", (req, res) => {
-    const { id } = req.params;
+    const { id } = parseInt(req.params);
     pool.query(
       "SELECT * FROM App_User WHERE User_ID = $1",
       [id],
@@ -65,7 +65,7 @@ pool.on('error', (err, client) => {
 
   // SELECT a User's Team
   app.get("/users/:id/team", (req, res) => {
-    const { id } = req.params;
+    const { id } = parseInt(req.params);
     pool.query(
       "SELECT * FROM Team_Member WHERE User_ID = $1",
       [id],
@@ -80,7 +80,7 @@ pool.on('error', (err, client) => {
 
   // SELECT a User's Tasks
   app.get("/users/:id/tasks", (req, res) => {
-    const { id } = req.params;
+    const { id } = parseInt(req.params);
     pool.query(
       "SELECT * FROM Task WHERE Assigned_To = $1",
       [id],
@@ -130,7 +130,7 @@ pool.on('error', (err, client) => {
 
   // SELECT a Project by Project_ID
   app.get("/projects/:id", (req, res) => {
-    const { id } = req.params;
+    const { id } = parseInt(req.params);
     pool.query(
       "SELECT * FROM Project WHERE Project_ID = $1",
       [id],
@@ -168,7 +168,7 @@ pool.on('error', (err, client) => {
 
   // SELECT a Project's Team
   app.get("/projects/:id/team", (req, res) => {
-    const { id } = req.params;
+    const { id } = parseInt(req.params);
     pool.query(
       "SELECT * FROM Team_Member WHERE Project_ID = $1",
       [id],
@@ -183,7 +183,7 @@ pool.on('error', (err, client) => {
 
   // SELECT a Project's Requirements
   app.get("/projects/:id/requirements", (req, res) => {
-    const { id } = req.params;
+    const { id } = parseInt(req.params);
     pool.query(
       "SELECT * FROM Requirement WHERE Project_ID = $1",
       [id],
@@ -198,7 +198,7 @@ pool.on('error', (err, client) => {
 
   // SELECT a Project's Tasks
   app.get("/projects/:id/tasks", (req, res) => {
-    const { id } = req.params;
+    const { id } = parseInt(req.params);
     pool.query(
       "SELECT * FROM Task WHERE Project_ID = $1",
       [id],
@@ -213,7 +213,7 @@ pool.on('error', (err, client) => {
 
   // SELECT a Project's Dependencies
   app.get("/projects/:id/dependencies", (req, res) => {
-    const { id } = req.params;
+    const { id } = parseInt(req.params);
     pool.query(
       "SELECT * FROM Dependency WHERE Project_ID = $1",
       [id],
@@ -228,7 +228,7 @@ pool.on('error', (err, client) => {
 
   // SELECT a Project's Issues
   app.get("/projects/:id/issues", (req, res) => {
-    const { id } = req.params;
+    const { id } = parseInt(req.params);
     pool.query(
       "SELECT * FROM Issue WHERE Project_ID = $1",
       [id],
@@ -243,7 +243,7 @@ pool.on('error', (err, client) => {
 
   // SELECT a Project's Funding Requests
   app.get("/projects/:id/funding-requests", (req, res) => {
-    const { id } = req.params;
+    const { id } = parseInt(req.params);
     pool.query(
       "SELECT * FROM Funding_Request WHERE Project_ID = $1",
       [id],
@@ -258,7 +258,7 @@ pool.on('error', (err, client) => {
 
   // SELECT a Project's Expenses
   app.get("/projects/:id/expenses", (req, res) => {
-    const { id } = req.params;
+    const { id } = parseInt(req.params);
     pool.query(
       "SELECT * FROM Expense WHERE Project_ID = $1",
       [id],
@@ -309,7 +309,7 @@ pool.on('error', (err, client) => {
 
   // SELECT Task by Task_ID
   app.get("/tasks/:id", (req, res) => {
-    const { id } = req.params;
+    const { id } = parseInt(req.params);
     pool.query(
       "SELECT * FROM Task WHERE Task_ID = $1",
       [id],
@@ -380,7 +380,7 @@ pool.on('error', (err, client) => {
 
   // SELECT a Tasks's Dependencies
   app.get("/tasks/:id/dependencies", (req, res) => {
-    const { id } = req.params;
+    const { id } = parseInt(req.params);
     pool.query(
       "SELECT * FROM Dependency WHERE Source_Task = $1",
       [id],
