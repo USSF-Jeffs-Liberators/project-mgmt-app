@@ -15,13 +15,13 @@ const routes = constructRoutes(document.querySelector("#single-spa-layout"), {
     navbar: "<p>Loading navbar</p>",
     mainPage: "<p>Loading main-page</p>",
     createProjectPage: "<p>Loading create-project-page</p>",
-    developerPage: "<p>Loading developer-page</p>"
+    developerIssueTracker: "<p>Loading developer-page</p>"
   },
   errors: {
     navbar: "<p>Failed to load navbar</p>",
     mainPage: "<p>Failed to load main-page</p>",
     createProjectPage: "<p>Failed to load create-project-page</p>",
-    developerPage: "<p>Failed to load developer-page</p>",
+    developerIssueTracker: "<p>Failed to load developer-page</p>",
   },
 });
 const applications = constructApplications({

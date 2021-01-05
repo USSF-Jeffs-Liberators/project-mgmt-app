@@ -1,5 +1,5 @@
 {
-  "name": "@freejeff/developer-page",
+  "name": "@freejeff/developer-issue-tracker",
   "scripts": {
     "start": "webpack-dev-server --host 0.0.0.0 --port 8004",
     "start:standalone": "webpack-dev-server --env.standalone",
