@@ -1,5 +1,6 @@
 import React from "react";
 import GanttChart from "./gantt-chart/App";
+import Team from "./team/Team";
 
 export default function DeveloperDashboard(props) {
   return (
@@ -16,6 +17,7 @@ export default function DeveloperDashboard(props) {
       </section>
       <section class="project-team col-s-6 col-4">
         <h5>Team Members</h5>
+        <Team />
       </section>
     </div>
   );
