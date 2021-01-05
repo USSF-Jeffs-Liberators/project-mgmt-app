@@ -100,12 +100,58 @@ app.get("/projects", (req, res) => {
   });
 });
 
+// Inserts New Project Into Database
+app.post("/projects", (req, res) => {
+  pool.query(
+    "INSERT INTO Project (Project_Manager, Project_Name, Project_Desc, Budget, Start_Date, Deadline_Date, End_Date, Current_Cost) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
+    [
+      req.body.project_manager,
+      req.body.project_name,
+      req.body.project_desc,
+      req.body.budget,
+      req.body.start_date,
+      req.body.deadline_date,
+      req.body.end_date,
+      req.body.current_cost
+    ],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+});
+
 // get a project by ID
 app.get("/projects/:id", (req, res) => {
   const { id } = req.params;
   pool.query(
     "SELECT * FROM Project WHERE Project_ID = $1",
     [id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+});
+
+// Updates Project In Database By Project_ID
+app.post("/projects/:id/update", (req, res) => {
+  pool.query(
+    "UPDATE Project SET Project_Manager = $1, Project_Name = $2, Project_Desc = $3, Budget = $4, Start_Date = $5, Deadline_Date = $6, End_Date = $7, Current_Cost = $8 WHERE Project_ID = $9",
+    [
+      req.body.project_manager,
+      req.body.project_name,
+      req.body.project_desc,
+      req.body.budget,
+      req.body.start_date,
+      req.body.deadline_date,
+      req.body.end_date,
+      req.body.project_id
+    ],
     (error, results) => {
       if (error) {
         throw error;
