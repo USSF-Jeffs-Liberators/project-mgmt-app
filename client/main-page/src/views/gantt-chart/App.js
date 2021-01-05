@@ -1,10 +1,10 @@
-import Gantt from "./components/Gantt";
+import Gantt from "./Gantt";
 import React from "react";
 import { gantt } from "dhtmlx-gantt";
 
 var data = {};
 
-class Root extends React.Component {
+class GanttChart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -187,7 +187,6 @@ class Root extends React.Component {
   render() {
     return (
       <div>
-        {console.log(data)}
         {this.state.taskFlag && this.state.linksFlag ? (
           <div className="gantt-container">
             <Gantt tasks={data} />
@@ -198,4 +197,4 @@ class Root extends React.Component {
   }
 }
 
-export default Root;
+export default GanttChart;
