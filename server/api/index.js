@@ -31,7 +31,17 @@ pool.on("error", (err, client) => {
 
 // SELECT all Users
 app.get("/users", (req, res) => {
-  pool.query("SELECT * FROM app_user", (error, results) => {
+  pool.query("SELECT * FROM App_User", (error, results) => {
+    if (error) {
+      throw error;
+    }
+    res.status(200).json(results.rows);
+  });
+});
+
+// SELECT all Users on a Team (User_ID, First_Name, Last_Name, Project_ID, Project_Name, Start_Date, Deadline_Date)
+app.get("/users/availability", (req, res) => {
+  pool.query("SELECT App_User.User_ID, App_User.First_Name, App_User.Last_Name, Team_Member.Project_ID, Project.Project_Name, Project.Start_Date, Project.Deadline_Date FROM App_User JOIN Team_Member ON App_User.User_ID = Team_Member.User_ID JOIN Project ON Team_Member.Project_ID = Project.Project_ID", (error, results) => {
     if (error) {
       throw error;
     }
