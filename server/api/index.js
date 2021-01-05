@@ -57,7 +57,7 @@ app.get("/users/type/:type", (req, res) => {
 app.get("/users/:id", (req, res) => {
   const id = parseInt(req.params.id);
   pool.query(
-    'SELECT * FROM App_User WHERE User_ID = $1',
+    "SELECT * FROM App_User WHERE User_ID = $1",
     [id],
     (error, results) => {
       if (error) {
@@ -287,6 +287,20 @@ app.get("/team-members", (req, res) => {
     res.status(200).json(results.rows);
   });
 });
+
+// INSERT a User into a Team
+app.post("/team-members", (req, res) => {
+  pool.query(
+    "INSERT INTO Team_Member (User_ID, Project_ID, Daily_Rate) VALUES ($1, $2, $3)",
+    [req.body.user_id, req.body.project_id, req.body.daily_rate],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+});
 //
 // ~~~~~ /requirements Endpoints: ~~~~~
 //
@@ -298,6 +312,25 @@ app.get("/requirements", (req, res) => {
     }
     res.status(200).json(results.rows);
   });
+});
+
+// INSERT a Requirement for a Project
+app.post("/requirements", (req, res) => {
+  pool.query(
+    "INSERT INTO Requirement (Project_ID, Requirement_Desc, Priority, Requirement_Status) VALUES ($1, $2, $3, $4)",
+    [
+      req.body.project_id,
+      req.body.requirement_desc,
+      req.body.priority,
+      req.body.requirement_status,
+    ],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
 });
 //
 // ~~~~~ /tasks Endpoints: ~~~~~
@@ -460,6 +493,31 @@ app.get("/funding-requests", (req, res) => {
     }
     res.status(200).json(results.rows);
   });
+});
+
+// INSERT Funding Request
+app.post("/funding-request", (req, res) => {
+  pool.query(
+    "INSERT INTO Funding_Request (Project_ID, Initiator, Request_Amount, Justification, Submit_Date, Suspense_Date, Review_Date, Review_Status, Review_Note, Reviewed_By) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
+    [
+      req.body.project_id,
+      req.body.initiator,
+      req.body.request_amount,
+      req.body.justification,
+      req.body.submit_date,
+      req.body.suspense_date,
+      req.body.review_date,
+      req.body.review_status,
+      req.body.review_note,
+      req.body.reviewed_by,
+    ],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
 });
 //
 // ~~~~~ /expenses Endpoints: ~~~~~
