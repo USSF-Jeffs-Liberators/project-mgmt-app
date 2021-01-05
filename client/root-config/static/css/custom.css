@@ -116,15 +116,12 @@ nav rux-button {
   margin-top: 100px;
 }
 
-.dashboard {
-  padding-left: 10px;
-  padding-right: 10px;
+.dashboard section {
+  border: 10px solid #182636;
 }
 
-.dashboard section {
-  background-color: #9ea7ad;
-  border: 10px solid #182636;
-  padding: 20px;
+.dashboard h5 {
+  text-align: center;
 }
 
 .project-timeline,
@@ -132,10 +129,6 @@ nav rux-button {
 .project-issues,
 .project-team {
   float: left;
-}
-
-.project-timeline {
-  height: 500px;
 }
 
 .project-requirements,

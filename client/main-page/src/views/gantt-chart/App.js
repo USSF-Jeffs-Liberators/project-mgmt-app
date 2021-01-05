@@ -1,4 +1,4 @@
-import Gantt from "./components/Gantt";
+import Gantt from "./Gantt";
 import React from "react";
 import { gantt } from "dhtmlx-gantt";
 
