@@ -13,7 +13,7 @@ class CreateProjectPage extends React.Component {
 
   //fetches users by type, sets state
   async fetchUsers(type) {
-    var res = await fetch("http://localhost:3001/users/"+type);
+    var res = await fetch("http://localhost:3001/users/type/"+type);
     var json = await res.json();
     switch(type) {
       case "Developer":

@@ -30,7 +30,7 @@ pool.on("error", (err, client) => {
 //
 // SELECT all Users
 app.get("/users", (req, res) => {
-  pool.query("SELECT * FROM App_User", (error, results) => {
+  pool.query("SELECT * FROM app_user", (error, results) => {
     if (error) {
       throw error;
     }
@@ -39,7 +39,7 @@ app.get("/users", (req, res) => {
 });
 
 // SELECT all Users by User_Type
-app.get("/users/:type", (req, res) => {
+app.get("/users/type/:type", (req, res) => {
   const { type } = req.params;
   pool.query(
     "SELECT * FROM App_User WHERE User_Type = $1",
@@ -57,7 +57,7 @@ app.get("/users/:type", (req, res) => {
 app.get("/users/:id", (req, res) => {
   const id = parseInt(req.params.id);
   pool.query(
-    "SELECT * FROM App_User WHERE User_ID = $1",
+    'SELECT * FROM App_User WHERE User_ID = $1',
     [id],
     (error, results) => {
       if (error) {
@@ -70,7 +70,7 @@ app.get("/users/:id", (req, res) => {
 
 // SELECT a User's Team
 app.get("/users/:id/team", (req, res) => {
-  const { id } = parseInt(req.params);
+  const { id } = req.params;
   pool.query(
     "SELECT * FROM Team_Member WHERE User_ID = $1",
     [id],
@@ -85,7 +85,7 @@ app.get("/users/:id/team", (req, res) => {
 
 // SELECT a User's Tasks
 app.get("/users/:id/tasks", (req, res) => {
-  const { id } = parseInt(req.params);
+  const { id } = req.params;
   pool.query(
     "SELECT * FROM Task WHERE Assigned_To = $1",
     [id],
@@ -135,7 +135,7 @@ app.post("/projects", (req, res) => {
 
 // SELECT a Project by Project_ID
 app.get("/projects/:id", (req, res) => {
-  const { id } = parseInt(req.params);
+  const { id } = req.params;
   pool.query(
     "SELECT * FROM Project WHERE Project_ID = $1",
     [id],
@@ -173,7 +173,7 @@ app.post("/projects/:id/update", (req, res) => {
 
 // SELECT a Project's Team
 app.get("/projects/:id/team", (req, res) => {
-  const { id } = parseInt(req.params);
+  const { id } = req.params;
   pool.query(
     "SELECT * FROM Team_Member WHERE Project_ID = $1",
     [id],
@@ -188,7 +188,7 @@ app.get("/projects/:id/team", (req, res) => {
 
 // SELECT a Project's Requirements
 app.get("/projects/:id/requirements", (req, res) => {
-  const { id } = parseInt(req.params);
+  const { id } = req.params;
   pool.query(
     "SELECT * FROM Requirement WHERE Project_ID = $1",
     [id],
@@ -203,7 +203,7 @@ app.get("/projects/:id/requirements", (req, res) => {
 
 // SELECT a Project's Tasks
 app.get("/projects/:id/tasks", (req, res) => {
-  const { id } = parseInt(req.params);
+  const { id } = req.params;
   pool.query(
     "SELECT * FROM Task WHERE Project_ID = $1",
     [id],
@@ -218,7 +218,7 @@ app.get("/projects/:id/tasks", (req, res) => {
 
 // SELECT a Project's Dependencies
 app.get("/projects/:id/dependencies", (req, res) => {
-  const { id } = parseInt(req.params);
+  const { id } = req.params;
   pool.query(
     "SELECT * FROM Dependency WHERE Project_ID = $1",
     [id],
@@ -233,7 +233,7 @@ app.get("/projects/:id/dependencies", (req, res) => {
 
 // SELECT a Project's Issues
 app.get("/projects/:id/issues", (req, res) => {
-  const { id } = parseInt(req.params);
+  const { id } = req.params;
   pool.query(
     "SELECT * FROM Issue WHERE Project_ID = $1",
     [id],
@@ -248,7 +248,7 @@ app.get("/projects/:id/issues", (req, res) => {
 
 // SELECT a Project's Funding Requests
 app.get("/projects/:id/funding-requests", (req, res) => {
-  const { id } = parseInt(req.params);
+  const { id } = req.params;
   pool.query(
     "SELECT * FROM Funding_Request WHERE Project_ID = $1",
     [id],
@@ -263,7 +263,7 @@ app.get("/projects/:id/funding-requests", (req, res) => {
 
 // SELECT a Project's Expenses
 app.get("/projects/:id/expenses", (req, res) => {
-  const { id } = parseInt(req.params);
+  const { id } = req.params;
   pool.query(
     "SELECT * FROM Expense WHERE Project_ID = $1",
     [id],
@@ -314,7 +314,7 @@ app.get("/tasks", (req, res) => {
 
 // SELECT Task by Task_ID
 app.get("/tasks/:id", (req, res) => {
-  const { id } = parseInt(req.params);
+  const { id } = req.params;
   pool.query(
     "SELECT * FROM Task WHERE Task_ID = $1",
     [id],
@@ -385,7 +385,7 @@ app.delete("/tasks/:task_id", (req, res) => {
 
 // SELECT a Tasks's Dependencies
 app.get("/tasks/:id/dependencies", (req, res) => {
-  const { id } = parseInt(req.params);
+  const { id } = req.params;
   pool.query(
     "SELECT * FROM Dependency WHERE Source_Task = $1",
     [id],
