@@ -56,7 +56,8 @@
         "@freejeff/main-page": "//localhost:8001/freejeff-main-page.js",
         "@freejeff/navbar": "//localhost:8002/freejeff-navbar.js",
         "@freejeff/create-project-page": "//localhost:8003/freejeff-create-project-page.js",
-        "@freejeff/finance-page": "//localhost:8006/freejeff-finance-page.js"
+        "@freejeff/finance-page": "//localhost:8006/freejeff-finance-page.js",
+        "@freejeff/developer-issue-tracker": "//localhost:8004/freejeff-developer-issue-tracker.js"
       }
     }
   </script>
@@ -92,6 +93,9 @@
         </route>
         <route path="finance">
           <application name="@freejeff/finance-page" loader="financePage" error="financePage"></application>
+        <route path="developer-issue-tracker">
+          <application name="@freejeff/developer-issue-tracker" loader="developerIssueTracker" error="developerIssueTracker"></application>
+        </route>
       </main>
     </single-spa-router>
   </template>

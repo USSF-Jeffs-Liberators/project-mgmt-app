@@ -9,20 +9,22 @@ import {
 import { RuxGlobalStatusBar } from "@astrouxds/rux-global-status-bar/rux-global-status-bar.js";
 import { RuxButton } from "@astrouxds/rux-button/rux-button.js";
 import { RuxTabs } from "@astrouxds/rux-tabs/rux-tabs.js";
-import { RuxIcon } from '@astrouxds/rux-icon/rux-icon.js';
+import { RuxIcon } from "@astrouxds/rux-icon/rux-icon.js";
 
 const routes = constructRoutes(document.querySelector("#single-spa-layout"), {
   loaders: {
     navbar: "<p>Loading navbar</p>",
     mainPage: "<p>Loading main-page</p>",
     createProjectPage: "<p>Loading create-project-page</p>",
-    financePage: "<p>Loading finance-page</p>"
+    financePage: "<p>Loading finance-page</p>",
+    developerIssueTracker: "<p>Loading developer-issue-tracker</p>",
   },
   errors: {
     navbar: "<p>Failed to load navbar</p>",
     mainPage: "<p>Failed to load main-page</p>",
     createProjectPage: "<p>Failed to load create-project-page</p>",
-    financePage: "<p>Failed to load finance-page</p>"
+    financePage: "<p>Failed to load finance-page</p>",
+    developerIssueTracker: "<p>Failed to load developer-issue-tracker</p>",
   },
 });
 const applications = constructApplications({

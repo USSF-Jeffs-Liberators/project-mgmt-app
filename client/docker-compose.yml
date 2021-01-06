@@ -21,6 +21,11 @@ services:
     ports:
       - 8003:8003
 
+  freejeffdeveloperissuetracker:
+    build: developer-issue-tracker
+    ports:
+      - 8004:8004
+
   freejefffinancepage:
     build: finance-page
     ports:
