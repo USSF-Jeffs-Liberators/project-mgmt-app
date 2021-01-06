@@ -1,7 +1,6 @@
 import Enzyme from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import React from "react";
-import { render } from "@testing-library/react";
 import { shallow } from "enzyme";
 import Root from "./root.component";
 
