@@ -3,16 +3,19 @@ export const links = {
         {
             name: "Log In",
             href: "login",
+            class: "loginLink"
         }, 
         {
             name: "Sign Up",
             href: "signup",
+            class: "signupLink"
         }
     ],
     loggedIn: [
         {
             name: "Log Out",
             href: "logout",
+            class: "logoutLink"
         }
     ],
     developer: [

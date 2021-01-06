@@ -36,7 +36,7 @@ export default function Root(props) {
 
   return (
     <rux-global-status-bar className="dark-theme">
-      <h2 onClick={() => history.push("/")}>Project Management App</h2>
+      <h2 id="navbarLogo" onClick={() => history.push("/")}>Project Management App</h2>
       <rux-tabs small id="navigation-tabs">
         {tabLinks.map((link) => {
           return (
@@ -54,6 +54,7 @@ export default function Root(props) {
           return (
             <rux-button 
               key={link.href} 
+              className={link.class} 
               onClick={() => history.push("/" + link.href)}>
                 {link.name}
             </rux-button>
