@@ -9,7 +9,8 @@
     "format": "prettier --write \"./**\"",
     "test": "cross-env BABEL_ENV=test jest",
     "watch-tests": "cross-env BABEL_ENV=test jest --watch",
-    "coverage": "cross-env BABEL_ENV=test jest --coverage"
+    "coverage": "cross-env BABEL_ENV=test jest --coverage",
+    "cypress:open": "cypress open"
   },
   "husky": {
     "hooks": {
@@ -31,6 +32,7 @@
     "concurrently": "^5.0.1",
     "cross-env": "^7.0.2",
     "cypress": "^6.2.0",
+    "cypress-jest-adapter": "^0.1.1",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.5",
     "eslint": "^6.7.2",
