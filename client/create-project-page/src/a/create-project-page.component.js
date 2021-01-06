@@ -1,6 +1,7 @@
 import React from "react";
 import Form from "./Form";
 import UserList from "./UserList";
+import axios from "axios";
 
 class CreateProjectPage extends React.Component {
   constructor(props) {
@@ -9,7 +10,10 @@ class CreateProjectPage extends React.Component {
       developerList: [],
       pmList: [],
       gmList: [],
-      currentInput: {},
+      currentInput: {
+        hello1: "",
+      },
+      formData: [],
     };
   }
 
@@ -47,23 +51,31 @@ class CreateProjectPage extends React.Component {
   }
 
   handleChange(event) {
-    this.setState({currentInput: {[event.target.name]: event.target.value}});
+    if (!event.target.value) {
+      return;
+    }
+    let nam = event.target.name;
+    let val = event.target.value;
+    this.setState({
+      currentInput: { [nam]: val },
+    });
   }
 
   handleSubmit(event) {
-    alert('Your favorite flavor is: ' + this.state.currentInput[0].value);
+    event.preventDefault();
+    if (
+      this.state.currentInput.value.length === 0 ||
+      this.state.currentInput.value === null
+    ) {
+      return;
+    }
+    this.setState({
+      formData: this.state.formData.concat(this.state.currentInput),
+      currentInput: { name: "" },
+    });
+    alert("Your favorite flavor is: " + JSON.stringify(this.state.formData));
     event.preventDefault();
   }
-
-  // handleChange = (event) => {
-  //   if (!event.target.value){
-  //     return;
-  //   }
-  //   this.setState({ 
-  //     ...this.state,
-  //     [event.target.name]: event.target.value });
-  // };
-
   // handleSubmit = (event) => {
   //   alert("A form was submitted: " + this.state.event.target);
 
@@ -89,8 +101,10 @@ class CreateProjectPage extends React.Component {
           generalManagers={this.state.gmList}
         />
         <Form
+          username={this.state.currentInput.hello1}
           onChange={this.handleChange.bind(this)}
-          onSubmit={this.handleSubmit.bind(this)}/>
+          onSubmit={this.handleSubmit.bind(this)}
+        />
         <ul>
           <li>Be able to assign developers to work on a project.</li>
           <li>
