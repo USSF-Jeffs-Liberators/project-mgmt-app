@@ -93,38 +93,39 @@ const IssueTracker = () => {
   //     getAllIssues();
   // }, []);
 
-  // addIssue = async () =>
-  // {
-  //     const todayDate = new Date();
+//   addIssue = async () =>
+//   {
+//       const todayDate = new Date();
 
-  //     const settings = {
-  //         method: 'POST',
-  //         headers: { 'Content-Type': 'application/json' },
-  //         body: JSON.stringify({
-  //             project_id: project_id,
-  //             author: user_id,
-  //             issue_desc: "My issue is that we dont have a form to input issue descriptions",
-  //             severity: "Low",
-  //             issue_timestamp: todayDate.toLocaleString(),
-  //             is_resolved: false,
-  //             resolve_date: null,
-  //             resolution: null
-  //         })
-  //     };
-  //     try {
-  //         const response = await fetch(`http://localhost:3001/issues`, settings);
-  //         const json = await fetchResponse.json();
-  //     }
-  //     catch(err)
-  //     {
-  //         console.error(err.message);
-  //     }
-  // }
+//       const settings = {
+//           method: 'POST',
+//           headers: { 'Content-Type': 'application/json' },
+//           body: JSON.stringify({
+//               project_id: project_id,
+//               author: user_id,
+//               issue_desc: "My issue is that we dont have a form to input issue descriptions",
+//               severity: "Low",
+//               issue_timestamp: todayDate.toLocaleString(),
+//               is_resolved: false,
+//               resolve_date: null,
+//               resolution: null
+//           })
+//       };
+//       try {
+//           const response = await fetch(`http://localhost:3001/issues`, settings);
+//           const json = await fetchResponse.json();
+//       }
+//       catch(err)
+//       {
+//           console.error(err.message);
+//       }
+//   }
 
-  // handleAddIssue = () =>
-  // {
-
-  // }
+//   handleAddIssue = () =>
+//   {
+//       console.log("made it");
+//        //addIssue();
+//   }
 
   return (
     <div>
