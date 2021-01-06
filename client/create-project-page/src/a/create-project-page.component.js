@@ -7,13 +7,14 @@ class CreateProjectPage extends React.Component {
     super(props);
     this.state = {
       developerList: [],
-      pmList: []
+      pmList: [],
+      gmList: [],
     };
   };
 
   //fetches users by type, sets state
   async fetchUsers(type) {
-    var res = await fetch("http://localhost:3001/users/type/"+type);
+    var res = await fetch("http://localhost:3001/users/availability/"+type);
     var json = await res.json();
     switch(type) {
       case "Developer":
@@ -26,6 +27,11 @@ class CreateProjectPage extends React.Component {
           ...this.state,
           pmList: json,
         });
+      case "General Manager":
+        this.setState({
+          ...this.state,
+          gmList: json,
+        });
       default:
         this.setState({
           ...this.state,
@@ -37,6 +43,7 @@ class CreateProjectPage extends React.Component {
   async componentDidMount() {
     this.fetchUsers("Developer");
     this.fetchUsers("Project Manager");
+    this.fetchUsers("General Manager");
   }
 
   render() {
@@ -49,7 +56,7 @@ class CreateProjectPage extends React.Component {
         developers={this.state.developerList}
         projectManagers={this.state.pmList}
         />
-        <Form onSubmit={this.handleSubmit.bind(this)}/>
+        {/* <Form onSubmit={this.handleSubmit.bind(this)}/> */}
         <ul>
           <li>Be able to assign developers to work on a project.</li>
           <li>
