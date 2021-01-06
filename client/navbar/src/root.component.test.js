@@ -1,12 +1,11 @@
-import React from 'react'
-import { shallow } from 'enzyme'
-import Root from './root.component'
+import React from "react";
+import { render } from "@testing-library/react";
+import { shallow } from "enzyme";
+import Root from "./root.component";
 
-test('App name goes to "/" path', () => {
-  const wrapper = shallow(<Root />)
-  wrapper.find('h2').simulate('click')
-
-  wrapper.update()
-  expect(wrapper.state().isAddRecipeFormDisplayed).toBeTruthy()
-
+describe("Navbar", () => {
+  it("should be in the document", () => {
+    const navbarWrapper = shallow(<Root />);
+    expect(navbarWrapper).toBeInTheDocument();
+  });
 });
