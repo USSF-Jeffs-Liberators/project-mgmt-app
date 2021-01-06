@@ -71,7 +71,7 @@ export default function SignupForm(props) {
 
       <h6>
         Already have an account? Log in{" "}
-        <a onClick={() => history.push("/login")}>here</a>.
+        <a className="loginLink" onClick={() => history.push("/login")}>here</a>.
       </h6>
     </div>
   );
