@@ -155,29 +155,38 @@ class FinancePage extends React.Component {
 
   openFundingRequestModal() {
     this.setState({ showFundingRequestModal: true });
+    this.toggleElementsOff()
   }
 
   closeFundingRequestModal() {
     this.setState({ showFundingRequestModal: false });
+    this.toggleElementsOn()
   }
 
   openExpenseModal(expense) {
     this.setState({ selectedExpense: expense });
     this.setInput(expense);
     this.setState({ showExpenseModal: true });
-
-    document.querySelector(".modal-wrapper").style.display = "block";
-    document.querySelector("body").style.overflow = "hidden";
-    document.querySelector("body").style.background = "#203246";
-    // var x = document.querySelectorAll(".ruxButton")
-    // alert(x.length)
+    this.toggleElementsOff()
   }
 
   closeExpenseModal() {
     this.setState({ selectedExpense: null });
     this.setState({ showExpenseModal: false });
-    // document.querySelector(".modal-container").style.display = 'none';
+    this.toggleElementsOn()
+  }
+
+  toggleElementsOff() {
+    document.querySelector(".modal-wrapper").style.display = "block";
+    document.querySelector("body").style.overflow = "hidden";
+    document.querySelectorAll(".rux-button:not(.modal-button),.modal-button:not(.rux-button)").forEach(element => element.style.display = 'none')
+    document.querySelector("#progress-svg").style.display = 'none';
+  }
+
+  toggleElementsOn() {
     document.querySelector("body").style.overflow = "auto";
+    document.querySelectorAll(".rux-button:not(.modal-button),.modal-button:not(.rux-button)").forEach(element => element.style.display = 'inline-flex')
+    document.querySelector("#progress-svg").style.display = 'inline-flex';
   }
 
   setInput(expense) {
@@ -300,7 +309,7 @@ class FinancePage extends React.Component {
 
   getStatusColor(status) {
     if (status === "Approved") {
-      return "#3CB043";
+      return "#08DB0F";
     }
     if (status === "Denied") {
       return "#FF0000";
