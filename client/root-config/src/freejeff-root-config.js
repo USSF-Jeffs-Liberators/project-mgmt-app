@@ -9,6 +9,7 @@ import {
 import { RuxGlobalStatusBar } from "@astrouxds/rux-global-status-bar/rux-global-status-bar.js";
 import { RuxButton } from "@astrouxds/rux-button/rux-button.js";
 import { RuxTabs } from "@astrouxds/rux-tabs/rux-tabs.js";
+import { RuxProgress } from "@astrouxds/rux-progress/rux-progress.js";
 
 const routes = constructRoutes(document.querySelector("#single-spa-layout"), {
   loaders: {
