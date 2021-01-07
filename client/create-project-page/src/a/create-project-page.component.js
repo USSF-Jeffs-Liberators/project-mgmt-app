@@ -10,13 +10,14 @@ class CreateProjectPage extends React.Component {
       pmList: [],
       gmList: [],
     };
-  };
+  }
 
   //fetches users by type, sets state
   async fetchUsers(type) {
+    var res = await fetch("http://localhost:3001/users/" + type);
     var res = await fetch("http://localhost:3001/users/availability/"+type);
     var json = await res.json();
-    switch(type) {
+    switch (type) {
       case "Developer":
         this.setState({
           ...this.state,
@@ -35,9 +36,8 @@ class CreateProjectPage extends React.Component {
       default:
         this.setState({
           ...this.state,
-        })        
+        });
     }
-    
   }
 
   async componentDidMount() {
@@ -52,9 +52,9 @@ class CreateProjectPage extends React.Component {
         <header>
           <h1> This is from create-project-page.component.js! </h1>
         </header>
-        <UserList 
-        developers={this.state.developerList}
-        projectManagers={this.state.pmList}
+        <UserList
+          developers={this.state.developerList}
+          projectManagers={this.state.pmList}
         />
         {/* <Form onSubmit={this.handleSubmit.bind(this)}/> */}
         <ul>
