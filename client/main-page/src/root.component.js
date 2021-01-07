@@ -9,11 +9,13 @@ import GeneralManagerDashboard from "./views/gm-dashboard";
 
 export default function Root(props) {
   // mock different User_Types
-  let userType = "Project Manager";
+  props = {
+    userType: "Developer"
+  }
 
   // "/" path will render a different page depending on user type
-  const renderSwitch = (userType) => {
-    switch (userType) {
+  const renderSwitch = (props) => {
+    switch (props.userType) {
       case "Developer":
         return <Route exact path="/" component={DeveloperDashboard} />;
       case "Project Manager":
@@ -27,7 +29,7 @@ export default function Root(props) {
 
   return (
     <BrowserRouter>
-      {renderSwitch(userType)}
+      {renderSwitch(props.userType)}
       <Route exact path="/login" component={LoginForm} />
       <Route exact path="/signup" component={SignupForm} />
       <Route exact path="/logout" component={LoggedOut} />
