@@ -11,6 +11,7 @@ import { RuxButton } from "@astrouxds/rux-button/rux-button.js";
 import { RuxTabs } from "@astrouxds/rux-tabs/rux-tabs.js";
 import { RuxProgress } from "@astrouxds/rux-progress/rux-progress.js";
 import { RuxIcon } from "@astrouxds/rux-icon/rux-icon.js";
+import { RuxModal } from '@astrouxds/rux-modal/rux-modal.js';
 
 const routes = constructRoutes(document.querySelector("#single-spa-layout"), {
   loaders: {

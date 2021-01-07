@@ -215,6 +215,20 @@ app.get("/projects/:id/team", (req, res) => {
   );
 });
 
+// DELETE User from Team by User_ID
+app.delete("/projects/:project_id/team/:user_id", (req, res) => {
+  pool.query(
+    "DELETE FROM Team_Member WHERE Project_ID = $1 AND User_ID = $2",
+    [req.params.project_id, req.params.user_id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+});
+
 // SELECT a Project's Requirements
 app.get("/projects/:id/requirements", (req, res) => {
   const { id } = req.params;

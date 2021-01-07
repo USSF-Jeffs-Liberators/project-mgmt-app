@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
 
-const TeamRoster = () => {
+// As a project manager, I want to add or remove developers from project my team.
+
+const TeamRoster = (props) => {
     // mock selected project
-    const project_id = 2;
+    props = {
+        userType: "Project Manager",
+        project_id: 2
+    }
 
     const [users, setUsers] = useState([]);
     const [team, setTeam] = useState([]);
@@ -25,7 +30,7 @@ const TeamRoster = () => {
 
     const getTeamRoster = async () => {
         try {
-            const response = await fetch(`http://localhost:3001/projects/${project_id}/team`);
+            const response = await fetch(`http://localhost:3001/projects/${props.project_id}/team`);
             const jsonData = await response.json();
             setTeam(jsonData);
         } catch (err) {
@@ -55,6 +60,34 @@ const TeamRoster = () => {
             }
         })
     }
+
+    const handleDeleteMember = async id => {
+        try {
+            let body = { 
+                project_id: props.project_id, 
+                user_id: id
+            }
+            const requestOptions = {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            };
+            await fetch(`http://localhost:3001/projects/${props.project_id}/team/${id}`, requestOptions)
+              .then(response => response.json())
+              .then(response => {
+              if(response.status === "failed")
+              alert(response.message)})
+    
+    
+            setTeam(team.filter(each => each.user_id !== id));
+        } catch (err) {
+          console.error(err.message);
+        }
+    }
+
+    const handleAddMember = () => {
+        <p>Test</p>
+    }
     
     return (
         <table id="teamRoster" className="rux-table">
@@ -63,6 +96,7 @@ const TeamRoster = () => {
                     <th>Last Name</th>
                     <th>First Name</th>
                     <th>Role</th>
+                    { props.userType === "Project Manager" ? <th>Modify</th> : null }
                 </tr>
                 {getMatches()}
                 {matches.map(user => (
@@ -70,8 +104,22 @@ const TeamRoster = () => {
                         <td>{user.last_name}</td>
                         <td>{user.first_name}</td>
                         <td>{user.user_type}</td>
+                        { props.userType === "Project Manager" 
+                            ? <td><rux-button 
+                                size="small" 
+                                icon="caution" 
+                                onClick={() => handleDeleteMember(user.user_id)}>
+                                Remove
+                            </rux-button></td>
+                            : null }
                     </tr>
                 ))}
+                { props.userType === "Project Manager"
+                    ? <tr><rux-button
+                        onClick={() => handleAddMember()}>
+                        Add Team Member
+                    </rux-button></tr>
+                    : null }
             </tbody>
         </table>
     );
