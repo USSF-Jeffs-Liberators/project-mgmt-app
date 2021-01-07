@@ -7,7 +7,7 @@ function ProjectCost(props) {
         <div class="wrapper">
           <div
             class="container chart"
-            data-size="400"
+            data-size="350"
             data-value={props.progress}
             data-arrow="d"
           ></div>
@@ -56,13 +56,14 @@ function ProjectCost(props) {
             )}
             {expense.expense_type !== "Labor" ? (
               <td>
-                <rux-button
+                <button
+                  className="rux-button"
                   onClick={() => {
                     props.deleteExpense(expense);
                   }}
                 >
                   Delete
-                </rux-button>
+                </button>
               </td>
             ) : (
               <td></td>
@@ -72,14 +73,14 @@ function ProjectCost(props) {
         <tr class="rux-table__column-head">
           <th colspan="6" className="button-section">
             <div className="button-div1">
-              <rux-button
-                className="ruxButton"
+              <button
+                className="rux-button"
                 onClick={() => {
                   props.openExpenseModal(null);
                 }}
               >
                 Add Expense
-              </rux-button>
+              </button>
             </div>
           </th>
         </tr>
@@ -123,13 +124,14 @@ function ProjectCost(props) {
         <tr class="rux-table__column-head">
           <th colspan="9" className="button-section">
             <div className="button-div2">
-              <rux-button
+              <button
+                className="rux-button"
                 onClick={() => {
                   props.openFundingRequestModal();
                 }}
               >
                 Create Funding Request
-              </rux-button>
+              </button>
             </div>
           </th>
         </tr>

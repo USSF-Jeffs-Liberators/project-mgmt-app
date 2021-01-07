@@ -9,9 +9,13 @@ import {
 import { RuxGlobalStatusBar } from "@astrouxds/rux-global-status-bar/rux-global-status-bar.js";
 import { RuxButton } from "@astrouxds/rux-button/rux-button.js";
 import { RuxTabs } from "@astrouxds/rux-tabs/rux-tabs.js";
+import { RuxIcon } from "@astrouxds/rux-icon/rux-icon.js";
 import { RuxProgress } from "@astrouxds/rux-progress/rux-progress.js";
+<<<<<<< HEAD
 import { RuxIcon } from "@astrouxds/rux-icon/rux-icon.js";
 import { RuxModal } from '@astrouxds/rux-modal/rux-modal.js';
+=======
+>>>>>>> main
 
 const routes = constructRoutes(document.querySelector("#single-spa-layout"), {
   loaders: {
@@ -26,7 +30,11 @@ const routes = constructRoutes(document.querySelector("#single-spa-layout"), {
     mainPage: "<p>Failed to load main-page</p>",
     createProjectPage: "<p>Failed to load create-project-page</p>",
     financePage: "<p>Failed to load finance-page</p>",
+<<<<<<< HEAD
     ganttChart: "<p>Failed to load gantt-chart</p>",
+=======
+    ganttChart: "<p>Failed to load gantt-chart</p>"
+>>>>>>> main
   },
 });
 const applications = constructApplications({
