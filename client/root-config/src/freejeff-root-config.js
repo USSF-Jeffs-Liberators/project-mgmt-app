@@ -18,7 +18,6 @@ const routes = constructRoutes(document.querySelector("#single-spa-layout"), {
     mainPage: "<p>Loading main-page</p>",
     createProjectPage: "<p>Loading create-project-page</p>",
     financePage: "<p>Loading finance-page</p>",
-    developerIssueTracker: "<p>Loading developer-issue-tracker</p>",
     ganttChart: "<p>Loading gantt-chart</p>"
   },
   errors: {
@@ -26,7 +25,6 @@ const routes = constructRoutes(document.querySelector("#single-spa-layout"), {
     mainPage: "<p>Failed to load main-page</p>",
     createProjectPage: "<p>Failed to load create-project-page</p>",
     financePage: "<p>Failed to load finance-page</p>",
-    developerIssueTracker: "<p>Failed to load developer-issue-tracker</p>",
     ganttChart: "<p>Failed to load gantt-chart</p>"
   },
 });
