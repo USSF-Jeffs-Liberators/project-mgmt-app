@@ -11,28 +11,30 @@ export default function UserList(props) {
   }
 
   return (
-    <div className="dashboard">
+    <div hidden="true" className="dashboard">
       <section className="col-s-6 col-4">
         <table className="rux-table">
           <tbody>
             <tr className="rux_table__column-head">
-              <th colSpan="6" align="center">
+              <th colSpan="5" align="center">
                 Developers
               </th>
             </tr>
             <tr className="rux_table__column-head">
+              {/* <th>User ID</th> */}
               <th>First Name</th>
               <th>Last Name</th>
-              <th>Project ID</th>
+              {/* <th>Project ID</th> */}
               <th>Project Name</th>
               <th>Project Start Date</th>
               <th>Project Deadline</th>
             </tr>
             {props.developers.map((each) => (
               <tr key={each.user_id}>
+                {/* <td>{each.user_id}</td> */}
                 <td>{each.first_name}</td>
                 <td>{each.last_name}</td>
-                <td>{each.project_id}</td>
+                {/* <td>{each.project_id}</td> */}
                 <td>{each.project_name}</td>
                 <td>{parseDate(each.start_date)}</td>
                 <td>{parseDate(each.deadline_date)}</td>

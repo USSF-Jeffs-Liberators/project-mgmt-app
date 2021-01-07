@@ -1,7 +1,6 @@
 import React from "react";
 import Form from "./Form";
 import UserList from "./UserList";
-import axios from "axios";
 
 class CreateProjectPage extends React.Component {
   constructor(props) {
@@ -11,7 +10,7 @@ class CreateProjectPage extends React.Component {
       pmList: [],
       gmList: [],
       currentInput: {
-        hello1: "",
+        value: "",
       },
       formData: [],
     };
@@ -54,11 +53,11 @@ class CreateProjectPage extends React.Component {
     if (!event.target.value) {
       return;
     }
-    let nam = event.target.name;
     let val = event.target.value;
     this.setState({
-      currentInput: { [nam]: val },
+      currentInput: { value: val },
     });
+    console.log(this.state.currentInput.value);
   }
 
   handleSubmit(event) {
@@ -71,10 +70,9 @@ class CreateProjectPage extends React.Component {
     }
     this.setState({
       formData: this.state.formData.concat(this.state.currentInput),
-      currentInput: { name: "" },
+      currentInput: { value: "" },
     });
     alert("Your favorite flavor is: " + JSON.stringify(this.state.formData));
-    event.preventDefault();
   }
   // handleSubmit = (event) => {
   //   alert("A form was submitted: " + this.state.event.target);
@@ -101,7 +99,8 @@ class CreateProjectPage extends React.Component {
           generalManagers={this.state.gmList}
         />
         <Form
-          username={this.state.currentInput.hello1}
+          value={this.state.currentInput.value}
+          formData={this.state.formData}
           onChange={this.handleChange.bind(this)}
           onSubmit={this.handleSubmit.bind(this)}
         />

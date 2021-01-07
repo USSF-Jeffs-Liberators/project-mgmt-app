@@ -13,12 +13,26 @@ function Form(props) {
       <form id="form" className="rux-form" onSubmit={props.onSubmit}>
         {header}
         <div className="rux-form-field">
-          <label className="rux-form-field__label" htmlFor="input_text">
+          <label className="rux-form-field__label" htmlFor="input_text_field">
             Text Input Label
           </label>
           <input
             type="text"
             name="input_text_field"
+            required
+            placeholder="Text Input"
+            onChange={props.onChange}
+            value={props.value}
+          />
+        </div>
+        <br />
+        <div className="rux-form-field">
+          <label className="rux-form-field__label" htmlFor="input_text_field2">
+            Text Input Label
+          </label>
+          <input
+            type="text"
+            name="input_text_field2"
             required
             placeholder="Text Input"
             onChange={props.onChange}
