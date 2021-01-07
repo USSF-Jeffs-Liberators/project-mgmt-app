@@ -576,6 +576,94 @@ app.get("/expenses", (req, res) => {
 
 // other endpoints...
 
+//  post a new funding request
+app.post("/funding-requests", (req, res) => {
+  pool.query(
+    "INSERT INTO Funding_Request (project_id, initiator, request_amount, justification, submit_date, suspense_date) VALUES ($1, $2, $3, $4, $5, $6)",
+    [
+      req.body.project_id,
+      req.body.initiator,
+      req.body.request_amount,
+      req.body.justification,
+      req.body.submit_date,
+      req.body.suspense_date,
+    ],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+});
+
+//  post a new expense
+app.post("/expenses", (req, res) => {
+  pool.query(
+    "INSERT INTO Expense (project_id, expense_desc, expense_type, expense_amount) VALUES ($1, $2, $3, $4)",
+    [
+      req.body.project_id,
+      req.body.expense_desc,
+      req.body.expense_type,
+      req.body.expense_amount,
+    ],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+});
+
+// update an expense
+app.post("/expenses/:id", (req, res) => {
+  pool.query(
+    "UPDATE Expense SET Project_ID = $1, Expense_Desc = $2, Expense_Type = $3, Expense_Amount = $4 WHERE Expense_ID = $5",
+    [
+      req.body.project_id,
+      req.body.expense_desc,
+      req.body.expense_type,
+      req.body.expense_amount,
+      req.params.id,
+    ],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+});
+
+// deletes an expense
+app.delete("/expenses/:id", (req, res) => {
+  pool.query(
+    "DELETE FROM Expense WHERE Expense_ID = $1",
+    [req.params.id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+});
+
+// updates a project's current cost
+app.post("/projects/:id", (req, res) => {
+  pool.query(
+    "UPDATE Project SET Current_Cost = $1 WHERE Project_ID = $2",
+    [req.body.current_cost, req.params.id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+});
+
 app.listen(port, () =>
   console.log(`Project Management API listening at http://localhost:${port}`)
 );
