@@ -8,11 +8,11 @@ DROP TABLE IF EXISTS Task;
 DROP TABLE IF EXISTS Requirement;
 DROP TABLE IF EXISTS Team_Member;
 DROP TABLE IF EXISTS Project;
-DROP TABLE IF EXISTS app_users;
+DROP TABLE IF EXISTS app_user;
 
 /* Creates Database Tables */
 
-CREATE TABLE app_users (
+CREATE TABLE app_user (
 	User_ID SERIAL,
 	Username TEXT UNIQUE NOT NULL,
 	Pass_Word TEXT NOT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE roles (
 );
 CREATE TABLE user_roles (
     "roleId" INTEGER  REFERENCES "roles" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-    "userId" INTEGER  REFERENCES app_users (User_ID) ON DELETE CASCADE ON UPDATE CASCADE, 
+    "userId" INTEGER  REFERENCES app_user (User_ID) ON DELETE CASCADE ON UPDATE CASCADE, 
     PRIMARY KEY ("roleId","userId")
 );
 
@@ -45,7 +45,7 @@ CREATE TABLE Project (
 	End_Date DATE,
 	Current_Cost NUMERIC DEFAULT 0 NOT NULL,
 	PRIMARY KEY (Project_ID),
-	FOREIGN KEY (Project_Manager) REFERENCES app_users (User_ID)
+	FOREIGN KEY (Project_Manager) REFERENCES app_user (User_ID)
 );
 
 CREATE TABLE Team_Member (
@@ -53,7 +53,7 @@ CREATE TABLE Team_Member (
 	Project_ID INTEGER NOT NULL,
 	Daily_Rate NUMERIC NOT NULL,
 	PRIMARY KEY (User_ID, Project_ID),
-	FOREIGN KEY (User_ID) REFERENCES app_users (User_ID),
+	FOREIGN KEY (User_ID) REFERENCES app_user (User_ID),
 	FOREIGN KEY (Project_ID) REFERENCES Project (Project_ID)
 );
 
@@ -77,7 +77,7 @@ CREATE TABLE Task (
 	Progress NUMERIC DEFAULT 0.0 NOT NULL,
 	PRIMARY KEY (Task_ID),
 	FOREIGN KEY (Project_ID) REFERENCES Project (Project_ID),
-	FOREIGN KEY (Assigned_To) REFERENCES app_users (User_ID)
+	FOREIGN KEY (Assigned_To) REFERENCES app_user (User_ID)
 );
 
 CREATE TABLE Dependency (
@@ -103,7 +103,7 @@ CREATE TABLE Issue (
 	Resolution TEXT,
 	PRIMARY KEY (Issue_ID),
 	FOREIGN KEY (Project_ID) REFERENCES Project (Project_ID),
-	FOREIGN KEY (Author) REFERENCES app_users (User_ID)
+	FOREIGN KEY (Author) REFERENCES app_user (User_ID)
 );
 
 CREATE TABLE Funding_Request (
@@ -120,8 +120,8 @@ CREATE TABLE Funding_Request (
 	Reviewed_By INTEGER,
 	PRIMARY KEY (Request_ID),
 	FOREIGN KEY (Project_ID) REFERENCES Project (Project_ID),
-	FOREIGN KEY (Initiator) REFERENCES app_users (User_ID),
-	FOREIGN KEY (Reviewed_By) REFERENCES app_users (User_ID)
+	FOREIGN KEY (Initiator) REFERENCES app_user (User_ID),
+	FOREIGN KEY (Reviewed_By) REFERENCES app_user (User_ID)
 );
 
 CREATE TABLE Expense (
@@ -133,7 +133,7 @@ CREATE TABLE Expense (
 	Expense_Amount NUMERIC NOT NULL,
 	PRIMARY KEY (Expense_ID),
 	FOREIGN KEY (Project_ID) REFERENCES Project (Project_ID),
-	FOREIGN KEY (Employee) REFERENCES app_users (User_ID)
+	FOREIGN KEY (Employee) REFERENCES app_user (User_ID)
 );
 
 -- /* Inserts Sample Data Into Database Tables */
@@ -142,68 +142,68 @@ INSERT INTO roles ("id","name") VALUES (1, 'Developer'),
 (2,'Project Manager'),
 (3,'General Manager'),
 (4,'Administrator');
--- Inserts 30 Entries into app_users Table
-INSERT INTO app_users (Username, Pass_Word, First_Name, Last_Name, Email_Address)
+-- Inserts 30 Entries into app_user Table
+INSERT INTO app_user (Username, Pass_Word, First_Name, Last_Name, Email_Address)
 	VALUES ('Mean Dean Machine', '$2a$08$0u6yXvMlmLMs.euY.l6D9u9z19BF.PxxonVFVIuhU/G.ScPbfCz3.', 'Jeffrey', 'Dean', 'jeffrey.dean@spaceforce.mil');
-INSERT INTO app_users (Username, Pass_Word, First_Name, Last_Name, Email_Address)
+INSERT INTO app_user (Username, Pass_Word, First_Name, Last_Name, Email_Address)
 	VALUES ('ahrohn92', '$2a$08$BG0NuJ7BKAvTXXBShRTjl.yXn.hyK58.NOjR8fOioXxO8GkJBqD7S', 'Andrew', 'Rohn', 'andrew.rohn@us.af.mil');
-INSERT INTO app_users (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
+INSERT INTO app_user (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
 	VALUES ('Darth Vayda', '$2a$08$BG0NuJ7BKAvTXXBShRTjl.yXn.hyK58.NOjR8fOioXxO8GkJBqD7S', 'Peter', 'Vayda', 'peter.vayda@us.af.mil');
-INSERT INTO app_users (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
+INSERT INTO app_user (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
 	VALUES ('Hosoya Destroya', '$2a$08$BG0NuJ7BKAvTXXBShRTjl.yXn.hyK58.NOjR8fOioXxO8GkJBqD7S', 'Emily', 'Hosoya', 'emily.hosoya@us.af.mil');
-INSERT INTO app_users (Username, Pass_Word, First_Name, Last_Name, Email_Address)
+INSERT INTO app_user (Username, Pass_Word, First_Name, Last_Name, Email_Address)
 	VALUES ('Prima Donna', '$2a$08$yJTVkedAoAZbT7rPd2mHdeSDK3oaUIc22M/sfh27fdFHGCIw8Ku.O', 'Donna', 'Farris', 'donna.farris@spaceforce.mil');
-INSERT INTO app_users (Username, Pass_Word, First_Name, Last_Name, Email_Address)
+INSERT INTO app_user (Username, Pass_Word, First_Name, Last_Name, Email_Address)
 	VALUES ('Ben10', '$2a$08$yJTVkedAoAZbT7rPd2mHdeSDK3oaUIc22M/sfh27fdFHGCIw8Ku.O', 'Benjamin', 'Kehe', 'benjamin.kehe@us.af.mil');
-INSERT INTO app_users (Username, Pass_Word, First_Name, Last_Name, Email_Address)
+INSERT INTO app_user (Username, Pass_Word, First_Name, Last_Name, Email_Address)
 	VALUES ('Gregorious B.I.G.', '$2a$08$yJTVkedAoAZbT7rPd2mHdeSDK3oaUIc22M/sfh27fdFHGCIw8Ku.O', 'Gregory', 'Oladipo', 'greg.oladapio@galvanize.com');
-INSERT INTO app_users (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
+INSERT INTO app_user (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
 	VALUES ('Jolly Poli', '$2a$08$yJTVkedAoAZbT7rPd2mHdeSDK3oaUIc22M/sfh27fdFHGCIw8Ku.O',  'Poli', 'Gonzalez', 'pole.gonzalez@galvanize.com');
-INSERT INTO app_users (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
+INSERT INTO app_user (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
 	VALUES ('KitKat90', '$2a$08$yJTVkedAoAZbT7rPd2mHdeSDK3oaUIc22M/sfh27fdFHGCIw8Ku.O',  'Kathryn', 'Hoesley', 'katie.hoesley@galvanize.com');
-INSERT INTO app_users (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
+INSERT INTO app_user (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
 	VALUES ('Tiggum', '$2a$08$yJTVkedAoAZbT7rPd2mHdeSDK3oaUIc22M/sfh27fdFHGCIw8Ku.O',  'Caden', 'Reynolds', 'caden.reynolds.1@us.af.mil');
-INSERT INTO app_users (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
+INSERT INTO app_user (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
 	VALUES ('El Gato Malo', '$2a$08$yJTVkedAoAZbT7rPd2mHdeSDK3oaUIc22M/sfh27fdFHGCIw8Ku.O',  'Gato', 'Harvey', 'gato.harvey@kr.mil');
-INSERT INTO app_users (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
+INSERT INTO app_user (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
 	VALUES ('TheBigSoup', '$2a$08$yJTVkedAoAZbT7rPd2mHdeSDK3oaUIc22M/sfh27fdFHGCIw8Ku.O',  'Choliel', 'Campbell', 'ccampbell@gmail.com');
-INSERT INTO app_users (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
+INSERT INTO app_user (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
 	VALUES ('Zac-n-Cheese', '$2a$08$yJTVkedAoAZbT7rPd2mHdeSDK3oaUIc22M/sfh27fdFHGCIw8Ku.O',  'Zachary', 'Mansell', 'zach.mansell@galvanize.com');
-INSERT INTO app_users (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
+INSERT INTO app_user (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
 	VALUES ('Boxcar Joe', '$2a$08$yJTVkedAoAZbT7rPd2mHdeSDK3oaUIc22M/sfh27fdFHGCIw8Ku.O',  'Matthew', 'Jones', 'mgjones93@gmail.com');
-INSERT INTO app_users (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
+INSERT INTO app_user (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
 	VALUES ('Bruce Almighty', '$2a$08$yJTVkedAoAZbT7rPd2mHdeSDK3oaUIc22M/sfh27fdFHGCIw8Ku.O',  'Bruce', 'Hill', 'brucehill54@aol.com');
-INSERT INTO app_users (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
+INSERT INTO app_user (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
 	VALUES ('JanetE61', '$2a$08$yJTVkedAoAZbT7rPd2mHdeSDK3oaUIc22M/sfh27fdFHGCIw8Ku.O',  'Janet', 'Eileen', 'jecreates@yahoo.com');
-INSERT INTO app_users (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
+INSERT INTO app_user (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
 	VALUES ('JD Slappin', '$2a$08$yJTVkedAoAZbT7rPd2mHdeSDK3oaUIc22M/sfh27fdFHGCIw8Ku.O',  'Jacob', 'DeWitt', 'jacob.dewitt.1@us.af.mil');
-INSERT INTO app_users (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
+INSERT INTO app_user (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
 	VALUES ('BigMac', '$2a$08$yJTVkedAoAZbT7rPd2mHdeSDK3oaUIc22M/sfh27fdFHGCIw8Ku.O',  'Christian', 'McClellan', 'christian.mcclellan@spaceforce.mil');
-INSERT INTO app_users (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
+INSERT INTO app_user (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
 	VALUES ('KFC Knight', '$2a$08$yJTVkedAoAZbT7rPd2mHdeSDK3oaUIc22M/sfh27fdFHGCIw8Ku.O',  'Eric', 'McClure', 'ericmcclure91@gmail.com');
-INSERT INTO app_users (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
+INSERT INTO app_user (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
 	VALUES ('BB Boss', '$2a$08$yJTVkedAoAZbT7rPd2mHdeSDK3oaUIc22M/sfh27fdFHGCIw8Ku.O',  'Brandon', 'Bischoff', 'brandon.bischoff@us.af.mil');
-INSERT INTO app_users (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
+INSERT INTO app_user (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
 	VALUES ('AshJ89', '$2a$08$BG0NuJ7BKAvTXXBShRTjl.yXn.hyK58.NOjR8fOioXxO8GkJBqD7S', 'Ashley', 'Johnson', 'ashley.johnson@spaceforce.mil');
-INSERT INTO app_users (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
+INSERT INTO app_user (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
 	VALUES ('Gare-Bear', '$2a$08$BG0NuJ7BKAvTXXBShRTjl.yXn.hyK58.NOjR8fOioXxO8GkJBqD7S', 'Gary', 'Stanhope', 'garystanhope79@yahoo.com');
-INSERT INTO app_users (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
+INSERT INTO app_user (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
 	VALUES ('Isaiah Playah', '$2a$08$yJTVkedAoAZbT7rPd2mHdeSDK3oaUIc22M/sfh27fdFHGCIw8Ku.O',  'Isaiah', 'Williams', 'isaiah.williams.2@us.af.mil');
-INSERT INTO app_users (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
+INSERT INTO app_user (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
 	VALUES ('Nepali Prince', '$2a$08$yJTVkedAoAZbT7rPd2mHdeSDK3oaUIc22M/sfh27fdFHGCIw8Ku.O',  'Bimali', 'Indiras', 'bimali.indiras@us.af.mil');
-INSERT INTO app_users (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
+INSERT INTO app_user (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
 	VALUES ('Cody Coder', '$2a$08$yJTVkedAoAZbT7rPd2mHdeSDK3oaUIc22M/sfh27fdFHGCIw8Ku.O',  'Cody', 'King', 'cody.king.4@spaceforce.mil');
-INSERT INTO app_users (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
+INSERT INTO app_user (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
 	VALUES ('Richard III', '$2a$08$yJTVkedAoAZbT7rPd2mHdeSDK3oaUIc22M/sfh27fdFHGCIw8Ku.O',  'Richard', 'Velez', 'richard.velez.3@us.af.mil');
-INSERT INTO app_users (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
+INSERT INTO app_user (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
 	VALUES ('Rayman', '$2a$08$yJTVkedAoAZbT7rPd2mHdeSDK3oaUIc22M/sfh27fdFHGCIw8Ku.O',  'Jacob', 'Ray', 'jacob.ray.2@us.af.mil');
-INSERT INTO app_users (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
+INSERT INTO app_user (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
 	VALUES ('Stumeister', '$2a$08$yJTVkedAoAZbT7rPd2mHdeSDK3oaUIc22M/sfh27fdFHGCIw8Ku.O',  'Kevin', 'Stuart', 'kevin.stuart.1@us.af.mil');
-INSERT INTO app_users (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
+INSERT INTO app_user (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
 	VALUES ('Keyboard Warrior', '$2a$08$yJTVkedAoAZbT7rPd2mHdeSDK3oaUIc22M/sfh27fdFHGCIw8Ku.O',  'Scott', 'Parks', 'scott.parks.2@spaceforce.mil');
-INSERT INTO app_users (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
+INSERT INTO app_user (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
 	VALUES ('Mama Sass', '$2a$08$yJTVkedAoAZbT7rPd2mHdeSDK3oaUIc22M/sfh27fdFHGCIw8Ku.O',  'Nona', 'Luke', 'nonaluke@gmail.com');
-INSERT INTO app_users (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
+INSERT INTO app_user (Username, Pass_Word,  First_Name, Last_Name, Email_Address)
 	VALUES ('admin', '$2a$08$O0itGJxv42o1CgZJZvOM8OB7m0R4Wr.qaAD1H4vVa0UoVlP9C1ER.',  'admin', 'admin', 'admin@gmail.com');
 
 -- Insert roles for users
