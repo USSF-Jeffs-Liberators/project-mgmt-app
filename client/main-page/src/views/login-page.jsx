@@ -30,7 +30,7 @@ export default function LoginForm(props) {
 
       <h6>
         Need an account? Sign up{" "}
-        <a onClick={() => history.push("/signup")}>here</a>.
+        <a className="signupLink" onClick={() => history.push("/signup")}>here</a>.
       </h6>
     </div>
   );

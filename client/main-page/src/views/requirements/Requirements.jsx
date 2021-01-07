@@ -23,7 +23,7 @@ const ProjectRequirements = () => {
   }, []);
 
   return (
-    <table className="rux-table">
+    <table id="projectRequirements" className="rux-table">
       <tbody>
         <tr className="rux_table__column-head">
           <th>Description</th>

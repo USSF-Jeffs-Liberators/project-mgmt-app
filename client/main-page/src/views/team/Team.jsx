@@ -57,7 +57,7 @@ const TeamRoster = () => {
     }
     
     return (
-        <table className="rux-table">
+        <table id="teamRoster" className="rux-table">
             <tbody>
                 <tr className="rux_table__column-head">
                     <th>Last Name</th>
