@@ -1,0 +1,58 @@
+version: "3.4"
+
+services:
+
+  database:
+    image: postgres:alpine
+    volumes:
+      - ./server/database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=project-mgmt
+    ports:
+      - '5432:5432'
+    restart: always
+
+  api:
+    build: server/api
+    volumes:
+      - ./api:/index
+    ports:
+      - 3001:3001
+    depends_on:
+      - "database"
+
+  freejeffrootconfig:
+    build: client/root-config
+    ports:
+      - 8000:8000
+
+  freejeffmainpage:
+    build: client/main-page
+    ports:
+      - 8001:8001
+    depends_on: 
+      - "api"
+
+  freejeffnavbar:
+    build: client/navbar
+    ports:
+      - 8002:8002
+
+  freejeffcreateprojectpage:
+    build: client/create-project-page
+    ports:
+      - 8003:8003
+    depends_on:
+      - "api"
+
+  freejefffinancepage:
+    build: client/finance-page
+    ports:
+      - 8006:8006
+    depends_on:
+      - "api"
+
+volumes:
+  project-mgt: {}
