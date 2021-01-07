@@ -5,22 +5,22 @@ import { links } from "./links.js";
 const history = createBrowserHistory();
 
 export default function Root(props) {
+  // mock logged in/out and user type
+  props = {
+    loggedIn: true,
+    userType: "Developer"
+  };
 
-  // mock user is logged in/out
-  let loggedIn = false;
   let buttonLinks = [];
+  let tabLinks = [];
 
   // show login/signup buttons if logged out; otherwise enable log out if logged in
-  loggedIn ? 
+  props.loggedIn ? 
   buttonLinks = links.loggedIn :
   buttonLinks = links.loggedOut
 
-  // mock different User_Types
-  let userType = "Developer";
-  let tabLinks = [];
-
   // tabs vary depending on the type of user logged in
-  switch (userType) {
+  switch (props.userType) {
     case "Developer":
       tabLinks = links.developer;
       break;
@@ -36,12 +36,13 @@ export default function Root(props) {
 
   return (
     <rux-global-status-bar className="dark-theme">
-      <h2 onClick={() => history.push("/")}>Project Management App</h2>
+      <h2 id="navbarLogo" onClick={() => history.push("/")}>Project Management App</h2>
       <rux-tabs small id="navigation-tabs">
         {tabLinks.map((link) => {
           return (
             <rux-tab 
               key={link.href}
+              className={link.class} 
               onClick={() => history.push("/" + link.href)}>
                 {link.name}
             </rux-tab>
@@ -54,6 +55,7 @@ export default function Root(props) {
           return (
             <rux-button 
               key={link.href} 
+              className={link.class} 
               onClick={() => history.push("/" + link.href)}>
                 {link.name}
             </rux-button>

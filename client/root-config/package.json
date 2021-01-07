@@ -5,7 +5,8 @@
     "lint": "eslint src --ext js",
     "test": "cross-env BABEL_ENV=test jest --passWithNoTests",
     "format": "prettier --write \"./**\"",
-    "build": "webpack --mode=production"
+    "build": "webpack --mode=production",
+    "cypress:open": "cypress open"
   },
   "husky": {
     "hooks": {
@@ -22,6 +23,10 @@
     "babel-eslint": "^11.0.0-beta.2",
     "concurrently": "^5.1.0",
     "cross-env": "^7.0.2",
+    "cypress": "^6.2.1",
+    "cypress-jest-adapter": "^0.1.1",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.5",
     "eslint": "^6.7.2",
     "eslint-config-important-stuff": "^1.1.0",
     "eslint-config-prettier": "^6.7.0",
@@ -43,6 +48,7 @@
   "dependencies": {
     "@astrouxds/rux-button": "^4.1.2",
     "@astrouxds/rux-global-status-bar": "^4.0.3",
+    "@astrouxds/rux-progress": "^4.0.3",
     "@astrouxds/rux-icon": "^4.0.3",
     "@astrouxds/rux-tabs": "^4.0.5",
     "history": "^5.0.0",
