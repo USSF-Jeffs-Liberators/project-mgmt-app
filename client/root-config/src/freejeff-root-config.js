@@ -25,7 +25,7 @@ const routes = constructRoutes(document.querySelector("#single-spa-layout"), {
     mainPage: "<p>Failed to load main-page</p>",
     createProjectPage: "<p>Failed to load create-project-page</p>",
     financePage: "<p>Failed to load finance-page</p>",
-    ganttChart: "<p>Failed to load gantt-chart</p>
+    ganttChart: "<p>Failed to load gantt-chart</p>",
   },
 });
 const applications = constructApplications({
