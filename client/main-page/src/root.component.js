@@ -6,6 +6,7 @@ import LoggedOut from "./views/loggedout-page";
 import DeveloperDashboard from "./views/developer-dashboard";
 import ProjectManagerDashboard from "./views/pm-dashboard";
 import GeneralManagerDashboard from "./views/gm-dashboard";
+import SubmitIssue from "./views/issue-page";
 
 export default function Root(props) {
   // mock different User_Types
@@ -14,7 +15,7 @@ export default function Root(props) {
   }
 
   // "/" path will render a different page depending on user type
-  const renderSwitch = (props) => {
+  const renderSwitch = () => {
     switch (props.userType) {
       case "Developer":
         return <Route exact path="/" component={DeveloperDashboard} />;
@@ -33,6 +34,7 @@ export default function Root(props) {
       <Route exact path="/login" component={LoginForm} />
       <Route exact path="/signup" component={SignupForm} />
       <Route exact path="/logout" component={LoggedOut} />
+      <Route exact path="/issue" component={SubmitIssue} />
     </BrowserRouter>
   );
 }

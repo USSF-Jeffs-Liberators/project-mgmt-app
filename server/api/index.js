@@ -512,6 +512,7 @@ app.get("/issues", (req, res) => {
   });
 });
 
+//Insert an Issue
 app.post("/issues", (req, res) => {
   pool.query(
     "INSERT INTO Issue (project_id, author, issue_desc, severity, issue_timestamp, is_resolved, resolve_date, resolution) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",

@@ -146,7 +146,7 @@ const IssueTracker = () => {
           ))}
         </tbody>
       </table>
-      <button>Add Issue</button>
+      {/* <button>Add Issue</button> */}
       {/* <p>{users[0].issue_id}</p> */}
     </div>
 
