@@ -7,7 +7,7 @@ import DeveloperDashboard from "./views/developer-dashboard";
 import ProjectManagerDashboard from "./views/pm-dashboard";
 import GeneralManagerDashboard from "./views/gm-dashboard";
 
-export default function Root(props) {
+export default function Root() {
   // mock different User_Types
   props = {
     userType: "Developer",
