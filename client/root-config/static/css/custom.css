@@ -150,3 +150,11 @@ nav rux-button {
   float: left;
   height: 250px;
 }
+
+/* Create-Project-Page Styling
+========================================================================== */
+
+#form {
+  max-width: 300px;
+  margin: auto;
+}
