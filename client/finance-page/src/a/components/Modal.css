@@ -4,11 +4,11 @@
 
 .modal-wrapper {
   background-color: #203246;
-  width: 40%;
+  width: 600px;
   margin: 4rem auto;
   transition: all 0.3s;
   position: fixed;
-  margin-top: 15%;
+  margin-top: 10%;
   left: 0;
   right: 0;
   margin-left: auto;
@@ -52,7 +52,7 @@
 }
 
 .back-drop {
-  background: rgba(1, 1, 34, 0.9);
+  background: rgba(0, 23, 36, 0.96);
   height: 100%;
   position: fixed;
   transition: all 1.3s;
@@ -93,18 +93,23 @@ textarea {
 }
 
 .currencyinput {
+  display: inline-block;
   background-color: white;
   color: black;
   padding-left: 5px;
+  font-family: "Open Sans", sans-serif;
+  font-size: 1rem;
   font-weight: bold;
-  border: 1px inset #ccc;
-  border-radius: 5px;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  height: 2.15em;
+  line-height: 2;
 }
 .currencyinput input {
   padding-left: 5px;
   border: 0;
+  font-family: "Open Sans", sans-serif;
+  font-size: 1rem;
 }
 
 .submit-button {
@@ -179,8 +184,8 @@ textarea {
 
 .wrapper {
   position: relative;
-  width: 400px;
-  height: 400px;
+  width: 350px;
+  height: 350px;
   margin: 20px auto;
   display: flex;
   flex-direction: row;
@@ -204,6 +209,75 @@ textarea {
   text-align: center;
 }
 
-.modal-cancel-button {
-  margin-left: 20px;
+.modal-button {
+  margin: 20px
+}
+
+/* Reset Select */
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  outline: 0;
+  box-shadow: none;
+  border: 0 !important;
+  background: #FFFFFF;
+  background-image: none;
+}
+
+/* Remove IE arrow */
+select::-ms-expand {
+  display: none;
+}
+
+/* Custom Select */
+.select-type {
+  position: relative;
+  display: flex;
+  width: 15em;
+  height: 2em;
+  line-height: 2;
+  background: #203246;
+  overflow: hidden;
+  border-radius: .25em;
+}
+
+select {
+  flex: 1;
+  padding: 0 .5em;
+  color: black;
+  cursor: pointer;
+  font-family: "Open Sans", sans-serif;
+  font-size: 1rem;
+}
+
+/* Arrow */
+.select-type::after {
+  content: '\25BC';
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0 1em;
+  background: #005A8F;
+  cursor: pointer;
+  pointer-events: none;
+  -webkit-transition: .25s all ease;
+  -o-transition: .25s all ease;
+  transition: .25s all ease;
+}
+
+/* Transition */
+.select-type:hover::after {
+  background: #3A81BF;
+}
+
+input[type="date"] {
+  width: 12rem;
+  height: 2.15em;
+  line-height: 2;
+  font-family: "Open Sans", sans-serif;
+  font-size: 1rem;
+  border: 1px solid transparent;
+  border-radius: 3px;
 }
