@@ -160,6 +160,9 @@ class FinancePage extends React.Component {
 
   closeFundingRequestModal() {
     this.setState({ showFundingRequestModal: false });
+    document.getElementById("justification").value = "";
+    document.getElementById("suspense-date").value = "";
+    document.getElementById("amount").value = "";
     this.toggleElementsOn()
   }
 
@@ -318,6 +321,66 @@ class FinancePage extends React.Component {
       return "FDC12A";
     }
     return "#ffffff";
+  }
+
+  formatAmount(amount) {
+    if (amount.length > 0 && amount.includes(',')) {
+      amount = amount.replaceAll(',','')
+    }
+    if (!isNaN(amount)) {
+      amount = parseFloat(amount).toFixed(2).toString()
+    }
+    return amount
+  }
+
+  verifyDescription(expenseDesc) {
+    if (expenseDesc.length > 0) {
+      return true
+    }
+    alert('The expense requires a description.')
+  }
+
+  verifyType(expenseType) {
+    if (expenseType.length > 0) {
+      return true
+    }
+    alert('The expense requires a type.')
+  }
+
+  verifyAmount(amount) {
+    if (amount.length > 0) {
+      if (!isNaN(amount)) {
+        if (parseFloat(amount) > 0) {
+          return true
+        } else {
+          alert('The entered amount must be greater than 0.')
+        }
+      } else {
+        alert('The entered amount is not a valid number.')
+      }
+    } else {
+      alert('An amount is required.')
+    }
+  }
+
+  verifyJustification(justification) {
+    if (justification.length > 0) {
+      return true
+    }
+    alert('The funding request requires a justification.')
+  }
+
+  verifyDate(date) {
+    if (date.length > 0) {
+      let suspenseDate = new Date(date)
+      let today = new Date()
+      if (suspenseDate > today) {
+        return true
+      }
+      alert('The suspense date must be after today')
+    } else {
+      alert('A suspense date is required')
+    }
   }
 
   setCircleProgress() {
@@ -613,11 +676,19 @@ class FinancePage extends React.Component {
           closeExpenseModal={this.closeExpenseModal.bind(this)}
           addExpense={this.addExpense.bind(this)}
           updateExpense={this.updateExpense.bind(this)}
+          formatAmount={this.formatAmount.bind(this)}
+          verifyDescription={this.verifyDescription.bind(this)}
+          verifyType={this.verifyType.bind(this)}
+          verifyAmount={this.verifyAmount.bind(this)}
         />
         <FundingRequestModal
           showFundingRequestModal={this.state.showFundingRequestModal}
           closeFundingRequestModal={this.closeFundingRequestModal.bind(this)}
           submitFundingRequest={this.submitFundingRequest.bind(this)}
+          formatAmount={this.formatAmount.bind(this)}
+          verifyJustification={this.verifyJustification.bind(this)}
+          verifyDate={this.verifyDate.bind(this)}
+          verifyAmount={this.verifyAmount.bind(this)}
         />
         <ProjectCost
           selectedProject={this.state.selectedProject}
