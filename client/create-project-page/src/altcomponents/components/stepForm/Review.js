@@ -56,7 +56,7 @@ export const RenderAccordion = ({ summary, details }) => (
           return <li>{`${objKey}: ${objValue}`}</li>;
         })}
       </ul>
-      <button></button>
+      <button><i></i></button>
     </span>
   </rux-accordion>
 );
