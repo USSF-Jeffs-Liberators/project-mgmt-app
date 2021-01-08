@@ -3,16 +3,18 @@ import React, { useEffect, useState } from "react";
 const TeamRoster = (props) => {
     // mock selected project
     props = {
-        userType: "Project Manager",
+        userType: "General Manager",
         project_id: 2
     }
     const [users, setUsers] = useState([]);
     const [team, setTeam] = useState([]);
-    const [dailyRates, setDailyRates] = useState([]);
     const matches = [];
     const unassignedDevelopers = [];
+    const unassignedManagers = [];
     let selectedDeveloper = null;
-    let inputRate = null;
+    let selectedManager = null;
+    let inputDeveloperRate = null;
+    let inputManagerRate = null;
 
     const getAllUsers = async () => {
         try {
@@ -33,16 +35,6 @@ const TeamRoster = (props) => {
     };
 
     useEffect(() => {getTeamRoster()}, []);
-
-    // const getDailyRates = async () => {
-    //     try {
-    //         const response = await fetch(`http://localhost:3001/team-members`);
-    //         const jsonData = await response.json();
-    //         setDailyRates(jsonData);
-    //     } catch (err) {console.error(err.message)}
-    // }
-
-    // useEffect(() => {getDailyRates()}, []);
 
     // match team roster to users
     const getMatches = () => {
@@ -73,23 +65,24 @@ const TeamRoster = (props) => {
                 body: JSON.stringify(body)
             };
             await fetch(`http://localhost:3001/projects/${props.project_id}/team/${id}`, requestOptions)
-              .then(response => response.json())
-              .then(response => {
-              if(response.status === "failed")
-              alert(response.message)})
-            setTeam(team.filter(each => each.user_id !== id));
-        } catch (err) {console.error(err.message)}
-    }
+            .then(response => response.json())
+            .then(response => {
+                if(response.status === "failed")
+                alert(response.message)})
+                setTeam(team.filter(each => each.user_id !== id));
+            } catch (err) {console.error(err.message)}
+        }
+        
+    ////// ADD DEVELOPER //////
+    const handleSelectDeveloper = e => {selectedDeveloper = e.target.value}
+    const handleInputDeveloperRate = e => {inputDeveloperRate = e.target.value}
 
-    const handleSelectMember = e => {selectedDeveloper = e.target.value}
-    const handleInputRate = e => {inputRate = e.target.value}
-
-    const handleAddMember = async () => {
+    const handleAddDeveloper = async () => {
         try {
             let body = { 
                 project_id: props.project_id, 
                 user_id: selectedDeveloper,
-                daily_rate: inputRate
+                daily_rate: inputDeveloperRate
             }
             const requestOptions = {
                 method: 'POST',
@@ -117,26 +110,115 @@ const TeamRoster = (props) => {
         // sort by last name
         unassignedDevelopers.sort((a, b) => (a.last_name > b.last_name ? 1 : -1))
     }
+
+     ////// ADD PROJECT MANAGER //////
+    const handleSelectManager = e => {selectedManager = e.target.value}
+    const handleInputManagerRate = e => {inputManagerRate = e.target.value}
+
+    const handleAddManager = async () => {
+        try {
+            let body = { 
+                project_id: props.project_id, 
+                user_id: selectedManager,
+                daily_rate: inputManagerRate
+            }
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            };
+            await fetch(`http://localhost:3001/team-members`, requestOptions)
+              .then(response => response.json())
+              .then(response => {
+              if(response.status === "failed")
+              alert(response.message)})
+            getTeamRoster();
+            getManagers();
+        } catch (err) {console.error(err.message)}
+    }
+
+    // get managers who are not assigned to this project
+    const getManagers = () => {
+        users.map(user => (team.map(each => {
+            ((user !== each) && (unassignedManagers.indexOf(user) === -1))
+                ? unassignedManagers.push(user) 
+                : null
+        })))
+
+        // sort by last name
+        unassignedManagers.sort((a, b) => (a.last_name > b.last_name ? 1 : -1))
+    }
     
 
     return (
-        <section id="teamRoster">
-            <table className="rux-table">
-                <tbody>
-                    {/* PM Table */}
-                    <tr className="rux_table__column-head">
-                        <th>Project Manager</th>
-                        { props.userType === ("Project Manager" || "General Manager") 
-                            ? <th>Daily Rate</th> : null }
-                        { props.userType === "Project Manager" ? <th>&nbsp;</th> : null }
-                        { props.userType === "General Manager" ? <th>Modify</th> : null }
+        <table id="teamRoster" className="rux-table">
+            <tbody>
+                {/* PM Table */}
+                <tr className="rux_table__column-head">
+                    <th>Project Manager</th>
+                    { props.userType === "Project Manager" || props.userType === "General Manager" 
+                        ? <th>Daily Rate</th> : null }
+                    { props.userType === "Project Manager" ? <th>&nbsp;</th> : null }
+                    { props.userType === "General Manager" ? <th>Modify</th> : null }
+                </tr>
+                <tr>
+                    <td>Person</td>
+                    { props.userType === "Project Manager" || props.userType === "General Manager" 
+                        ? <td>Daily Rate</td> : null }
+                    { props.userType === "Project Manager" ? <td>&nbsp;</td> : null }
+                    { props.userType === "General Manager" 
+                        ? <td><rux-button 
+                            size="small" 
+                            icon="close-large" 
+                            onClick={() => handleDeleteMember(user.user_id)}>
+                            Remove
+                        </rux-button></td>
+                        : null }
+                </tr>
+                { props.userType === "General Manager" 
+                    ? <tr>
+                        <td>
+                        {getManagers()}
+                        <select className="rux-select" onChange={handleSelectManager}>
+                            <option key="All" name="All">Choose Manager:</option>
+                            {unassignedManagers.map(each => (
+                                <option key={each.user_id} value={each.user_id}>
+                                    {each.first_name} {each.last_name}
+                                </option>
+                            ))}
+                        </select>
+                        </td>
+                        <td className="rux-form-field rux-form-field--small">
+                            <label for="input__text">Daily Rate:</label>
+                            <input id="input__text" className="rux-input" type="number" required 
+                            onChange={handleInputManagerRate}/>
+                        </td>
+                        <td><rux-button
+                            size="small"
+                            icon="add-large"
+                            onClick={handleAddManager}>
+                            Add to Team
+                        </rux-button></td>
                     </tr>
-                    <tr>
-                        <td>Person</td>
-                        { props.userType === ("Project Manager" || "General Manager") 
-                            ? <td>Daily Rate</td> : null }
-                        { props.userType === "Project Manager" ? <td>&nbsp;</td> : null }
-                        { props.userType === "General Manager" 
+                    : null }
+                {/* Developer Table */}
+                <tr className="rux_table__column-head">
+                    <th>Developers</th>
+                    { props.userType === "Project Manager" || props.userType === "General Manager"  
+                        ? <th>Daily Rate</th> : null }
+                    { props.userType === "Project Manager" || props.userType === "General Manager" 
+                        ? <th>Modify</th> : null }
+                </tr>
+                {matches.map(user => (
+                    <tr key={user.user_id}>
+                        <td>{user.first_name} {user.last_name}</td>
+                        { props.userType === "Project Manager" || props.userType === "General Manager"  
+                            ? <td>{team.map(each => (
+                                each.user_id === user.user_id 
+                                ? each.daily_rate 
+                                : null
+                            ))}</td> : null }
+                        { props.userType === "Project Manager" || props.userType === "General Manager" 
                             ? <td><rux-button 
                                 size="small" 
                                 icon="close-large" 
@@ -145,92 +227,35 @@ const TeamRoster = (props) => {
                             </rux-button></td>
                             : null }
                     </tr>
-                    { props.userType === "General Manager" 
-                        ? <tr>
-                            <td>
-                            {getDevelopers()}
-                            <select className="rux-select" onChange={handleSelectMember}>
-                                <option key="All" name="All">Choose Manager:</option>
-                                {unassignedDevelopers.map(each => (
-                                    <option key={each.user_id} value={each.user_id}>
-                                        {each.first_name} {each.last_name}
-                                    </option>
-                                ))}
-                            </select>
-                            </td>
-                            <td className="rux-form-field rux-form-field--small">
-                                <label for="input__text">Daily Rate:</label>
-                                <input id="input__text" className="rux-input" type="number" required 
-                                onChange={handleInputRate}/>
-                            </td>
-                            <td><rux-button
-                                size="small"
-                                icon="add-large"
-                                onClick={handleAddMember}>
-                                Add to Team
-                            </rux-button></td>
-                        </tr>
-                        : null }
-                {/* </tbody>
-            </table>
-            <br />
-            <table className="rux-table">
-                <tbody> */}
-                    <tr className="rux_table__column-head">
-                        <th>Developers</th>
-                        { props.userType === ("Project Manager" || "General Manager")  
-                            ? <th>Daily Rate</th> : null }
-                        { props.userType === ("Project Manager" || "General Manager")  
-                            ? <th>Modify</th> : null }
+                ))}
+                { props.userType === "Project Manager" || props.userType === "General Manager"  
+                    ? <tr>
+                        <td>
+                        {getDevelopers()}
+                        <select className="rux-select" onChange={handleSelectDeveloper}>
+                            <option key="All" name="All">Choose Developer:</option>
+                            {unassignedDevelopers.map(each => (
+                                <option key={each.user_id} value={each.user_id}>
+                                    {each.first_name} {each.last_name}
+                                </option>
+                            ))}
+                        </select>
+                        </td>
+                        <td className="rux-form-field rux-form-field--small">
+                            <label for="input__text">Daily Rate:</label>
+                            <input id="input__text" className="rux-input" type="number" required 
+                            onChange={handleInputDeveloperRate}/>
+                        </td>
+                        <td><rux-button
+                            size="small"
+                            icon="add-large"
+                            onClick={handleAddDeveloper}>
+                            Add to Team
+                        </rux-button></td>
                     </tr>
-                    {matches.map(user => (
-                        <tr key={user.user_id}>
-                            <td>{user.first_name} {user.last_name}</td>
-                            { props.userType === ("Project Manager" || "General Manager")  
-                                ? <td>{team.map(each => (
-                                    each.user_id === user.user_id 
-                                    ? each.daily_rate 
-                                    : null
-                                ))}</td> : null }
-                            { props.userType === ("Project Manager" || "General Manager") 
-                                ? <td><rux-button 
-                                    size="small" 
-                                    icon="close-large" 
-                                    onClick={() => handleDeleteMember(user.user_id)}>
-                                    Remove
-                                </rux-button></td>
-                                : null }
-                        </tr>
-                    ))}
-                    { props.userType === ("Project Manager" || "General Manager") 
-                        ? <tr>
-                            <td>
-                            {getDevelopers()}
-                            <select className="rux-select" onChange={handleSelectMember}>
-                                <option key="All" name="All">Choose Developer:</option>
-                                {unassignedDevelopers.map(each => (
-                                    <option key={each.user_id} value={each.user_id}>
-                                        {each.first_name} {each.last_name}
-                                    </option>
-                                ))}
-                            </select>
-                            </td>
-                            <td className="rux-form-field rux-form-field--small">
-                                <label for="input__text">Daily Rate:</label>
-                                <input id="input__text" className="rux-input" type="number" required 
-                                onChange={handleInputRate}/>
-                            </td>
-                            <td><rux-button
-                                size="small"
-                                icon="add-large"
-                                onClick={handleAddMember}>
-                                Add to Team
-                            </rux-button></td>
-                        </tr>
-                        : null }
-                </tbody>
-            </table>
-        </section>
+                    : null }
+            </tbody>
+        </table>
     );
 };
 
