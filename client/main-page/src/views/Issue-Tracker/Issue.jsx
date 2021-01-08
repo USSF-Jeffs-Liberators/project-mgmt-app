@@ -141,7 +141,7 @@ const IssueTracker = () => {
             <tr key={user.issue_id}>
               <td>{user.issue_desc}</td>
               <td>{user.severity}</td>
-              <td>{user.is_resolved}</td>
+              <td>{user.is_resolved.toString()}</td>
             </tr>
           ))}
         </tbody>
