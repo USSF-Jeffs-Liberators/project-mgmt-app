@@ -9,12 +9,15 @@ class CreateProjectPage extends React.Component {
       developerList: [],
       pmList: [],
       gmList: [],
+      currentInput: {
+        value: "",
+      },
+      formData: [],
     };
   }
 
   //fetches users by type, sets state
   async fetchUsers(type) {
-    var res = await fetch("http://localhost:3001/users/" + type);
     var res = await fetch("http://localhost:3001/users/availability/" + type);
     var json = await res.json();
     switch (type) {
@@ -46,17 +49,61 @@ class CreateProjectPage extends React.Component {
     this.fetchUsers("General Manager");
   }
 
+  handleChange(event) {
+    if (!event.target.value) {
+      return;
+    }
+    let val = event.target.value;
+    this.setState({
+      currentInput: { value: val },
+    });
+    console.log(this.state.currentInput.value);
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    if (
+      this.state.currentInput.value.length === 0 ||
+      this.state.currentInput.value === null
+    ) {
+      return;
+    }
+    this.setState({
+      formData: this.state.formData.concat(this.state.currentInput),
+      currentInput: { value: "" },
+    });
+    alert("Your favorite flavor is: " + JSON.stringify(this.state.formData));
+  }
+  // handleSubmit = (event) => {
+  //   alert("A form was submitted: " + this.state.event.target);
+
+  //   // fetch("https://your-node-server-here.com/api/endpoint", {
+  //   //   method: "POST",
+  //   //   // We convert the React state to JSON and send it as the POST body
+  //   //   body: JSON.stringify(this.state.event.target.value),
+  //   // }).then(function (response) {
+  //   //   console.log(response);
+  //   //   return response.json();
+  //   // });
+
+  //   event.preventDefault();
+  // };
+
   render() {
     return (
       <div>
-        <header>
-          <h1> This is from create-project-page.component.js! </h1>
-        </header>
+        <header />
         <UserList
           developers={this.state.developerList}
           projectManagers={this.state.pmList}
+          generalManagers={this.state.gmList}
         />
-        {/* <Form onSubmit={this.handleSubmit.bind(this)}/> */}
+        <Form
+          value={this.state.currentInput.value}
+          formData={this.state.formData}
+          onChange={this.handleChange.bind(this)}
+          onSubmit={this.handleSubmit.bind(this)}
+        />
         <ul>
           <li>Be able to assign developers to work on a project.</li>
           <li>

@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-import CreateProjectPage from "./a/create-project-page.component";
+import CreateProjectPage from "./components/create-project-page.component";
 
 export default function Root(props) {
   return (
