@@ -56,7 +56,12 @@ export const RenderAccordion = ({ summary, details }) => (
           return <li>{`${objKey}: ${objValue}`}</li>;
         })}
       </ul>
-      <button><i></i></button>
+      <rux-button size="small" iconOnly>
+          <rux-icon icon="custom" library="/icons/custom.svg"/>
+      </rux-button>
+      <rux-button size="small" iconOnly>
+          <rux-icon icon="triangle" library="/icons/custom.svg"/>
+      </rux-button>
     </span>
   </rux-accordion>
 );
