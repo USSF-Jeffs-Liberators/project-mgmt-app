@@ -1,7 +1,8 @@
 import React from "react";
 import { RuxAccordion } from "../Accordion/rux-accordion";
 
-export const Review = ({ formData }) => {
+export const Review = ({ formData, navigation }) => {
+  const { go } = navigation;
   const {
     firstName,
     lastName,
@@ -19,6 +20,7 @@ export const Review = ({ formData }) => {
       <h1>Review</h1>
       <RenderAccordion
         summary="Names"
+        go={ go }
         details={[
           { 'First Name': firstName },
           { 'Last Name': lastName },
@@ -27,6 +29,7 @@ export const Review = ({ formData }) => {
       />
       <RenderAccordion
         summary="Address"
+        go={ go }
         details={[
           { 'Address': address },
           { 'City': city },
@@ -36,16 +39,21 @@ export const Review = ({ formData }) => {
       />
       <RenderAccordion
         summary="Contact"
-        details={[
-            { 'Phone': phone }, 
-            { 'E-Mail': email }
-        ]}
+        go={ go }
+        details={[{ 'Phone': phone }, { 'E-Mail': email }]}
       />
+      <button
+        className="rux-button"
+        type="button"
+        style={{ marginTop: "1rem" }}
+      >
+        Submit
+      </button>
     </div>
   );
 };
 
-export const RenderAccordion = ({ summary, details }) => (
+export const RenderAccordion = ({ summary, details, go }) => (
   <rux-accordion>
     <span slot="label">{summary}</span>
     <span slot="content">
@@ -56,11 +64,8 @@ export const RenderAccordion = ({ summary, details }) => (
           return <li>{`${objKey}: ${objValue}`}</li>;
         })}
       </ul>
-      <rux-button size="small" iconOnly>
-          <rux-icon icon="custom" library="/icons/custom.svg"/>
-      </rux-button>
-      <rux-button size="small" iconOnly>
-          <rux-icon icon="triangle" library="/icons/custom.svg"/>
+      <rux-button size="small" iconOnly onClick={() => go(`${summary.toLowerCase()}`)}>
+        <rux-icon icon="resources" library="/icons/astro.svg" />
       </rux-button>
     </span>
   </rux-accordion>
