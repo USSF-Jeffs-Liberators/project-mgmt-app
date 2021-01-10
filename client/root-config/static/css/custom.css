@@ -168,3 +168,11 @@ ul {
 li {
   margin-bottom: 1em;
 }
+
+pre {
+  max-width:300px;
+  margin: auto;
+  background: white;
+  color: black;
+  padding: 2em;
+}

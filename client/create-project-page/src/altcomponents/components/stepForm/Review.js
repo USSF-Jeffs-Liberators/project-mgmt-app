@@ -46,6 +46,7 @@ export const Review = ({ formData, navigation }) => {
         className="rux-button"
         type="button"
         style={{ marginTop: "1rem" }}
+        onClick={() => go('submit')}
       >
         Submit
       </button>
