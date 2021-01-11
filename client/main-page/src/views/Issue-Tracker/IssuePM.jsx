@@ -101,7 +101,13 @@ const IssueTrackerPM = () =>
         
     //     applyCustomOrder(projIssuesSeverity, orderIWant);
     // }
-  
+
+    function saveIssues(priority)
+    {
+      console.log("HELLO SAVE ISSUES FUNCTION")
+      console.log(priority);
+    }
+
     return (
       <div>
         <table className="rux-table">
@@ -120,11 +126,28 @@ const IssueTrackerPM = () =>
                 <td>{user.issue_desc}</td>
                 <td>{user.issue_timestamp}</td>
                 <td><rux-button type="button">{user.is_resolved.toString()}</rux-button></td>
-                <td><rux-button type="button">{user.severity}</rux-button></td>
+
+                <td>
+                  <select id="priority" className="rux-button" type="text" onChange={() => {
+                    let priority = document.getElementById("priority").value;
+
+                    saveIssues(priority);
+
+
+                  }} required>
+                    <option value ="" selected disabled hidden>{user.severity}</option>
+                    <option value = "low">Low</option>
+                    <option value = "medium">Medium</option>
+                    <option value = "high">High</option>
+                  </select>
+
+                </td>
+                
               </tr>
             ))}
           </tbody>
         </table>
+
       </div>
     );
 }
