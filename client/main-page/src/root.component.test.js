@@ -1,10 +1,10 @@
-import Enzyme from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
+import Enzyme from "enzyme";
+import Adapter from "enzyme-adapter-react-16";
 import React from "react";
 import { shallow } from "enzyme";
 import Root from "./root.component";
 
-Enzyme.configure({ adapter: new Adapter() })
+Enzyme.configure({ adapter: new Adapter() });
 
 
 // describe("Home Page", () => {

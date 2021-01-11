@@ -25,11 +25,6 @@ export const links = {
             class: "dashboardLink"
         },
         {
-            name: "View Tasks",
-            href: "tasks",
-            class: "taskLink"
-        },
-        {
             name: "Submit Issue",
             href: "issue",
             class: "issueLink"
@@ -42,11 +37,6 @@ export const links = {
             class: "dashboardLink"
         },
         {
-            name: "Manage Tasks",
-            href: "tasks",
-            class: "taskLink"
-        },
-        {
             name: "View Financials",
             href: "finance",
             class: "financeLink"
@@ -54,14 +44,14 @@ export const links = {
     ],
     generalManager: [
         {
-            name: "Manage All Projects",
-            href: "projects",
-            class: "projectsLink"
+            name: "Project Dashboard",
+            href: "",
+            class: "dashboardLink"
         },
         {
-            name: "Manage Teams",
-            href: "teams",
-            class: "teamsLink"
+            name: "Create a Project",
+            href: "create-project",
+            class: "createProjectLink"
         },
         {
             name: "View Financials",

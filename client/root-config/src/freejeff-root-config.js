@@ -18,7 +18,7 @@ const routes = constructRoutes(document.querySelector("#single-spa-layout"), {
     mainPage: "<p>Loading main-page</p>",
     createProjectPage: "<p>Loading create-project-page</p>",
     financePage: "<p>Loading finance-page</p>",
-    ganttChart: "<p>Loading gantt-chart</p>"
+    ganttChart: "<p>Loading gantt-chart</p>",
   },
   errors: {
     navbar: "<p>Failed to load navbar</p>",
