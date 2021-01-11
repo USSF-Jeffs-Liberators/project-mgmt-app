@@ -561,6 +561,10 @@ app.post("/issues", (req, res) => {
     }
   );
 });
+
+//Update an Issue
+
+
 //
 // ~~~~~ /funding-requests Endpoints: ~~~~~
 //
