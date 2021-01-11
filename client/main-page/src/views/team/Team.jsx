@@ -8,8 +8,11 @@ const TeamRoster = (props) => {
     }
     const [users, setUsers] = useState([]);
     const [team, setTeam] = useState([]);
-    const [userRoles, setUserRoles] = useState([]);
+    const [allDevelopers, setAllDevelopers] = useState([])
+    const [allManagers, setAllManagers] = useState([]);
     const matches = [];
+    const projectDevelopers = [];
+    const projectManagers = [];
     const unassignedDevelopers = [];
     const unassignedManagers = [];
     let selectedDeveloper = null;
@@ -37,31 +40,42 @@ const TeamRoster = (props) => {
 
     useEffect(() => {getTeamRoster()}, []);
 
-    const getUserRoles = async () => {
+    const getAllDevelopers = async () => {
         try {
-            const response = await fetch(`http://localhost:3001/user-roles`);
+            const response = await fetch(`http://localhost:3001/users/type/Developer`);
             const jsonData = await response.json();
-            setUserRoles(jsonData);
+            setAllDevelopers(jsonData);
         } catch (err) {console.error(err.message)}
     };
 
-    useEffect(() => {getUserRoles()}, []);
+    useEffect(() => {getAllDevelopers()}, []);
 
-    console.log(userRoles);
+    const getAllManagers = async () => {
+        try {
+            const response = await fetch(`http://localhost:3001/users/type/Project%20Manager`);
+            const jsonData = await response.json();
+            setAllManagers(jsonData);
+        } catch (err) {console.error(err.message)}
+    };
+
+    useEffect(() => {getAllManagers()}, []);
 
     // match team roster to users
     const getMatches = () => {
         team.map(each => (users.map(user => {
             each.user_id === user.user_id ? matches.push(user) : null
         })))
-        // sort by last name
-        matches.sort((a, b) => (a.last_name > b.last_name ? 1 : -1))
-        matches.map(each => {
-            if (each.user_type === "Project Manager") {
-                matches.splice(matches.indexOf(each), 1)
-                matches.unshift(each)
-            }
-        })
+
+        matches.map(each => (allDevelopers.map(developer => {
+            each.user_id === developer.user_id ? projectDevelopers.push(developer) : null
+        })))
+
+        matches.map(each => (allManagers.map(manager => {
+            each.user_id === manager.user_id ? projectManagers.push(manager) : null
+        })))
+
+        projectDevelopers.sort((a, b) => (a.last_name > b.last_name ? 1 : -1))
+        projectManagers.sort((a, b) => (a.last_name > b.last_name ? 1 : -1))
     }
 
     getMatches();
@@ -108,15 +122,15 @@ const TeamRoster = (props) => {
               if(response.status === "failed")
               alert(response.message)})
             getTeamRoster();
-            getDevelopers();
+            getMatches();
         } catch (err) {console.error(err.message)}
     }
 
     // get developers who are not assigned to this project
     const getDevelopers = () => {
-        users.map(user => (team.map(each => {
-            ((user !== each) && (unassignedDevelopers.indexOf(user) === -1))
-                ? unassignedDevelopers.push(user) 
+        allDevelopers.map(developer => (team.map(each => {
+            ((developer.user_id !== each.user_id) && (unassignedDevelopers.indexOf(developer) === -1))
+                ? unassignedDevelopers.push(developer) 
                 : null
         })))
 
@@ -152,35 +166,15 @@ const TeamRoster = (props) => {
 
     // get managers who are not assigned to this project
     const getManagers = () => {
-        users.map(user => (team.map(each => {
-            ((user !== each) && (unassignedManagers.indexOf(user) === -1))
-                ? unassignedManagers.push(user) 
+        allManagers.map(manager => (team.map(each => {
+            ((manager.user_id !== each.user_id) && (unassignedManagers.indexOf(manager) === -1))
+                ? unassignedManagers.push(manager) 
                 : null
         })))
 
         // sort by last name
         unassignedManagers.sort((a, b) => (a.last_name > b.last_name ? 1 : -1))
     }
-
-    // ternary version of this function below. Saved this in case ternary version breaks :p
-    // const getDollarFigure = (amount) => {
-    //     if (amount === undefined || amount === null) {
-    //       return "";
-    //     }
-    //     var output =
-    //       "$" + amount.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-    //     if (output.includes(".")) {
-    //       if (output.split(".")[1].length === 0) {
-    //         output += "00";
-    //       }
-    //       if (output.split(".")[1].length === 1) {
-    //         output += "0";
-    //       }
-    //     } else {
-    //       output += ".00";
-    //     }
-    //     return output;
-    //   }
 
     const getDollarFigure = (amount) => {
         amount === undefined || amount === null ? "" : null;
@@ -203,27 +197,33 @@ const TeamRoster = (props) => {
                     { props.userType === "Project Manager" ? <th>&nbsp;</th> : null }
                     { props.userType === "General Manager" ? <th>Modify</th> : null }
                 </tr>
-                <tr>
-                    <td>Person</td>
-                    { props.userType === "Project Manager" || props.userType === "General Manager" 
-                        ? <td>Daily Rate</td> : null }
-                    { props.userType === "Project Manager" ? <td>&nbsp;</td> : null }
-                    { props.userType === "General Manager" 
-                        ? <td><rux-button 
-                            size="small" 
-                            icon="close-large" 
-                            onClick={() => handleDeleteMember(user.user_id)}>
-                            Remove
-                        </rux-button></td>
-                        : null }
-                </tr>
+                {projectManagers.map(user => (
+                    <tr key={user.user_id}>
+                        <td>{user.first_name} {user.last_name}</td>
+                        { props.userType === "General Manager"  
+                            ? <td>{team.map(each => (
+                                each.user_id === user.user_id 
+                                ? getDollarFigure(each.daily_rate)
+                                : null
+                            ))}</td> : null }
+                        { props.userType === "Project Manager" ? <td>&nbsp;</td> : null }
+                        { props.userType === "General Manager" 
+                            ? <td><rux-button 
+                                size="small" 
+                                icon="close-large" 
+                                onClick={() => handleDeleteMember(user.user_id)}>
+                                Remove
+                            </rux-button></td>
+                            : null }
+                        { props.userType === "Project Manager" ? <td>&nbsp;</td> : null }
+                    </tr>
+                ))}
                 { props.userType === "General Manager" 
                     ? <tr>
                         <td>
-                        {getManagers()}
                         <select className="rux-select" onChange={handleSelectManager}>
                             <option key="All" name="All">Choose Manager:</option>
-                            {unassignedManagers.map(each => (
+                            {allManagers.map(each => (
                                 <option key={each.user_id} value={each.user_id}>
                                     {each.first_name} {each.last_name}
                                 </option>
@@ -243,6 +243,7 @@ const TeamRoster = (props) => {
                         </rux-button></td>
                     </tr>
                     : null }
+                    
                 {/* Developer Table */}
                 <tr className="rux_table__column-head">
                     <th>Developers</th>
@@ -251,7 +252,7 @@ const TeamRoster = (props) => {
                     { props.userType === "Project Manager" || props.userType === "General Manager" 
                         ? <th>Modify</th> : null }
                 </tr>
-                {matches.map(user => (
+                {projectDevelopers.map(user => (
                     <tr key={user.user_id}>
                         <td>{user.first_name} {user.last_name}</td>
                         { props.userType === "Project Manager" || props.userType === "General Manager"  
@@ -273,10 +274,9 @@ const TeamRoster = (props) => {
                 { props.userType === "Project Manager" || props.userType === "General Manager"  
                     ? <tr>
                         <td>
-                        {getDevelopers()}
                         <select className="rux-select" onChange={handleSelectDeveloper}>
                             <option key="All" name="All">Choose Developer:</option>
-                            {unassignedDevelopers.map(each => (
+                            {allDevelopers.map(each => (
                                 <option key={each.user_id} value={each.user_id}>
                                     {each.first_name} {each.last_name}
                                 </option>
