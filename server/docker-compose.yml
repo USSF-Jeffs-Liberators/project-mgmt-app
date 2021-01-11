@@ -21,10 +21,11 @@ services:
       - 3001:3001
     depends_on:
       - "database"
+
   auth-api:
     build: user_auth_api2
     volumes:
-      - ./user_auth_api2:/src/app
+      - ./user_auth_api2:/server
     ports:
       - 8080:8080
     depends_on:
