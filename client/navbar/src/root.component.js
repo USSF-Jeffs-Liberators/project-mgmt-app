@@ -6,33 +6,48 @@ const history = createBrowserHistory();
 
 export default function Root(props) {
   // mock logged in/out and user type
-  props = {
-    loggedIn: true,
-    userType: "Developer"
-  };
+  const [currentUser, setCurrentUser] = useState(undefined);
+  const [loggedIn, setLoggedIn] = useState(false);
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
 
+    if (user) {
+      setCurrentUser(user);
+      setLoggedIn(true);
+    }
+  }, []);
+  
+  // props = {
+  //   loggedIn: true,
+  //   userType: 
+  // };
   let buttonLinks = [];
   let tabLinks = [];
 
   // show login/signup buttons if logged out; otherwise enable log out if logged in
-  props.loggedIn ? 
+  loggedIn ? 
   buttonLinks = links.loggedIn :
   buttonLinks = links.loggedOut
 
   // tabs vary depending on the type of user logged in
-  switch (props.userType) {
-    case "Developer":
-      tabLinks = links.developer;
-      break;
-    case "Project Manager":
-      tabLinks = links.projectManager;
-      break;
-    case "General Manager":
-      tabLinks = links.generalManager;
-      break;
-    default:
-      tabLinks = [];
+  if(currentUser){
+    switch (currentUser.roles[0]) {
+      case "Developer":
+        tabLinks = links.developer;
+        break;
+      case "Project Manager":
+        tabLinks = links.projectManager;
+        break;
+      case "General Manager":
+        tabLinks = links.generalManager;
+        break;
+      default:
+        tabLinks = [];
+    }
+  } else {
+    tabLinks = [];
   }
+  
 
   return (
     <rux-global-status-bar className="dark-theme">

@@ -1,11 +1,11 @@
 import React from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-import CreateProjectPage from "./components/create-project-page.component";
+import App from "./altcomponents/App";
 
 export default function Root(props) {
   return (
     <BrowserRouter>
-      <Route exact path="/create-project" component={CreateProjectPage} />
+      <Route exact path="/create-project" component={App} />
     </BrowserRouter>
   );
 }

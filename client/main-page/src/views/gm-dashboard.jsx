@@ -1,8 +1,11 @@
 import React from "react";
+
 import IssueTrackerGM from "./Issue-Tracker/IssueGM";
+import GanttChart from "./gantt-chart/App";
+import ProjectRequirements from "./requirements/Requirements";
+
 
 export default function GeneralManagerDashboard(props) {
-
   return (
     <div className="dashboard" id="gmDashboard">
       <section className="project-timeline col-s-12 col-8"><h5>Selected Project Gantt Chart</h5></section>
