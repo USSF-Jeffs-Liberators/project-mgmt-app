@@ -1,9 +1,12 @@
 import React from "react";
 import { createBrowserHistory } from "history";
+import AuthService from "../services/auth.service";
 
 const history = createBrowserHistory();
 
 export default function LoggedOut(props) {
+  
+  AuthService.logout();
 
   return (
     <div id="loggedOutPage">
