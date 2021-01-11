@@ -18,7 +18,6 @@ export const ProjTimeline = ({ formData, setForm, navigation }) => {
             min="2020-01-01"
             max="2041-01-01"
             onChange={setForm}
-            autoComplete="off"
             style={{ marginTop: "6px" }}
           />
         </div>
@@ -33,7 +32,6 @@ export const ProjTimeline = ({ formData, setForm, navigation }) => {
             min="2020-01-01"
             max="2041-01-01"
             onChange={setForm}
-            autoComplete="off"
             style={{ marginTop: "6px" }}
           />
         </div>

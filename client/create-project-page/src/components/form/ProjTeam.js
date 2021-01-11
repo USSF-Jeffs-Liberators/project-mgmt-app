@@ -25,8 +25,8 @@ export const AvailableUsers = ({ navigation, userData, formData }) => {
   }
 
   return (
-    <div>
-      <h1>Available Team Members</h1>
+    <div style={{ margin: "auto", maxWidth: "90%" }}>
+      <h1 style={{ marginTop: "26px" }}>Available Team Members</h1>
       <RenderAccordion
         summary="Project Managers"
         availUsers={filterUsers("Project Manager")}
