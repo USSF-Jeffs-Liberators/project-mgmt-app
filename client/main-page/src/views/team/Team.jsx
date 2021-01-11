@@ -8,6 +8,7 @@ const TeamRoster = (props) => {
     }
     const [users, setUsers] = useState([]);
     const [team, setTeam] = useState([]);
+    const [userRoles, setUserRoles] = useState([]);
     const matches = [];
     const unassignedDevelopers = [];
     const unassignedManagers = [];
@@ -35,6 +36,18 @@ const TeamRoster = (props) => {
     };
 
     useEffect(() => {getTeamRoster()}, []);
+
+    const getUserRoles = async () => {
+        try {
+            const response = await fetch(`http://localhost:3001/user-roles`);
+            const jsonData = await response.json();
+            setUserRoles(jsonData);
+        } catch (err) {console.error(err.message)}
+    };
+
+    useEffect(() => {getUserRoles()}, []);
+
+    console.log(userRoles);
 
     // match team roster to users
     const getMatches = () => {
@@ -148,7 +161,36 @@ const TeamRoster = (props) => {
         // sort by last name
         unassignedManagers.sort((a, b) => (a.last_name > b.last_name ? 1 : -1))
     }
-    
+
+    // ternary version of this function below. Saved this in case ternary version breaks :p
+    // const getDollarFigure = (amount) => {
+    //     if (amount === undefined || amount === null) {
+    //       return "";
+    //     }
+    //     var output =
+    //       "$" + amount.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+    //     if (output.includes(".")) {
+    //       if (output.split(".")[1].length === 0) {
+    //         output += "00";
+    //       }
+    //       if (output.split(".")[1].length === 1) {
+    //         output += "0";
+    //       }
+    //     } else {
+    //       output += ".00";
+    //     }
+    //     return output;
+    //   }
+
+    const getDollarFigure = (amount) => {
+        amount === undefined || amount === null ? "" : null;
+        let output = "$" + amount.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+        output.includes(".") ? 
+            output.split(".")[1].length === 0 ? output += "00" : 
+            output.split(".")[1].length === 1 ? output += "0" : null
+         : output += ".00";
+        return output;
+    }
 
     return (
         <table id="teamRoster" className="rux-table">
@@ -215,7 +257,7 @@ const TeamRoster = (props) => {
                         { props.userType === "Project Manager" || props.userType === "General Manager"  
                             ? <td>{team.map(each => (
                                 each.user_id === user.user_id 
-                                ? each.daily_rate 
+                                ? getDollarFigure(each.daily_rate)
                                 : null
                             ))}</td> : null }
                         { props.userType === "Project Manager" || props.userType === "General Manager" 
