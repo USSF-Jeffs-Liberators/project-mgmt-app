@@ -18,7 +18,7 @@ class CreateProjectPage extends React.Component {
 
   //fetches users by role, sets state
   async fetchUsers(role) {
-    var res = await fetch("http://localhost:3001/users/availability/" + role);
+    var res = await fetch("http://localhost:3001/users/projects/" + role);
     var json = await res.json();
     switch (role) {
       case "Developer":
