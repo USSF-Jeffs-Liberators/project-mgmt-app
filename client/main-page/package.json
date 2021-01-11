@@ -53,9 +53,13 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
+    "axios": "^0.21.1",
+    "bootstrap": "^4.5.3",
+    "dhtmlx-gantt": "^7.0.11",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-router-dom": "^5.2.0",
-    "dhtmlx-gantt": "^7.0.11"
+    "react-validation": "^3.0.7",
+    "validator": "^13.5.2"
   }
 }
