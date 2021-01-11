@@ -2,6 +2,7 @@ import React from "react";
 import ProjectCost from "./ProjectCost";
 import { FundingRequestModal } from "./components/FundingRequestModal";
 import { ExpenseModal } from "./components/ExpenseModal";
+import { ReviewModal } from "./components/ReviewModal";
 
 var dial = null;
 
@@ -11,6 +12,7 @@ class FinancePage extends React.Component {
     this.state = {
       user_id: 4,
       project_num: 3,
+      userType: 'Project Manager',
       users: [],
       selectedProject: {},
       teamMembers: [],
@@ -18,6 +20,13 @@ class FinancePage extends React.Component {
       projectTasks: [],
       projectFundingRequests: [],
       displayProjectCosts: false,
+      showFundingRequestModal: false,
+      showExpenseModal: false,
+      showReviewModal: false,
+      selectedExpense: null,
+      selectedFundingRequest: null,
+      isProgressBarDisplayed: false,
+      progress: 0,
       months: [
         "JAN",
         "FEB",
@@ -31,34 +40,15 @@ class FinancePage extends React.Component {
         "OCT",
         "NOV",
         "DEC",
-      ],
-      showFundingRequestModal: false,
-      showExpenseModal: false,
-      selectedExpense: null,
-      isProgressBarDisplayed: false,
-      progress: 0,
+      ]
     };
   }
 
   async componentDidMount() {
     await this.getProject(this.state.project_num);
-
-    const response1 = await fetch(`http://localhost:3001/users`);
-    const json1 = await response1.json();
-    this.setState({ users: json1 });
-
-    const response2 = await fetch(
-      `http://localhost:3001/projects/${this.state.selectedProject.project_id}/team`
-    );
-    const json2 = await response2.json();
-    this.setState({ teamMembers: json2 });
-
-    const response4 = await fetch(
-      `http://localhost:3001/projects/${this.state.selectedProject.project_id}/tasks`
-    );
-    const json4 = await response4.json();
-    this.setState({ projectTasks: json4 });
-
+    this.getUsers()
+    this.getTeamMembers()
+    this.getTasks()
     this.getExpenses();
     this.getFundingRequests();
   }
@@ -69,6 +59,28 @@ class FinancePage extends React.Component {
     );
     const json = await response.json();
     this.setState({ selectedProject: json[0] }); // TEST FOR PROJECT 3
+  }
+
+  async getUsers() {
+    const response1 = await fetch(`http://localhost:3001/users`);
+    const json1 = await response1.json();
+    this.setState({ users: json1 });
+  }
+
+  async getTeamMembers() {
+    const response2 = await fetch(
+      `http://localhost:3001/projects/${this.state.selectedProject.project_id}/team`
+    );
+    const json2 = await response2.json();
+    this.setState({ teamMembers: json2 });
+  }
+
+  async getTasks() {
+    const response4 = await fetch(
+      `http://localhost:3001/projects/${this.state.selectedProject.project_id}/tasks`
+    );
+    const json4 = await response4.json();
+    this.setState({ projectTasks: json4 });
   }
 
   async getExpenses() {
@@ -120,6 +132,19 @@ class FinancePage extends React.Component {
     return payRate;
   }
 
+  getFullName(user_id) {
+    if (user_id === null) {
+      return "N/A";
+    }
+    for (var i = 0; i < this.state.users.length; i++) {
+      if (this.state.users[i].user_id === user_id) {
+        return (
+          this.state.users[i].first_name + " " + this.state.users[i].last_name
+        );
+      }
+    }
+  }
+
   getDollarFigure(amount) {
     if (amount === undefined || amount === null) {
       return "";
@@ -153,19 +178,20 @@ class FinancePage extends React.Component {
     );
   }
 
-  openFundingRequestModal() {
-    this.setState({ showFundingRequestModal: true });
-    this.toggleElementsOff()
-  }
-
-  closeFundingRequestModal() {
-    this.setState({ showFundingRequestModal: false });
-    this.toggleElementsOn()
+  hasPendingFundingRequest(fundingRequests) {
+    if (fundingRequests.length !== 0) {
+      for (let i = 0; i < fundingRequests.length; i++) {
+        if (fundingRequests[i].review_status === 'Pending Review') {
+          return true
+        }
+      }
+    }
+    return false
   }
 
   openExpenseModal(expense) {
     this.setState({ selectedExpense: expense });
-    this.setInput(expense);
+    this.setExpenseModalElements(expense);
     this.setState({ showExpenseModal: true });
     this.toggleElementsOff()
   }
@@ -173,6 +199,32 @@ class FinancePage extends React.Component {
   closeExpenseModal() {
     this.setState({ selectedExpense: null });
     this.setState({ showExpenseModal: false });
+    this.toggleElementsOn()
+  }
+
+  openFundingRequestModal(request) {
+    this.setState({selectedFundingRequest:request})
+    this.setFundingRequestModalElements(request)
+    this.setState({ showFundingRequestModal: true });
+    this.toggleElementsOff()
+  }
+
+  closeFundingRequestModal() {
+    this.setState({ selectedFundingRequest: null });
+    this.setState({ showFundingRequestModal: false });
+    this.toggleElementsOn()
+  }
+
+  openReviewModal(request) {
+    this.setState({selectedFundingRequest:request})
+    this.setReviewModalElements(request)
+    this.setState({ showReviewModal: true });
+    this.toggleElementsOff()
+  }
+
+  closeReviewModal() {
+    this.setState({ selectedFundingRequest: null });
+    this.setState({ showReviewModal: false });
     this.toggleElementsOn()
   }
 
@@ -189,7 +241,7 @@ class FinancePage extends React.Component {
     document.querySelector("#progress-svg").style.display = 'inline-flex';
   }
 
-  setInput(expense) {
+  setExpenseModalElements(expense) {
     if (expense !== null) {
       document.getElementById("expense-desc").value = expense.expense_desc;
       document.getElementById("expense-type").value = expense.expense_type;
@@ -201,36 +253,24 @@ class FinancePage extends React.Component {
     }
   }
 
-  getFullName(user_id) {
-    if (user_id === null) {
-      return "N/A";
-    }
-    for (var i = 0; i < this.state.users.length; i++) {
-      if (this.state.users[i].user_id === user_id) {
-        return (
-          this.state.users[i].first_name + " " + this.state.users[i].last_name
-        );
-      }
+  setFundingRequestModalElements(request) {
+    if (request !== null) {
+      document.getElementById("request-justification").value = request.justification;
+      document.getElementById("request-suspense-date").value = new Date(request.suspense_date).toISOString().split('T')[0];
+      document.getElementById("request-amount").value = request.request_amount;
+    } else {
+      document.getElementById("request-justification").value = "";
+      document.getElementById("request-suspense-date").value = "";
+      document.getElementById("request-amount").value = "";
     }
   }
 
-  async submitFundingRequest(amount, justification, suspenseDate) {
-    var fundingRequest = {};
-    fundingRequest.project_id = this.state.selectedProject.project_id;
-    fundingRequest.initiator = this.state.user_id;
-    fundingRequest.request_amount = amount;
-    fundingRequest.justification = justification;
-    fundingRequest.submit_date = new Date().toISOString().slice(0, 10);
-    fundingRequest.suspense_date = suspenseDate;
-
-    await fetch("http://localhost:3001/funding-requests", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(fundingRequest),
-    });
-    this.getFundingRequests();
+  setReviewModalElements(request) {
+    document.getElementById("review-submitted-by").innerHTML = `Submitted By:  ${this.getFullName(request.initiator)}`
+    document.getElementById("review-submit-date").innerHTML = `Submit Date:  ${this.parseDatabaseDate(request.submit_date)}`
+    document.getElementById("review-amount").innerHTML = `Amount:  ${this.getDollarFigure(request.request_amount)}`
+    document.getElementById("review-justification").value = request.justification
+    document.getElementById("review-suspense-date").innerHTML = `Suspense Date:  ${this.parseDatabaseDate(request.suspense_date)}`
   }
 
   async addExpense(expenseDesc, expenseType, expenseAmount) {
@@ -251,7 +291,7 @@ class FinancePage extends React.Component {
     await this.updateCurrentCost(expenseAmount);
   }
 
-  async updateExpense(expenseDesc, expenseType, expenseAmount) {
+  async editExpense(expenseDesc, expenseType, expenseAmount) {
     var expense = {};
     expense.project_id = this.state.selectedProject.project_id;
     expense.expense_desc = expenseDesc;
@@ -259,7 +299,7 @@ class FinancePage extends React.Component {
     expense.expense_amount = expenseAmount;
 
     await fetch(
-      `http://localhost:3001/expenses/${this.state.selectedExpense.expense_id}`,
+      `http://localhost:3001/edit-expense/${this.state.selectedExpense.expense_id}`,
       {
         method: "POST",
         headers: {
@@ -289,7 +329,7 @@ class FinancePage extends React.Component {
     newCurrentCost += parseFloat(expenseAmount);
 
     await fetch(
-      `http://localhost:3001/projects/${this.state.selectedProject.project_id}`,
+      `http://localhost:3001/update-project-cost/${this.state.selectedProject.project_id}`,
       {
         method: "POST",
         headers: {
@@ -307,6 +347,73 @@ class FinancePage extends React.Component {
     this.setState({ isProgressBarDisplayed: false });
   }
 
+  async createFundingRequest(amount, justification, suspenseDate) {
+    var fundingRequest = {};
+    fundingRequest.project_id = this.state.selectedProject.project_id;
+    fundingRequest.initiator = this.state.user_id;
+    fundingRequest.request_amount = amount;
+    fundingRequest.justification = justification;
+    fundingRequest.submit_date = new Date().toISOString().slice(0, 10);
+    fundingRequest.suspense_date = suspenseDate;
+
+    await fetch("http://localhost:3001/funding-requests", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(fundingRequest),
+    });
+    this.getFundingRequests();
+  }
+
+  async editFundingRequest(amount, justification, suspenseDate) {
+    var fundingRequest = {};
+    fundingRequest.project_id = this.state.selectedProject.project_id;
+    fundingRequest.request_amount = amount;
+    fundingRequest.justification = justification;
+    fundingRequest.suspense_date = suspenseDate;
+
+    await fetch(
+      `http://localhost:3001/edit-funding-requests/${this.state.selectedFundingRequest.request_id}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(fundingRequest),
+      }
+    );
+    await this.getFundingRequests();
+  }
+
+  async deleteFundingRequest(request) {
+    await fetch(`http://localhost:3001/funding-requests/${request.request_id}`, {
+      method: "DELETE",
+    });
+    this.getFundingRequests();
+  }
+
+  async reviewFundingRequest(reviewNote, reviewStatus) {
+    var fundingRequest = {};
+    fundingRequest.project_id = this.state.selectedProject.project_id;
+    fundingRequest.review_date = new Date().toISOString().slice(0, 10);
+    fundingRequest.review_status = reviewStatus
+    fundingRequest.review_note = reviewNote
+    fundingRequest.reviewed_by = this.state.user_id;
+
+    await fetch(
+      `http://localhost:3001/review-funding-requests/${this.state.selectedFundingRequest.request_id}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(fundingRequest),
+      }
+    );
+    this.getFundingRequests();
+  }
+
   getStatusColor(status) {
     if (status === "Approved") {
       return "#08DB0F";
@@ -318,6 +425,66 @@ class FinancePage extends React.Component {
       return "FDC12A";
     }
     return "#ffffff";
+  }
+
+  formatAmount(amount) {
+    if (amount.length > 0 && amount.includes(',')) {
+      amount = amount.replaceAll(',','')
+    }
+    if (!isNaN(amount)) {
+      amount = parseFloat(amount).toFixed(2).toString()
+    }
+    return amount
+  }
+
+  verifyDescription(expenseDesc) {
+    if (expenseDesc.length > 0) {
+      return true
+    }
+    alert('The expense requires a description.')
+  }
+
+  verifyType(expenseType) {
+    if (expenseType.length > 0) {
+      return true
+    }
+    alert('The expense requires a type.')
+  }
+
+  verifyAmount(amount) {
+    if (amount.length > 0) {
+      if (!isNaN(amount)) {
+        if (parseFloat(amount) > 0) {
+          return true
+        } else {
+          alert('The entered amount must be greater than 0.')
+        }
+      } else {
+        alert('The entered amount is not a valid number.')
+      }
+    } else {
+      alert('An amount is required.')
+    }
+  }
+
+  verifyJustification(justification) {
+    if (justification.length > 0) {
+      return true
+    }
+    alert('The funding request requires a justification.')
+  }
+
+  verifyDate(date) {
+    if (date.length > 0) {
+      let suspenseDate = new Date(date)
+      let today = new Date()
+      if (suspenseDate > today) {
+        return true
+      }
+      alert('The suspense date must be after today.')
+    } else {
+      alert('A suspense date is required.')
+    }
   }
 
   setCircleProgress() {
@@ -590,14 +757,6 @@ class FinancePage extends React.Component {
   render() {
     return (
       <div>
-        {this.state.showFundingRequestModal ? (
-          <div
-            className="back-drop"
-            onClick={() => {
-              this.closeFundingRequestModal();
-            }}
-          ></div>
-        ) : null}
         {this.state.showExpenseModal ? (
           <div
             className="back-drop"
@@ -606,20 +765,52 @@ class FinancePage extends React.Component {
             }}
           ></div>
         ) : null}
-
+        {this.state.showFundingRequestModal ? (
+          <div
+            className="back-drop"
+            onClick={() => {
+              this.closeFundingRequestModal();
+            }}
+          ></div>
+        ) : null}
+        {this.state.showReviewModal ? (
+          <div
+            className="back-drop"
+            onClick={() => {
+              this.closeReviewModal();
+            }}
+          ></div>
+        ) : null}
         <ExpenseModal
           selectedExpense={this.state.selectedExpense}
           showExpenseModal={this.state.showExpenseModal}
           closeExpenseModal={this.closeExpenseModal.bind(this)}
           addExpense={this.addExpense.bind(this)}
-          updateExpense={this.updateExpense.bind(this)}
+          editExpense={this.editExpense.bind(this)}
+          formatAmount={this.formatAmount.bind(this)}
+          verifyDescription={this.verifyDescription.bind(this)}
+          verifyType={this.verifyType.bind(this)}
+          verifyAmount={this.verifyAmount.bind(this)}
         />
         <FundingRequestModal
+          selectedFundingRequest={this.state.selectedFundingRequest}
           showFundingRequestModal={this.state.showFundingRequestModal}
           closeFundingRequestModal={this.closeFundingRequestModal.bind(this)}
-          submitFundingRequest={this.submitFundingRequest.bind(this)}
+          createFundingRequest={this.createFundingRequest.bind(this)}
+          editFundingRequest={this.editFundingRequest.bind(this)}
+          formatAmount={this.formatAmount.bind(this)}
+          verifyJustification={this.verifyJustification.bind(this)}
+          verifyDate={this.verifyDate.bind(this)}
+          verifyAmount={this.verifyAmount.bind(this)}
+        />
+        <ReviewModal
+          selectedFundingRequest={this.state.selectedFundingRequest}
+          showReviewModal={this.state.showReviewModal}
+          closeReviewModal={this.closeReviewModal.bind(this)}
+          reviewFundingRequest={this.reviewFundingRequest.bind(this)}
         />
         <ProjectCost
+          userType={this.state.userType}
           selectedProject={this.state.selectedProject}
           progress={this.state.progress}
           selectedProjectExpenses={this.state.selectedProjectExpenses}
@@ -629,9 +820,12 @@ class FinancePage extends React.Component {
           getDollarFigure={this.getDollarFigure.bind(this)}
           parseDatabaseDate={this.parseDatabaseDate.bind(this)}
           getFullName={this.getFullName.bind(this)}
+          hasPendingFundingRequest={this.hasPendingFundingRequest.bind(this)}
           openFundingRequestModal={this.openFundingRequestModal.bind(this)}
           openExpenseModal={this.openExpenseModal.bind(this)}
+          openReviewModal={this.openReviewModal.bind(this)}
           deleteExpense={this.deleteExpense.bind(this)}
+          deleteFundingRequest={this.deleteFundingRequest.bind(this)}
           getStatusColor={this.getStatusColor.bind(this)}
           setProgressValue={this.setProgressValue.bind(this)}
           setCircleProgress={this.setCircleProgress.bind(this)}

@@ -21,7 +21,6 @@ export const ExpenseModal = (props) => {
           <textarea id="expense-desc"></textarea>
           <br></br><br></br>
           <h3>Type</h3>
-
           <div class="select-type">
             <select id="expense-type" required>
               <option selected disabled>Choose an option</option>
@@ -34,7 +33,7 @@ export const ExpenseModal = (props) => {
           <br></br><br></br>
           <h3>Amount</h3>
           <span class="currencyinput">
-            $<input type="text" id="expense-amount"></input>
+            $<input type="text" class="amount-text" id="expense-amount"></input>
           </span>
         </div>
         <div className="modal-footer">
@@ -44,14 +43,15 @@ export const ExpenseModal = (props) => {
               onClick={() => {
                 let expenseDesc = document.getElementById("expense-desc").value;
                 let expenseType = document.getElementById("expense-type").value;
-                let expenseAmount = document.getElementById("expense-amount")
-                  .value;
-                if (props.selectedExpense === null) {
-                  props.addExpense(expenseDesc, expenseType, expenseAmount);
-                } else {
-                  props.updateExpense(expenseDesc, expenseType, expenseAmount);
+                let expenseAmount = props.formatAmount(document.getElementById("expense-amount").value)
+                if (props.verifyDescription(expenseDesc) && props.verifyType(expenseType) && props.verifyAmount(expenseAmount)) {
+                  if (props.selectedExpense === null) {
+                    props.addExpense(expenseDesc, expenseType, expenseAmount);
+                  } else {
+                    props.editExpense(expenseDesc, expenseType, expenseAmount);
+                  }
+                  props.closeExpenseModal();
                 }
-                props.closeExpenseModal();
               }}
             >
               Submit

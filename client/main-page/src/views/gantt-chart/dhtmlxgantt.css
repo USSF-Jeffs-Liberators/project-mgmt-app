@@ -1863,3 +1863,9 @@ input[type="date"] {
   background-color: rgb(60, 82, 105);
   color: white;
 }
+
+input[type="text"].amount-text,
+input[type="date"].amount-text {
+  background-color: white;
+  color: black;
+}
