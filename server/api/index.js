@@ -53,11 +53,11 @@ app.get("/users/projects", (req, res) => {
 });
 
 // SELECT all Users and their Projects by Role (User_ID, First_Name, Last_Name, Project_ID, Project_Name, Start_Date, Deadline_Date)
-app.get("/users/projects/:type", (req, res) => {
-  const { type } = req.params;
+app.get("/users/projects/:role", (req, res) => {
+  const { role } = req.params;
   pool.query(
     'SELECT App_User.User_ID, App_User.First_Name, App_User.Last_Name, roles.name, team_member.project_id, project.project_name, project.start_date, project.deadline_date FROM app_user FULL OUTER JOIN user_roles ON app_user.user_id = user_roles."userId" FULL OUTER JOIN roles ON user_roles."roleId" = roles.id FULL OUTER JOIN team_member ON app_user.user_id = team_member.user_id FULL OUTER JOIN project ON team_member.project_id = project.project_id WHERE roles.name = $1',
-    [type],
+    [role],
     (error, results) => {
       if (error) {
         throw error;
@@ -68,11 +68,11 @@ app.get("/users/projects/:type", (req, res) => {
 });
 
 // SELECT all Users by Role
-app.get("/users/type/:type", (req, res) => {
-  const { type } = req.params;
+app.get("/users/role/:role", (req, res) => {
+  const { role } = req.params;
   pool.query(
     'SELECT * FROM app_user FULL OUTER JOIN user_roles ON app_user.user_id = user_roles."userId" FULL OUTER JOIN roles ON user_roles."roleId" = roles.id WHERE roles.name = $1',
-    [type],
+    [role],
     (error, results) => {
       if (error) {
         throw error;

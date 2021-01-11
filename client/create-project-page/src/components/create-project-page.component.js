@@ -16,11 +16,11 @@ class CreateProjectPage extends React.Component {
     };
   }
 
-  //fetches users by type, sets state
-  async fetchUsers(type) {
-    var res = await fetch("http://localhost:3001/users/availability/" + type);
+  //fetches users by role, sets state
+  async fetchUsers(role) {
+    var res = await fetch("http://localhost:3001/users/availability/" + role);
     var json = await res.json();
-    switch (type) {
+    switch (role) {
       case "Developer":
         this.setState({
           ...this.state,
