@@ -321,7 +321,7 @@ app.get("/projects/:id/funding-requests", (req, res) => {
 app.get("/projects/:id/expenses", (req, res) => {
   const { id } = req.params;
   pool.query(
-    "SELECT * FROM Expense WHERE Project_ID = $1",
+    "SELECT * FROM Expense WHERE Project_ID = $1 ORDER BY Expense_ID ASC",
     [id],
     (error, results) => {
       if (error) {
@@ -704,6 +704,80 @@ app.post("/projects/:id", (req, res) => {
     }
   );
 });
+
+// deletes a funding request
+app.delete("/funding-requests/:id", (req, res) => {
+  pool.query(
+    "DELETE FROM Funding_Request WHERE Request_ID = $1",
+    [req.params.id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+});
+
+// updates a funding request
+app.post("/edit-funding-requests/:id", (req, res) => {
+  pool.query(
+    "UPDATE Funding_Request SET Project_ID = $1, Request_Amount = $2, Justification = $3, Suspense_Date = $4 WHERE Request_ID = $5",
+    [
+      req.body.project_id,
+      req.body.request_amount,
+      req.body.justification,
+      req.body.suspense_date,
+      req.params.id,
+    ],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+});
+
+// updates the review status of a funding request
+app.post("/review-funding-requests/:id", (req, res) => {
+  pool.query(
+    "UPDATE Funding_Request SET Project_ID = $1, Review_Date = $2, Review_Status = $3, Review_Note = $4, Reviewed_By = $5 WHERE Request_ID = $6",
+    [
+      req.body.project_id,
+      req.body.review_date,
+      req.body.review_status,
+      req.body.review_note,
+      req.body.reviewed_by,
+      req.params.id,
+    ],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+});
+
+// updates a labor expenses's amount
+app.post("/update-labor-expense", (req, res) => {
+  pool.query(
+    "UPDATE Expense SET Expense_Amount = $1 WHERE Project_ID = $2 AND Employee = $3",
+    [
+      req.body.expense_amount,
+      req.body.project_id,
+      req.body.employee,
+    ],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+});
+
 
 app.listen(port, () =>
   console.log(`Project Management API listening at http://localhost:${port}`)

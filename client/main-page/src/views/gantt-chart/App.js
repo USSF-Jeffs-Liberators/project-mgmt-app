@@ -11,7 +11,8 @@ class GanttChart extends React.Component {
       project_id: 2,
       tasks: [],
       dependencies: [],
-      members: [],
+      users: [],
+      teamMembers: [],
       taskFlag: false,
       linksFlag: false,
     };
@@ -52,14 +53,16 @@ class GanttChart extends React.Component {
         },
         body: JSON.stringify(taskData),
       });
-      this.fetchData();
+      await this.fetchData();
+      await this.updateLaborExpense(this.getUserID(item.resource))
     });
 
     gantt.attachEvent("onAfterTaskDelete", async (id, item) => {
       await fetch(`http://localhost:3001/tasks/${id}`, {
         method: "DELETE",
       });
-      this.fetchData();
+      await this.fetchData();
+      await this.updateLaborExpense(this.getUserID(item.resource))
     });
 
     gantt.attachEvent("onAfterLinkAdd", async (id, item) => {
@@ -87,6 +90,37 @@ class GanttChart extends React.Component {
     this.fetchData();
   }
 
+  async updateLaborExpense(userID) {
+    let numWorkDays = 0
+    for (let i = 0; i < this.state.tasks.length; i++) {
+      if (this.state.tasks[i].assigned_to === userID) {
+        numWorkDays += this.state.tasks[i].duration
+      }
+    }
+    let dailyRate = 0;
+    for (let i = 0; i < this.state.teamMembers.length; i++) {
+      if (this.state.teamMembers[i].user_id === userID) {
+        dailyRate = this.state.teamMembers[i].daily_rate
+      }
+    }
+
+    var laborExpense = {};
+    laborExpense.expense_amount = (numWorkDays * dailyRate)
+    laborExpense.project_id = this.state.project_id
+    laborExpense.employee = userID
+
+    await fetch(
+      `http://localhost:3001/update-labor-expense`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(laborExpense),
+      }
+    );
+  }
+
   async fetchData() {
     const response1 = await fetch(
       `http://localhost:3001/projects/${this.state.project_id}/tasks/`
@@ -102,7 +136,11 @@ class GanttChart extends React.Component {
 
     const response3 = await fetch(`http://localhost:3001/users`);
     const json3 = await response3.json();
-    this.setState({ members: json3 });
+    this.setState({ users: json3 });
+
+    const response4 = await fetch(`http://localhost:3001/projects/${this.state.project_id}/team`)
+    const json4 = await response4.json();
+    this.setState({ teamMembers: json4 });
 
     this.setTaskData();
     this.setLinkData();
@@ -160,9 +198,9 @@ class GanttChart extends React.Component {
   }
 
   getResource(user_id) {
-    for (var i = 0; i < this.state.members.length; i++) {
-      if (user_id === this.state.members[i].user_id) {
-        return this.state.members[i].first_name;
+    for (var i = 0; i < this.state.users.length; i++) {
+      if (user_id === this.state.users[i].user_id) {
+        return this.state.users[i].first_name;
       }
     }
   }
@@ -171,12 +209,12 @@ class GanttChart extends React.Component {
     if (resource === undefined) {
       return null;
     } else {
-      for (var i = 0; i < this.state.members.length; i++) {
+      for (var i = 0; i < this.state.users.length; i++) {
         if (
-          this.state.members[i].first_name.toUpperCase() ===
+          this.state.users[i].first_name.toUpperCase() ===
           resource.toUpperCase()
         ) {
-          return this.state.members[i].user_id;
+          return this.state.users[i].user_id;
         }
       }
       alert(resource + " is not a member of this project team.");

@@ -228,3 +228,12 @@ input[type="date"] {
   border: 1px solid transparent;
   border-radius: 3px;
 }
+
+.table-wrapper {
+ margin:auto;
+ width:97%; 
+}
+
+.td-textarea {
+  max-width: 800px;
+}
