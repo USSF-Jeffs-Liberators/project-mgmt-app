@@ -2,10 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useForm, useStep } from "react-hooks-helper";
 import { ProjInfo } from "./form/ProjInfo";
-import { AvailableUsers } from "./form/ProjTimeline";
-import { ProjTeam } from "./form/ProjTeam";
-import { Review } from "./form/Review";
-import { Submit } from "./form/Submit";
+import { ProjTimeline } from "./form/ProjTimeline";
+import { AvailableUsers } from "./form/ProjTeam";
 
 const defaultData = {
   projName: "",
@@ -32,9 +30,7 @@ export const MultiStepForm = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios(
-        `http://localhost:3001/users/projects`
-      );
+      const result = await axios(`http://localhost:3001/users/projects`);
       setUserData(result.userData);
     };
     fetchData();
@@ -54,13 +50,7 @@ export const MultiStepForm = () => {
     case "timeline":
       return <ProjTimeline {...props} />;
     case "team":
-      return (
-      <AvailableUsers {...props} />
-      );
-    case "review":
-      return <Review {...props} />;
-    case "submit":
-      return <Submit {...props} />;
+      return <AvailableUsers {...props} />;
   }
 
   return (
