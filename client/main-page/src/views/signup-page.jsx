@@ -128,74 +128,77 @@ export default function SignupForm(props) {
   return (
     <div id="signupPage">
       <h4>Sign up for an account:</h4>
-      <Form onSubmit={handleRegister} ref={form}>
+      <Form className="rux-form" onSubmit={handleRegister} ref={form}>
         {!successful && (
           <div>
-            <div className="form-group">
+            <div className="rux-form-field">
               <label htmlFor="username">Username*</label>
               <Input
                 type="text"
-                className="form-control"
+                className="rux-input"
                 name="username"
                 value={username}
                 onChange={onChangeUsername}
                 validations={[required, vusername]}
               />
-            </div>
-
-            <div className="form-group">
+            </div>{" "}
+            <br />
+            <div className="rux-form-field">
               <label htmlFor="email">Email*</label>
               <Input
                 type="text"
-                className="form-control"
+                className="rux-input"
                 name="email"
                 placeholder="user@domain.com"
                 value={email}
                 onChange={onChangeEmail}
                 validations={[required, validEmail]}
               />
-            </div>
-
-            <div className="form-group">
+            </div>{" "}
+            <br />
+            <div className="rux-form-field">
               <label htmlFor="input__name">First Name*</label>
               <Input
                 type="text"
-                className="form-control"
+                className="rux-input"
                 name="first_name"
                 placeholder="Wade"
                 value={firstname}
                 onChange={onChangeFirstname}
                 validations={[required]}
               />
-            </div>
-            <div className="form-group">
+            </div>{" "}
+            <br />
+            <div className="rux-form-field">
               <label htmlFor="input__last_name">Last Name*</label>
               <Input
                 type="text"
-                className="form-control"
+                className="rux-input"
                 name="last_name"
                 placeholder="Wilson"
                 value={lastname}
                 onChange={onChangeLastname}
                 validations={[required]}
               />
-            </div>
-
-            <div className="form-group">
+            </div>{" "}
+            <br />
+            <div className="rux-form-field">
               <label htmlFor="password">Password*</label>
               <Input
                 type="password"
-                className="form-control"
+                className="rux-input"
                 name="password"
                 value={password}
                 onChange={onChangePassword}
                 validations={[required, vpassword]}
               />
-            </div>
-            <div className="form-group">
+            </div>{" "}
+            <br />
+            <div className="rux-form-field">
               <label htmlFor="input__user_type">Role* &nbsp;</label>
               <Select
                 name="role"
+                className="rux-select"
                 value={role}
                 onChange={onChangeRole}
                 validations={[required]}
@@ -205,16 +208,16 @@ export default function SignupForm(props) {
                 <option value="Project Manager">Project Manager</option>
                 <option value="General Manager">General Manager</option>
               </Select>
-            </div>
-
-            <div className="form-group">
-              <button className="btn btn-primary btn-block">Sign Up</button>
+            </div>{" "}
+            <br />
+            <div className="rux-form">
+              <button className="rux-button">Sign Up</button>
             </div>
           </div>
         )}
 
         {message && (
-          <div className="form-group">
+          <div className="rux-form">
             <div
               className={
                 successful ? "alert alert-success" : "alert alert-danger"

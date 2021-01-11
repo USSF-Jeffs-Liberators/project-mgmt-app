@@ -89,42 +89,41 @@ export default function LoginForm(props) {
         <br />
         <rux-button type="button">Submit</rux-button>
       </form> */}
-      <Form onSubmit={handleLogin} ref={form}>
-        <div className="form-group">
-          <label htmlFor="username">Username</label>
+      <Form className="rux-form" onSubmit={handleLogin} ref={form}>
+        <div className="rux-form-field">
+          <label htmlFor="username">Username </label>
           <Input
-            type="text"
-            className="form-control"
+            type="username"
+            className="rux-input"
             name="username"
             value={username}
             onChange={onChangeUsername}
             validations={[required]}
           />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
+        </div>{" "}
+        <br />
+        <div className="rux-form-field">
+          <label htmlFor="password">Password </label>
           <Input
             type="password"
-            className="form-control"
+            className="rux-input"
             name="password"
             value={pass_word}
             onChange={onChangePassword}
             validations={[required]}
           />
-        </div>
-
-        <div className="form-group">
-          <button className="btn btn-primary btn-block" disabled={loading}>
+        </div>{" "}
+        <br />
+        <div className="rux-form">
+          <button className="rux-button" disabled={loading}>
             {loading && (
               <span className="spinner-border spinner-border-sm"></span>
             )}
             <span>Login</span>
           </button>
         </div>
-
         {message && (
-          <div className="form-group">
+          <div className="rux-form">
             <div className="alert alert-danger" role="alert">
               {message}
             </div>
