@@ -8,7 +8,7 @@ export default function Root(props) {
   // mock logged in/out and user type
   props = {
     loggedIn: true,
-    userType: "Developer"
+    userType: "Project Manager"
   };
 
   let buttonLinks = [];
