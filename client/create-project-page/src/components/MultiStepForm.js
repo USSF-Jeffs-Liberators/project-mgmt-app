@@ -29,12 +29,12 @@ export const MultiStepForm = () => {
   const [userData, setUserData] = useState({ hits: [] });
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchUserData = async () => {
       const result = await axios(`http://localhost:3001/users/projects`);
-      setUserData(result.userData);
+      setUserData(result.data);
     };
-    fetchData();
-  });
+    fetchUserData();
+  }, []);
 
   const [formData, setForm] = useForm(defaultData);
   const { step, navigation } = useStep({
