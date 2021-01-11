@@ -13,32 +13,36 @@ export const FundingRequestModal = (props) => {
       }}
     >
       <div className="modal-header">
-        <h2 align="center">Create Funding Request</h2>
+        <h2 align="center">{props.selectedFundingRequest === null ? ('Create') : ('Edit')} Funding Request</h2>
       </div>
       <div className="modal-content">
         <div className="modal-body">
           <h3>Justification</h3>
-          <textarea id="justification"></textarea>
+          <textarea id="request-justification"></textarea>
           <br></br><br></br>
           <h3>Suspense Date</h3>
-          <input type="date" class="amount-text" id="suspense-date" name="suspense-date"></input>
+          <input type="date" class="amount-text" id="request-suspense-date" name="suspense-date"></input>
           <br></br><br></br>
           <h3>Amount</h3>
           <span class="currencyinput">
-            $<input type="text" class="amount-text" id="amount"></input>
+            $<input type="text" class="amount-text" id="request-amount"></input>
           </span>
         </div>
         <div className="modal-footer">
           <div className="button-div3">
             <button className="rux-button modal-button"
               onClick={() => {
-                let amount = props.formatAmount(document.getElementById("amount").value);
-                let justification = document.getElementById("justification")
+                let amount = props.formatAmount(document.getElementById("request-amount").value);
+                let justification = document.getElementById("request-justification")
                   .value;
-                let suspenseDate = document.getElementById("suspense-date")
+                let suspenseDate = document.getElementById("request-suspense-date")
                   .value;
                 if (props.verifyAmount(amount) && props.verifyJustification(justification) && props.verifyDate(suspenseDate)) {
-                  props.submitFundingRequest(amount, justification, suspenseDate);
+                  if (props.selectedFundingRequest === null) {
+                    props.createFundingRequest(amount, justification, suspenseDate);
+                  } else {
+                    props.editFundingRequest(amount, justification, suspenseDate);
+                  }
                   props.closeFundingRequestModal();
                 }
               }}

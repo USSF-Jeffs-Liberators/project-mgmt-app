@@ -48,7 +48,7 @@ export const ExpenseModal = (props) => {
                   if (props.selectedExpense === null) {
                     props.addExpense(expenseDesc, expenseType, expenseAmount);
                   } else {
-                    props.updateExpense(expenseDesc, expenseType, expenseAmount);
+                    props.editExpense(expenseDesc, expenseType, expenseAmount);
                   }
                   props.closeExpenseModal();
                 }

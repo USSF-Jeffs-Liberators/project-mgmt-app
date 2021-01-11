@@ -26,7 +26,7 @@ function ProjectCost(props) {
           <th colspan="2">Description</th>
           <th>Type</th>
           <th>Amount</th>
-          <th colspan="2">Options</th>
+          {props.userType === 'Project Manager' ? (<th colspan="2">Options</th>) : (null)}
         </tr>
         {props.selectedProjectExpenses.map((expense) => (
           <tr>
@@ -40,7 +40,7 @@ function ProjectCost(props) {
             ) : null}
             <td>{expense.expense_type}</td>
             <td>{props.getDollarFigure(expense.expense_amount)}</td>
-            {expense.expense_type !== "Labor" ? (
+            {props.userType === 'Project Manager' ? (expense.expense_type !== "Labor" ? (
               <td>
                 <button
                   className="rux-button"
@@ -53,8 +53,8 @@ function ProjectCost(props) {
               </td>
             ) : (
               <td></td>
-            )}
-            {expense.expense_type !== "Labor" ? (
+            )) : (null)}
+            {props.userType === 'Project Manager' ? (expense.expense_type !== "Labor" ? (
               <td>
                 <button
                   className="rux-button"
@@ -67,23 +67,25 @@ function ProjectCost(props) {
               </td>
             ) : (
               <td></td>
-            )}
+            )) : (null)}
           </tr>
         ))}
-        <tr class="rux-table__column-head">
-          <th colspan="6" className="button-section">
-            <div className="button-div1">
-              <button
-                className="rux-button"
-                onClick={() => {
-                  props.openExpenseModal(null);
-                }}
-              >
-                Add Expense
-              </button>
-            </div>
-          </th>
-        </tr>
+        {props.userType === 'Project Manager' ? (
+          <tr class="rux-table__column-head">
+            <th colspan="6" className="button-section">
+              <div className="button-div1">
+                <button
+                  className="rux-button"
+                  onClick={() => {
+                    props.openExpenseModal(null);
+                  }}
+                >
+                  Add Expense
+                </button>
+              </div>
+            </th>
+          </tr>) : (null)
+        }
       </table>
       <br></br>
       <br></br>
@@ -101,6 +103,9 @@ function ProjectCost(props) {
           <th>Review Status</th>
           <th>Review Note</th>
           <th>Reviewed By</th>
+          {props.hasPendingFundingRequest(props.projectFundingRequests) ? (
+            props.userType === 'Project Manager' ? (<th colspan="2">Options</th>) : (<th>Options</th>)
+          ) : (null)}
         </tr>
         {props.projectFundingRequests.map((request) => (
           <tr>
@@ -119,22 +124,46 @@ function ProjectCost(props) {
               {request.review_note !== null ? request.review_note : "N/A"}
             </td>
             <td>{props.getFullName(request.reviewed_by)}</td>
+            {props.hasPendingFundingRequest(props.projectFundingRequests) ? (
+              request.review_status === 'Pending Review' ? (
+                props.userType === 'Project Manager' ? (
+                  <td><button className="rux-button" onClick={() => {
+                    props.openFundingRequestModal(request);
+                  }}>Edit</button></td>) : 
+                (
+                  <td><button className="rux-button" onClick={() => {
+                    props.openReviewModal(request)
+                  }}>Review</button></td>
+                )
+              ) : (<td></td>)
+            ) : (null)}
+            {props.hasPendingFundingRequest(props.projectFundingRequests) ? (
+              props.userType === 'Project Manager' ? (
+                request.review_status === 'Pending Review' ? (
+                  <td><button className="rux-button" onClick={() => {
+                    props.deleteFundingRequest(request)
+                  }}>Delete</button></td>
+                ) : (<td></td>)
+              ) : (null)
+            ) : (null)}
           </tr>
         ))}
-        <tr class="rux-table__column-head">
-          <th colspan="9" className="button-section">
-            <div className="button-div2">
-              <button
-                className="rux-button"
-                onClick={() => {
-                  props.openFundingRequestModal();
-                }}
-              >
-                Create Funding Request
-              </button>
-            </div>
-          </th>
-        </tr>
+        {props.userType === 'Project Manager' ? (
+          <tr class="rux-table__column-head">
+            <th colspan={props.hasPendingFundingRequest(props.projectFundingRequests) ? ("11") : ("9")} className="button-section">
+              <div className="button-div2">
+                <button
+                  className="rux-button"
+                  onClick={() => {
+                    props.openFundingRequestModal(null);
+                  }}
+                >
+                  Create Funding Request
+                </button>
+              </div>
+            </th>
+          </tr>) : (null)
+        }
       </table>
       <br></br>
 

@@ -604,7 +604,7 @@ app.post("/expenses", (req, res) => {
 });
 
 // update an expense
-app.post("/expenses/:id", (req, res) => {
+app.post("/edit-expense/:id", (req, res) => {
   pool.query(
     "UPDATE Expense SET Project_ID = $1, Expense_Desc = $2, Expense_Type = $3, Expense_Amount = $4 WHERE Expense_ID = $5",
     [
@@ -638,10 +638,65 @@ app.delete("/expenses/:id", (req, res) => {
 });
 
 // updates a project's current cost
-app.post("/projects/:id", (req, res) => {
+app.post("/update-project-cost/:id", (req, res) => {
   pool.query(
     "UPDATE Project SET Current_Cost = $1 WHERE Project_ID = $2",
     [req.body.current_cost, req.params.id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+});
+
+// deletes a funding request
+app.delete("/funding-requests/:id", (req, res) => {
+  pool.query(
+    "DELETE FROM Funding_Request WHERE Request_ID = $1",
+    [req.params.id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+});
+
+// updates a funding request
+app.post("/edit-funding-requests/:id", (req, res) => {
+  pool.query(
+    "UPDATE Funding_Request SET Project_ID = $1, Request_Amount = $2, Justification = $3, Suspense_Date = $4 WHERE Request_ID = $5",
+    [
+      req.body.project_id,
+      req.body.request_amount,
+      req.body.justification,
+      req.body.suspense_date,
+      req.params.id,
+    ],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+});
+
+// updates the review status of a funding request
+app.post("/review-funding-requests/:id", (req, res) => {
+  pool.query(
+    "UPDATE Funding_Request SET Project_ID = $1, Review_Date = $2, Review_Status = $3, Review_Note = $4, Reviewed_By = $5 WHERE Request_ID = $6",
+    [
+      req.body.project_id,
+      req.body.review_date,
+      req.body.review_status,
+      req.body.review_note,
+      req.body.reviewed_by,
+      req.params.id,
+    ],
     (error, results) => {
       if (error) {
         throw error;
