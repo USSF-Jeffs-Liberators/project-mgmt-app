@@ -3,12 +3,11 @@ import { RuxAccordion } from "../../altcomponents/components/Accordion/rux-accor
 
 export const AvailableUsers = ({ navigation, userData, formData }) => {
   const { go } = navigation;
-  const { projStart, projDeadline } = formData;
-  var formStartDate = new Date(projStart);
+  const { projDeadline } = formData;
   var formDeadlineDate = new Date(projDeadline);
 
   function filterUsers(role) {
-    const roleFiltered = userData.hits.filter((each) => each.name === role);
+    const roleFiltered = userData.filter((each) => each.name === role);
     const dateFiltered = roleFiltered.filter((each) => {
       var dataDeadline = new Date(each.deadline_date);
       var dataEnd =
@@ -36,14 +35,16 @@ export const AvailableUsers = ({ navigation, userData, formData }) => {
         summary="Developers"
         availUsers={filterUsers("Developer")}
       />
-      <button
-        className="rux-button"
-        type="button"
-        style={{ marginTop: "1rem" }}
-        onClick={() => go("submit")}
-      >
-        Submit
-      </button>
+      <div className="rux-button-group">
+        <button
+          className="rux-button"
+          type="button"
+          style={{ marginTop: "1rem" }}
+          onClick={() => go("submit")}
+        >
+          Submit
+        </button>
+      </div>
     </div>
   );
 };

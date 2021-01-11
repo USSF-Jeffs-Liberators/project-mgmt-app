@@ -2,6 +2,7 @@ import React from "react";
 
 export const ProjTimeline = ({ formData, setForm, navigation }) => {
   const { projStart, projDeadline } = formData;
+
   return (
     <div id="form">
       <form className="rux-form">
@@ -48,8 +49,13 @@ export const ProjTimeline = ({ formData, setForm, navigation }) => {
           <button
             className="rux-button"
             type="button"
+            value="Submit"
             style={{ marginTop: "1rem" }}
-            onClick={() => navigation.next()}
+            onClick={() => {
+              formData.projStart != "" && formData.projDeadline != ""
+                ? navigation.next()
+                : alert("Please enter a valid date.");
+            }}
           >
             Next
           </button>
