@@ -13,6 +13,7 @@ import HomePage from "./views/HomePage";
 
 export default function Root(props) {
   // mock different User_Types
+  
   const [currentUser, setCurrentUser] = useState(undefined);
   useEffect(() => {
     const user = AuthService.getCurrentUser();
