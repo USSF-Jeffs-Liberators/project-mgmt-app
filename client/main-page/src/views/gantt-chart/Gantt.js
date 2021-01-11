@@ -80,6 +80,7 @@ export default class Gantt extends Component {
     gantt.config.autosize = "y";
     gantt.config.autoscroll = true;
     gantt.config.scroll_size = 20;
+    // gantt.config.readonly = true;   // IF NOT PROJECT MANAGER SET TO TRUE ELSE FALSE
     gantt.init(this.ganttContainer);
     gantt.parse(tasks);
 

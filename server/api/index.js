@@ -126,6 +126,19 @@ app.get("/users/:id/tasks", (req, res) => {
     }
   );
 });
+
+// SELECT all User Roles
+app.get("/user-roles", (req, res) => {
+  pool.query(
+    "SELECT * FROM user_roles",
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+});
 //
 // ~~~~~ /projects Endpoints: ~~~~~
 //
@@ -248,7 +261,7 @@ app.get("/projects/:id/requirements", (req, res) => {
 app.get("/projects/:id/tasks", (req, res) => {
   const { id } = req.params;
   pool.query(
-    "SELECT * FROM Task WHERE Project_ID = $1 ORDER BY Task_ID ASC",
+    "SELECT * FROM Task WHERE Project_ID = $1",
     [id],
     (error, results) => {
       if (error) {
@@ -263,7 +276,7 @@ app.get("/projects/:id/tasks", (req, res) => {
 app.get("/projects/:id/dependencies", (req, res) => {
   const { id } = req.params;
   pool.query(
-    "SELECT * FROM Dependency WHERE Project_ID = $1 ORDER BY Dependency_ID ASC",
+    "SELECT * FROM Dependency WHERE Project_ID = $1",
     [id],
     (error, results) => {
       if (error) {
@@ -308,7 +321,7 @@ app.get("/projects/:id/funding-requests", (req, res) => {
 app.get("/projects/:id/expenses", (req, res) => {
   const { id } = req.params;
   pool.query(
-    "SELECT * FROM Expense WHERE Project_ID = $1",
+    "SELECT * FROM Expense WHERE Project_ID = $1 ORDER BY Expense_ID ASC",
     [id],
     (error, results) => {
       if (error) {
@@ -548,6 +561,10 @@ app.post("/issues", (req, res) => {
     }
   );
 });
+
+//Update an Issue
+
+
 //
 // ~~~~~ /funding-requests Endpoints: ~~~~~
 //
@@ -641,7 +658,7 @@ app.post("/expenses", (req, res) => {
 });
 
 // update an expense
-app.post("/edit-expense/:id", (req, res) => {
+app.post("/expenses/:id", (req, res) => {
   pool.query(
     "UPDATE Expense SET Project_ID = $1, Expense_Desc = $2, Expense_Type = $3, Expense_Amount = $4 WHERE Expense_ID = $5",
     [
@@ -675,7 +692,7 @@ app.delete("/expenses/:id", (req, res) => {
 });
 
 // updates a project's current cost
-app.post("/update-project-cost/:id", (req, res) => {
+app.post("/projects/:id", (req, res) => {
   pool.query(
     "UPDATE Project SET Current_Cost = $1 WHERE Project_ID = $2",
     [req.body.current_cost, req.params.id],
@@ -742,6 +759,25 @@ app.post("/review-funding-requests/:id", (req, res) => {
     }
   );
 });
+
+// updates a labor expenses's amount
+app.post("/update-labor-expense", (req, res) => {
+  pool.query(
+    "UPDATE Expense SET Expense_Amount = $1 WHERE Project_ID = $2 AND Employee = $3",
+    [
+      req.body.expense_amount,
+      req.body.project_id,
+      req.body.employee,
+    ],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+});
+
 
 app.listen(port, () =>
   console.log(`Project Management API listening at http://localhost:${port}`)

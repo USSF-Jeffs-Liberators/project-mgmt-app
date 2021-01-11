@@ -47,7 +47,7 @@ export default function LoginForm(props) {
     if (checkBtn.current.context._errors.length === 0) {
       AuthService.login(username, pass_word).then(
         () => {
-          props.history.push("/profile");
+          props.history.push("/");
           window.location.reload();
         },
         (error) => {
