@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 const IssueTracker = () => {
   // mock selected project
   const project_id = 2;
+
   //mock logged in user
   const user_id = 1;
 
@@ -43,7 +44,7 @@ const IssueTracker = () => {
           <tr className="rux_table__column-head">
             <th>Description</th>
             <th>Priority</th>
-            <th>Status</th>
+            <th>Resolved</th>
           </tr>
           {getMatches()}
           {matches.map((user) => (
@@ -58,5 +59,7 @@ const IssueTracker = () => {
     </div>
   );
 };
+
+
 
 export default IssueTracker;

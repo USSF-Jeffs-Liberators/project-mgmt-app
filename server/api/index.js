@@ -40,9 +40,9 @@ app.get("/users", (req, res) => {
 });
 
 // SELECT all Users and their Projects (User_ID, First_Name, Last_Name, Project_ID, Project_Name, Start_Date, Deadline_Date)
-app.get("/users/availability", (req, res) => {
+app.get("/users/projects", (req, res) => {
   pool.query(
-    "SELECT App_User.User_ID, App_User.First_Name, App_User.Last_Name, App_User.User_Type, Team_Member.Project_ID, Project.Project_Name, Project.Start_Date, Project.Deadline_Date FROM App_User FULL OUTER JOIN Team_Member ON App_User.User_ID = Team_Member.User_ID FULL OUTER JOIN Project ON Team_Member.Project_ID = Project.Project_ID",
+    'SELECT App_User.User_ID, App_User.First_Name, App_User.Last_Name, roles.name, team_member.project_id, project.project_name, project.start_date, project.deadline_date FROM app_user FULL OUTER JOIN user_roles ON app_user.user_id = user_roles."userId" FULL OUTER JOIN roles ON user_roles."roleId" = roles.id FULL OUTER JOIN team_member ON app_user.user_id = team_member.user_id FULL OUTER JOIN project ON team_member.project_id = project.project_id',
     (error, results) => {
       if (error) {
         throw error;
@@ -52,11 +52,11 @@ app.get("/users/availability", (req, res) => {
   );
 });
 
-// SELECT all Users and their Projects by User_Type (User_ID, First_Name, Last_Name, Project_ID, Project_Name, Start_Date, Deadline_Date)
-app.get("/users/availability/:type", (req, res) => {
+// SELECT all Users and their Projects by Role (User_ID, First_Name, Last_Name, Project_ID, Project_Name, Start_Date, Deadline_Date)
+app.get("/users/projects/:type", (req, res) => {
   const { type } = req.params;
   pool.query(
-    "SELECT App_User.User_ID, App_User.First_Name, App_User.Last_Name, App_User.User_Type, Team_Member.Project_ID, Project.Project_Name, Project.Start_Date, Project.Deadline_Date FROM App_User FULL OUTER JOIN Team_Member ON App_User.User_ID = Team_Member.User_ID FULL OUTER JOIN Project ON Team_Member.Project_ID = Project.Project_ID WHERE User_Type = $1",
+    'SELECT App_User.User_ID, App_User.First_Name, App_User.Last_Name, roles.name, team_member.project_id, project.project_name, project.start_date, project.deadline_date FROM app_user FULL OUTER JOIN user_roles ON app_user.user_id = user_roles."userId" FULL OUTER JOIN roles ON user_roles."roleId" = roles.id FULL OUTER JOIN team_member ON app_user.user_id = team_member.user_id FULL OUTER JOIN project ON team_member.project_id = project.project_id WHERE roles.name = $1',
     [type],
     (error, results) => {
       if (error) {
@@ -67,11 +67,11 @@ app.get("/users/availability/:type", (req, res) => {
   );
 });
 
-// SELECT all Users by User_Type
+// SELECT all Users by Role
 app.get("/users/type/:type", (req, res) => {
   const { type } = req.params;
   pool.query(
-    "SELECT * FROM App_User WHERE User_Type = $1",
+    'SELECT * FROM app_user FULL OUTER JOIN user_roles ON app_user.user_id = user_roles."userId" FULL OUTER JOIN roles ON user_roles."roleId" = roles.id WHERE roles.name = $1',
     [type],
     (error, results) => {
       if (error) {
@@ -118,6 +118,19 @@ app.get("/users/:id/tasks", (req, res) => {
   pool.query(
     "SELECT * FROM Task WHERE Assigned_To = $1",
     [id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+});
+
+// SELECT all User Roles
+app.get("/user-roles", (req, res) => {
+  pool.query(
+    "SELECT * FROM user_roles",
     (error, results) => {
       if (error) {
         throw error;
@@ -248,7 +261,7 @@ app.get("/projects/:id/requirements", (req, res) => {
 app.get("/projects/:id/tasks", (req, res) => {
   const { id } = req.params;
   pool.query(
-    "SELECT * FROM Task WHERE Project_ID = $1 ORDER BY Task_ID ASC",
+    "SELECT * FROM Task WHERE Project_ID = $1",
     [id],
     (error, results) => {
       if (error) {
@@ -263,7 +276,7 @@ app.get("/projects/:id/tasks", (req, res) => {
 app.get("/projects/:id/dependencies", (req, res) => {
   const { id } = req.params;
   pool.query(
-    "SELECT * FROM Dependency WHERE Project_ID = $1 ORDER BY Dependency_ID ASC",
+    "SELECT * FROM Dependency WHERE Project_ID = $1",
     [id],
     (error, results) => {
       if (error) {
@@ -530,7 +543,16 @@ app.get("/issues", (req, res) => {
 app.post("/issues", (req, res) => {
   pool.query(
     "INSERT INTO Issue (project_id, author, issue_desc, severity, issue_timestamp, is_resolved, resolve_date, resolution) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
-    [req.body.project_id, req.body.author, req.body.issue_desc, req.body.severity, req.body.issue_timestamp, req.body.is_resolved, req.body.resolve_date, req.body.resolution],
+    [
+      req.body.project_id,
+      req.body.author,
+      req.body.issue_desc,
+      req.body.severity,
+      req.body.issue_timestamp,
+      req.body.is_resolved,
+      req.body.resolve_date,
+      req.body.resolution,
+    ],
     (error, results) => {
       if (error) {
         throw error;
@@ -539,6 +561,10 @@ app.post("/issues", (req, res) => {
     }
   );
 });
+
+//Update an Issue
+
+
 //
 // ~~~~~ /funding-requests Endpoints: ~~~~~
 //
@@ -632,7 +658,7 @@ app.post("/expenses", (req, res) => {
 });
 
 // update an expense
-app.post("/edit-expense/:id", (req, res) => {
+app.post("/expenses/:id", (req, res) => {
   pool.query(
     "UPDATE Expense SET Project_ID = $1, Expense_Desc = $2, Expense_Type = $3, Expense_Amount = $4 WHERE Expense_ID = $5",
     [
@@ -666,7 +692,7 @@ app.delete("/expenses/:id", (req, res) => {
 });
 
 // updates a project's current cost
-app.post("/update-project-cost/:id", (req, res) => {
+app.post("/projects/:id", (req, res) => {
   pool.query(
     "UPDATE Project SET Current_Cost = $1 WHERE Project_ID = $2",
     [req.body.current_cost, req.params.id],
@@ -751,6 +777,7 @@ app.post("/update-labor-expense", (req, res) => {
     }
   );
 });
+
 
 app.listen(port, () =>
   console.log(`Project Management API listening at http://localhost:${port}`)
