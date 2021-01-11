@@ -511,6 +511,20 @@ app.get("/issues", (req, res) => {
     res.status(200).json(results.rows);
   });
 });
+
+//Insert an Issue
+app.post("/issues", (req, res) => {
+  pool.query(
+    "INSERT INTO Issue (project_id, author, issue_desc, severity, issue_timestamp, is_resolved, resolve_date, resolution) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
+    [req.body.project_id, req.body.author, req.body.issue_desc, req.body.severity, req.body.issue_timestamp, req.body.is_resolved, req.body.resolve_date, req.body.resolution],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+});
 //
 // ~~~~~ /funding-requests Endpoints: ~~~~~
 //

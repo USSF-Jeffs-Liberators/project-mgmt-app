@@ -1,5 +1,6 @@
 {
   "name": "@freejeff/create-project-page",
+  "description": "Use a form to submit a new project to the database.",
   "scripts": {
     "start": "webpack-dev-server --host 0.0.0.0 --port 8003",
     "start:standalone": "webpack-dev-server --env.standalone",
