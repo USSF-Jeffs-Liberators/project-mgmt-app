@@ -10,8 +10,8 @@ class FinancePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user_id: 4,
-      project_num: 3,
+      user_id: 3,
+      project_num: 2,
       userType: 'Project Manager',
       users: [],
       selectedProject: {},
@@ -116,9 +116,12 @@ class FinancePage extends React.Component {
   }
 
   getPayRate(expense) {
+    // alert(JSON.stringify(expense))
     var payRate = "";
+    let dailyRate = 0;
     for (let i = 0; i < this.state.teamMembers.length; i++) {
       if (this.state.teamMembers[i].user_id === expense.employee) {
+        dailyRate = this.state.teamMembers[i].daily_rate;
         payRate += "$" + this.state.teamMembers[i].daily_rate + " x ";
       }
     }
@@ -129,8 +132,31 @@ class FinancePage extends React.Component {
       }
     }
     payRate += sumDays + " work days";
+
+    // if (dailyRate !== 0 && sumDays > 0) {      
+    //   this.updateLaborExpense(expense, (dailyRate*sumDays))
+    // }
+
     return payRate;
   }
+
+  // async updateLaborExpense(expense, expenseAmount) {
+  //   var laborExpense = {};
+  //   laborExpense.expense_amount = expenseAmount
+
+  //   await fetch(
+  //     `http://localhost:3001/update-labor-expense/${expense.expense_id}`,
+  //     {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(laborExpense),
+  //     }
+  //   );
+  //   this.getExpenses();
+  //   this.updateCurrentCost(0);
+  // }
 
   getFullName(user_id) {
     if (user_id === null) {
@@ -602,7 +628,7 @@ class FinancePage extends React.Component {
         circle.setAttribute("cx", this.size / 2);
         circle.setAttribute("cy", this.size / 2);
         circle.setAttribute("r", r);
-        circle.setAttribute("fill", "url(#gradient-background)");
+        circle.setAttribute("fill", "transparent"); // url(#gradient-background)
         this.svg.appendChild(circle);
         this.overlay = circle;
       };

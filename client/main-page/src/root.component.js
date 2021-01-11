@@ -11,7 +11,7 @@ import SubmitIssue from "./views/issue-page";
 export default function Root(props) {
   // mock different User_Types
   props = {
-    userType: "Developer",
+    userType: "Project Manager",
   };
 
   // "/" path will render a different page depending on user type

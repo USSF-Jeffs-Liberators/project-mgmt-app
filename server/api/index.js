@@ -308,7 +308,7 @@ app.get("/projects/:id/funding-requests", (req, res) => {
 app.get("/projects/:id/expenses", (req, res) => {
   const { id } = req.params;
   pool.query(
-    "SELECT * FROM Expense WHERE Project_ID = $1",
+    "SELECT * FROM Expense WHERE Project_ID = $1 ORDER BY Expense_ID ASC",
     [id],
     (error, results) => {
       if (error) {
@@ -724,6 +724,24 @@ app.post("/review-funding-requests/:id", (req, res) => {
       req.body.review_note,
       req.body.reviewed_by,
       req.params.id,
+    ],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+});
+
+// updates a labor expenses's amount
+app.post("/update-labor-expense", (req, res) => {
+  pool.query(
+    "UPDATE Expense SET Expense_Amount = $1 WHERE Project_ID = $2 AND Employee = $3",
+    [
+      req.body.expense_amount,
+      req.body.project_id,
+      req.body.employee,
     ],
     (error, results) => {
       if (error) {
