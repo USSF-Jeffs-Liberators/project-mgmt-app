@@ -331,6 +331,34 @@ app.get("/projects/:id/expenses", (req, res) => {
     }
   );
 });
+//get project requirements by user_id
+app.get("/projects/requirements/:userid", (req, res) => {
+  const { userid } = req.params;
+  pool.query(
+    "SELECT * FROM TEAM_MEMBER INNER JOIN Requirement on team_member.project_id = requirement.project_id where user_id = $1", 
+    [userid],
+    (error, results) => {
+      if(error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  )
+})
+app.delete("/projects/requirements", (req, res) => {
+  const { requirement_id } = req.body;
+  pool.query(
+    "DELETE FROM Requirement WHERE requirement_id = $1",
+    [requirement_id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+  
+});
 //
 // ~~~~~ /team-members Endpoints: ~~~~~
 //
