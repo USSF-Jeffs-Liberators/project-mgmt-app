@@ -9,7 +9,6 @@ import GeneralManagerDashboard from "./views/gm-dashboard";
 import SubmitIssue from "./views/issue-page";
 
 import AuthService from "./services/auth.service";
-import HomePage from "./views/HomePage";
 
 export default function Root(props) {
   // mock different User_Types
@@ -22,18 +21,6 @@ export default function Root(props) {
       setCurrentUser(user);
     }
   }, []);
-  // const user = AuthService.getCurrentUser();
-  // if(user){
-  //   props = {
-  //     userType: user.roles[0],
-  //     userId: user.user_id
-  //   };
-  // } else {
-  //   props = {
-  //     userType: "public",
-  //     userId: -1
-  //   };
-  // }
   
 
   // "/" path will render a different page depending on user type
@@ -47,10 +34,10 @@ export default function Root(props) {
         case "General Manager":
           return <Route exact path="/" component={GeneralManagerDashboard} />;
         default:
-          return <Route exact path="/" component={HomePage} />;
+          return <Route exact path="/" component={LoggedOut} />;
       }
     } else {
-      return <Route exact path="/" component={HomePage} />;
+      return <Route exact path="/" component={LoggedOut} />;
     }
     
   };

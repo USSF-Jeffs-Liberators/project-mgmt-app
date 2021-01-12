@@ -17,10 +17,6 @@ export default function Root(props) {
     }
   }, []);
   
-  // props = {
-  //   loggedIn: true,
-  //   userType: 
-  // };
   let buttonLinks = [];
   let tabLinks = [];
 
@@ -70,8 +66,13 @@ export default function Root(props) {
           return (
             <rux-button 
               key={link.href} 
-              className={link.class} 
-              onClick={() => history.push("/" + link.href)}>
+              className={link.class}
+              onClick={() => {
+                  if(link.href === "logout"){
+                    localStorage.removeItem("user")
+                  }
+                  history.push("/" + link.href)
+                              }}>
                 {link.name}
             </rux-button>
           );
