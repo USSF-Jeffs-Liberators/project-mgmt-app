@@ -3,7 +3,7 @@ import axios from "axios";
 import { useForm, useStep } from "react-hooks-helper";
 import { ProjInfo } from "./form/ProjInfo";
 import { ProjTimeline } from "./form/ProjTimeline";
-import { AvailableUsers } from "./form/ProjTeam";
+import { AvailableUsers } from "./form/AvailableUsers";
 
 const defaultData = {
   projName: "",
