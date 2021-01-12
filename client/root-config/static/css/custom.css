@@ -176,6 +176,7 @@ pre {
   background: white;
   color: black;
   padding: 2em;
+  white-space: pre-wrap;
 }
 
 .flex-container {

@@ -76,7 +76,9 @@ export const ProjTeam = ({ formData, userData, setForm, navigation }) => {
           className="rux-button"
           type="button"
           style={{ marginTop: "1rem" }}
-          onClick={() => navigation.next()}
+          onClick={() => {
+            projManager != "" ? navigation.next() : alert("Please select a project manager.")
+          }}
         >
           Next
         </button>
