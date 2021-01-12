@@ -563,6 +563,21 @@ app.post("/issues", (req, res) => {
 });
 
 //Update an Issue
+app.post("/issues/:issue_id/update", (req, res) => {
+  pool.query(
+    "UPDATE Issue SET severity = $1 WHERE issue_id = $2",
+    [
+      req.body.severity,
+      req.params.issue_id,
+    ],
+    (error, results) => {
+      if (error){
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+    )
+})
 
 
 //
