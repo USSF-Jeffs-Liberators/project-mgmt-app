@@ -74,6 +74,7 @@ export class RuxAccordion extends LitElement {
           background: var(--accordionContentBackground, rgb(20, 32, 44));
           display: flex;
           align-items: center;
+          justify-content: center;
         }
 
         .rux-accordion__item[open] > .rux-accordion__label {
