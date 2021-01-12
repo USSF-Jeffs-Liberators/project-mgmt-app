@@ -22,6 +22,28 @@ const ProjectRequirements = () => {
     getRequirements();
   }, []);
 
+  const deleteRequirement = async id => {
+    try {
+        let body = {id
+          }
+        const requestOptions = {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        };
+        await fetch(`http://localhost:3001/delete_service_request`, requestOptions)
+          .then(response => response.json())
+          .then(response => {
+          if(response.status === "failed")
+          alert(response.message)})
+
+
+        setServiceRequests(serviceRequests.filter(each => each.id !== id));
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
   return (
     <table id="projectRequirements" className="rux-table">
       <tbody>
@@ -29,12 +51,22 @@ const ProjectRequirements = () => {
           <th>Description</th>
           <th>Priority</th>
           <th>Status</th>
+          <th>Edit</th>
+          <th>Delete</th>
         </tr>
         {requirements.map((each) => (
           <tr key={each.requirement_id}>
             <td>{each.requirement_desc}</td>
             <td>{each.priority}</td>
             <td>{each.requirement_status}</td>
+            {/* <td>{<EditRequirement each={each} /> }</td> */}
+            <td><rux-button>Edit</rux-button></td>
+            <td><button
+                  className="rux-button"
+                  // onClick={() => deleteRequirement(each.id)}
+                >
+                  Delete
+                </button></td>
           </tr>
         ))}
       </tbody>
