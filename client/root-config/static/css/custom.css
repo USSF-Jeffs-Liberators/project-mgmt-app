@@ -176,3 +176,15 @@ pre {
   color: black;
   padding: 2em;
 }
+
+.flex-container {
+  display: flex;
+}
+
+.flex-child {
+  flex: 1;
+}  
+
+.flex-child:first-child {
+  margin-right: 64px;
+} 

@@ -3,7 +3,10 @@ import axios from "axios";
 import { useForm, useStep } from "react-hooks-helper";
 import { ProjInfo } from "./form/ProjInfo";
 import { ProjTimeline } from "./form/ProjTimeline";
-import { AvailableUsers } from "./form/ProjTeam";
+import { ProjTeam } from "./form/ProjTeam";
+import { ProjBudget } from "./form/ProjBudget";
+import { ProjReview } from "./form/ProjReview";
+import { ProjSubmit } from "./form/ProjSubmit";
 
 const defaultData = {
   projName: "",
@@ -50,7 +53,13 @@ export const MultiStepForm = () => {
     case "timeline":
       return <ProjTimeline {...props} />;
     case "team":
-      return <AvailableUsers {...props} />;
+      return <ProjTeam {...props} />;
+    case "budget":
+      return <ProjBudget {...props} />;
+    case "review":
+      return <ProjReview {...props} />;
+    case "submit":
+      return <ProjSubmit {...props} />;
   }
 
   return (
