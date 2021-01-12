@@ -155,7 +155,7 @@ nav rux-button {
 ========================================================================== */
 
 #form {
-  max-width: 300px;
+  max-width: 400px;
   margin: auto;
 }
 
@@ -170,7 +170,7 @@ li {
 }
 
 pre {
-  max-width:300px;
+  max-width: 550px;
   margin: auto;
   background: white;
   color: black;

@@ -1,6 +1,6 @@
 import React from "react";
 
-export const ProjInfo = ({ formData, setForm, navigation }) => {
+export const ProjInfo = ({ formData, setForm, navigation, userData }) => {
   const { projName, projDesc } = formData;
   return (
     <div id="form">
