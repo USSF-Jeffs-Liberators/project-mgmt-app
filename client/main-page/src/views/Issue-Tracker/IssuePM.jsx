@@ -27,7 +27,6 @@ const IssueTrackerPM = () =>
   
     const [issues, setIssues] = useState([]);
     const [projects, setProjects] = useState([]);
-    const [team, setTeam] = useState([]);
     const matches = [];
     const projMatches = [];
     const projIssues = [];
