@@ -2,7 +2,7 @@ import React from "react";
 
 export const ProjBudget = ({ navigation }) => {
   return (
-    <div>
+    <div id="form">
       <h1>Some financial form here.</h1>
       <div className="rux-button-group">
         <button
