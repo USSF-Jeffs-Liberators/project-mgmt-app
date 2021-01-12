@@ -47,7 +47,6 @@ export const ProjTimeline = ({ formData, setForm, navigation }) => {
           <button
             className="rux-button"
             type="button"
-            value="Submit"
             style={{ marginTop: "1rem" }}
             onClick={() => {
               formData.projStart != "" && formData.projDeadline != ""

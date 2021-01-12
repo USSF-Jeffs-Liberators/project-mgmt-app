@@ -25,7 +25,7 @@ export const AvailableUsers = ({ navigation, userData, formData }) => {
   }
 
   return (
-    <div style={{ margin: "auto", maxWidth: "950px" }}>
+    <div className="flex-child" style={{ marginLeft: "10px", minWidth: "950px", maxWidth:"950px" }}>
       <h1 style={{ marginTop: "26px" }}>Available Team Members</h1>
       <RenderAccordion
         summary="Project Managers"
@@ -40,29 +40,6 @@ export const AvailableUsers = ({ navigation, userData, formData }) => {
         summary="All Developers And Project Managers"
         availUsers={userData.filter((each) => each.first_name != 'admin')}
       />
-      <div className="rux-button-group">
-        <button
-          className="rux-button"
-          type="button"
-          style={{ marginTop: "1rem" }}
-          onClick={() => navigation.previous()}
-        >
-          Back
-        </button>
-        <button
-          className="rux-button"
-          type="button"
-          value="Submit"
-          style={{ marginTop: "1rem" }}
-          onClick={() => {
-            formData.projStart != "" && formData.projDeadline != ""
-              ? navigation.next()
-              : alert("Please enter a valid date.");
-          }}
-        >
-          Next
-        </button>
-      </div>
     </div>
   );
 };
