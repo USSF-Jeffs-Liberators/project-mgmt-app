@@ -17,12 +17,14 @@ const defaultData = {
 };
 
 const steps = [
-  { id: "info" },
-  { id: "timeline" },
-  { id: "team" },
+  { id: "project information" },
+  { id: "project timeline" },
+  { id: "project team" },
   { id: "review" },
   { id: "submit" },
 ];
+
+//TODO: 
 
 export const MultiStepForm = () => {
   const [userData, setUserData] = useState({ hits: [] });
@@ -44,11 +46,11 @@ export const MultiStepForm = () => {
   const props = { formData, setForm, navigation, userData };
 
   switch (step.id) {
-    case "info":
+    case "project information":
       return <ProjInfo {...props} />;
-    case "timeline":
+    case "project timeline":
       return <ProjTimeline {...props} />;
-    case "team":
+    case "project team":
       return <ProjTeam {...props} />;
     case "review":
       return <ProjReview {...props} />;
