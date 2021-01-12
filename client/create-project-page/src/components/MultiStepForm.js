@@ -4,13 +4,13 @@ import { useForm, useStep } from "react-hooks-helper";
 import { ProjInfo } from "./form/ProjInfo";
 import { ProjTimeline } from "./form/ProjTimeline";
 import { ProjTeam } from "./form/ProjTeam";
-import { ProjBudget } from "./form/ProjBudget";
 import { ProjReview } from "./form/ProjReview";
 import { ProjSubmit } from "./form/ProjSubmit";
 
 const defaultData = {
   projName: "",
   projDesc: "",
+  projBudget: "",
   projStart: "",
   projDeadline: "",
   projManager: "",
@@ -20,7 +20,6 @@ const steps = [
   { id: "info" },
   { id: "timeline" },
   { id: "team" },
-  { id: "budget" },
   { id: "review" },
   { id: "submit" },
 ];
@@ -51,8 +50,6 @@ export const MultiStepForm = () => {
       return <ProjTimeline {...props} />;
     case "team":
       return <ProjTeam {...props} />;
-    case "budget":
-      return <ProjBudget {...props} />;
     case "review":
       return <ProjReview {...props} />;
     case "submit":
