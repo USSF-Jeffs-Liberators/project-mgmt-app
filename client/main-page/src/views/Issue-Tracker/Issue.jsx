@@ -8,12 +8,14 @@ const IssueTracker = () => {
   //const project_id = 2;
 
   //mock logged in user
-  // const user_id = 6;
+   //const user_id = 6;
 
+
+  //ATTEMPT 2
+  //DECLARE FUNCTION FOR GETTING PROJECT ID FROM USER ID
   const [project_id, setProjectID] = useState("");
 
-
-  const getProjectID = async () => {
+  const getProjectID = async (user_id) => {
     try 
     {
       console.log("BEFORE FETCH");
@@ -33,21 +35,16 @@ const IssueTracker = () => {
   }
 
 
-
-
-  const [user_id, setUserID] = useState("");
-  //mock logged in Project Manager user
+  //GET USER ID FROM AUTH
   const [currentUser, setCurrentUser] = useState(undefined);
   useEffect(() => {
     const user = AuthService.getCurrentUser();
 
     if (user) {
       setCurrentUser(user);
-      setUserID(user.user_id);
-      getProjectID();
+      //CALL FUNCTION TO GET PROJECT ID PASSING IN THE USER ID
+      getProjectID(user.user_id);
     }
-
-
 
   }, []);
 
