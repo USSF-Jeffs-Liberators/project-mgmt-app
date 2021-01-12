@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import AuthService from "../../services/auth.service";
 
 const ProjectRequirements = () => {
   // mock selected project
@@ -17,10 +18,21 @@ const ProjectRequirements = () => {
       console.error(err.message);
     }
   };
+  const [currentUser, setCurrentUser] = useState(undefined);
+  useEffect(() => {
+    const user = AuthService.getCurrentUser();
+
+    if (user) {
+      setCurrentUser(user);
+    }
+  }, []);
 
   useEffect(() => {
     getRequirements();
   }, []);
+
+  const []
+  
 
   const deleteRequirement = async id => {
     try {
@@ -31,14 +43,14 @@ const ProjectRequirements = () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
         };
-        await fetch(`http://localhost:3001/delete_service_request`, requestOptions)
+        await fetch(`http://localhost:3001/requirements`, requestOptions)
           .then(response => response.json())
           .then(response => {
           if(response.status === "failed")
           alert(response.message)})
 
 
-        setServiceRequests(serviceRequests.filter(each => each.id !== id));
+        setRequirements(requirements.filter(each => each.id !== id));
     } catch (err) {
       console.error(err.message);
     }
