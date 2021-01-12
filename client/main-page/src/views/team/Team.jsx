@@ -6,6 +6,7 @@ const TeamRoster = (props) => {
         userType: "General Manager",
         project_id: 2
     }
+
     const [users, setUsers] = useState([]);
     const [team, setTeam] = useState([]);
     const [allDevelopers, setAllDevelopers] = useState([])
@@ -42,7 +43,7 @@ const TeamRoster = (props) => {
 
     const getAllDevelopers = async () => {
         try {
-            const response = await fetch(`http://localhost:3001/users/type/Developer`);
+            const response = await fetch(`http://localhost:3001/users/role/Developer`);
             const jsonData = await response.json();
             setAllDevelopers(jsonData);
         } catch (err) {console.error(err.message)}
@@ -52,7 +53,7 @@ const TeamRoster = (props) => {
 
     const getAllManagers = async () => {
         try {
-            const response = await fetch(`http://localhost:3001/users/type/Project%20Manager`);
+            const response = await fetch(`http://localhost:3001/users/role/Project%20Manager`);
             const jsonData = await response.json();
             setAllManagers(jsonData);
         } catch (err) {console.error(err.message)}
