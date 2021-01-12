@@ -20,11 +20,7 @@ const IssueTracker = () => {
       console.log(user_id);
       const response = await fetch(`http://localhost:3001/users/${user_id}/team`);
       const jsonData = await response.json();
-      console.log("AFTER FETCH");
       setProjectID(jsonData[0].project_id);
-
-      console.log("AFTER SETPROJECTID");
-      console.log(jsonData[0].project_id);
     }
     catch (err)
     {

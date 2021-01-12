@@ -71,24 +71,6 @@ export default function LoginForm(props) {
     <div id="loginPage">
       <h4>Log in to view your Dashboard:</h4>
 
-      {/* <form className="rux-form">
-        <div className="rux-form-field">
-          <label htmlFor="input__text">Username</label>
-          <input id="input__text" className="rux-input" type="text" required />
-        </div>{" "}
-        <br />
-        <div className="rux-form-field">
-          <label htmlFor="input__password">Password</label>
-          <input
-            id="input__password"
-            className="rux-input"
-            type="password"
-            required
-          />
-        </div>{" "}
-        <br />
-        <rux-button type="button">Submit</rux-button>
-      </form> */}
       <Form className="rux-form" onSubmit={handleLogin} ref={form}>
         <div className="rux-form-field">
           <label htmlFor="username">Username </label>
