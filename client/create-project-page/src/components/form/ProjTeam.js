@@ -4,7 +4,7 @@ import { AvailableUsers } from "./AvailableUsers";
 
 export const ProjTeam = ({ formData, userData, setForm, navigation }) => {
   const props = { navigation, formData, userData };
-  const { projDeadline } = formData;
+  const { projDeadline, projManager } = formData;
   var formDeadlineDate = new Date(projDeadline);
 
   function filterUsers(role) {
@@ -26,29 +26,61 @@ export const ProjTeam = ({ formData, userData, setForm, navigation }) => {
   }
 
   return (
-    <div className="flex-container">
-        <AvailableUsers {...props} filterUsers={filterUsers}/>
-      <form className="rux-form flex-child" style={{ minWidth: "225px" }}>
-        <h1 style={{ marginTop: "26px" }}>Project Team</h1>
-        <div className="rux-button-group">
-          <button
-            className="rux-button"
-            type="button"
-            style={{ marginTop: "1rem" }}
-            onClick={() => navigation.previous()}
-          >
-            Back
-          </button>
-          <button
-            className="rux-button"
-            type="button"
-            style={{ marginTop: "1rem" }}
-            onClick={() => navigation.next()}
-          >
-            Next
-          </button>
-        </div>
-      </form>
+    <div>
+      <div className="flex-container">
+        <form
+          id="form"
+          className="flex-child"
+          style={{
+            maxWidth: "250px",
+            minWidth: "225px",
+            marginTop: "0px",
+            marginRight: "64px",
+          }}
+        >
+          <h1 style={{ marginTop: "26px" }}>Project Team</h1>
+          <div className="rux-form-field" style={{ marginTop: "16px" }}>
+            <label
+              style={{ marginBottom: "6px" }}
+              htmlFor="projManager"
+            >
+              Project Manager
+            </label>
+            <select
+              className="rux-form-element rux-select"
+              name="projManager"
+              id="projManager"
+              value={projManager}
+              onChange={setForm}
+              autoComplete="off"
+            >
+              <option value="">Select Project Manager</option>
+              {filterUsers("Project Manager").map((each) => (
+                <option>{`${each.first_name} ${each.last_name}`}</option>
+              ))}
+            </select>
+          </div>
+        </form>
+        <AvailableUsers {...props} filterUsers={filterUsers} />
+      </div>
+      <div className="rux-button-group" style={{ marginLeft: "10px" }}>
+        <button
+          className="rux-button"
+          type="button"
+          style={{ marginTop: "1rem" }}
+          onClick={() => navigation.previous()}
+        >
+          Back
+        </button>
+        <button
+          className="rux-button"
+          type="button"
+          style={{ marginTop: "1rem" }}
+          onClick={() => navigation.next()}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };

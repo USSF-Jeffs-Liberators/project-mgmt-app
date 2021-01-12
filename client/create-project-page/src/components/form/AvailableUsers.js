@@ -4,7 +4,7 @@ import { RuxAccordion } from "../../altcomponents/components/Accordion/rux-accor
 export const AvailableUsers = (props) => {
 
   return (
-    <div className="flex-child" style={{ marginLeft: "10px", minWidth: "950px", maxWidth:"950px" }}>
+    <div className="flex-child" style={{ minWidth: "950px", maxWidth:"950px" }}>
       <h1 style={{ marginTop: "26px" }}>Available Team Members</h1>
       <RenderAccordion
         summary="Project Managers"
