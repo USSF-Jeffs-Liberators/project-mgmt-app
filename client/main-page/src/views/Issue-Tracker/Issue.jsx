@@ -1,15 +1,85 @@
 import React, { useEffect, useState } from "react";
 
+import AuthService from "../../services/auth.service";
+
+
 const IssueTracker = () => {
   // mock selected project
-  const project_id = 2;
+  //const project_id = 2;
 
   //mock logged in user
-  const user_id = 1;
+  // const user_id = 6;
+
+  const [project_id, setProjectID] = useState("");
+
+
+  const getProjectID = async () => {
+    try 
+    {
+      console.log("BEFORE FETCH");
+      console.log(user_id);
+      const response = await fetch(`http://localhost:3001/users/${user_id}/team`);
+      const jsonData = await response.json();
+      console.log("AFTER FETCH");
+      setProjectID(jsonData[0].project_id);
+
+      console.log("AFTER SETPROJECTID");
+      console.log(jsonData[0].project_id);
+    }
+    catch (err)
+    {
+      console.error(err.message);
+    }
+  }
+
+
+
+
+  const [user_id, setUserID] = useState("");
+  //mock logged in Project Manager user
+  const [currentUser, setCurrentUser] = useState(undefined);
+  useEffect(() => {
+    const user = AuthService.getCurrentUser();
+
+    if (user) {
+      setCurrentUser(user);
+      setUserID(user.user_id);
+      getProjectID();
+    }
+
+
+
+  }, []);
+
 
   const [issues, setIssues] = useState([]);
+  //const [project_id, setProjectID] = useState("");
   const [team, setTeam] = useState([]);
   const matches = [];
+
+
+  // const getProjectID = async () => {
+  //   try 
+  //   {
+  //     console.log("BEFORE FETCH");
+  //     console.log(user_id);
+  //     const response = await fetch(`http://localhost:3001/users/${user_id}/team`);
+  //     const jsonData = await response.json();
+  //     console.log("AFTER FETCH");
+  //     setProjectID(jsonData[0].project_id);
+
+  //     console.log("AFTER SETPROJECTID");
+  //     console.log(jsonData[0].project_id);
+  //   }
+  //   catch (err)
+  //   {
+  //     console.error(err.message);
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   getProjectID();
+  // }, []);
 
   //Obtain all issues function
   const getAllIssues = async () => {
@@ -25,7 +95,7 @@ const IssueTracker = () => {
   //Store all issues in array
   useEffect(() => {
     getAllIssues();
-  }, []);
+  });
 
 
   //Obtain all issues for matched project id

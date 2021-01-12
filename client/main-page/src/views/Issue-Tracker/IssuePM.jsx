@@ -1,13 +1,29 @@
 import React, { useEffect, useState } from "react";
 
+import AuthService from "../../services/auth.service";
+
 //ISSUE TRACKER FOR PROJECT MANAGER
 
 
 const IssueTrackerPM = () =>
 {
+
+  const [projectManager_id, setProjectManagerID] = useState("");
     //mock logged in Project Manager user
-    const user_id = 4;
-    const projectManager_id = user_id;
+    const [currentUser, setCurrentUser] = useState(undefined);
+    useEffect(() => {
+      const user = AuthService.getCurrentUser();
+  
+      if (user) {
+        setCurrentUser(user);
+        setProjectManagerID(user.user_id);
+      }
+    }, []);
+
+
+    // let user_id = 4;
+    // //user_id = currentUser.user_id;
+    // const projectManager_id = user_id;
   
     const [issues, setIssues] = useState([]);
     const [projects, setProjects] = useState([]);
