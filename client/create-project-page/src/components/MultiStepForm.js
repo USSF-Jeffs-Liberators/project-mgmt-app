@@ -13,10 +13,7 @@ const defaultData = {
   projDesc: "",
   projStart: "",
   projDeadline: "",
-  state: "",
-  zip: "",
-  phone: "",
-  email: "",
+  projManager: "",
 };
 
 const steps = [

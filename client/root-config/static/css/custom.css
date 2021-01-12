@@ -157,6 +157,7 @@ nav rux-button {
 #form {
   max-width: 400px;
   margin: auto;
+  margin-left: 10px;
 }
 
 ul {
