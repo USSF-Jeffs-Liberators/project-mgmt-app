@@ -8,7 +8,7 @@ class GanttChart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      project_id: 2,
+      project_id: 1,
       tasks: [],
       dependencies: [],
       users: [],
@@ -19,7 +19,22 @@ class GanttChart extends React.Component {
     };
   }
   
+  async getProjectId() {
+    if (JSON.parse(localStorage.getItem('user')).roles[0] === 'General Manager') {
+      this.setState({project_id:localStorage.getItem('selectedProjectId')})
+    } else {
+      const response = await fetch('http://localhost:3001/team-members');
+      const json = await response.json()
+      for (let i = 0; i < json.length; i++) {
+        if (json[i].user_id === JSON.parse(localStorage.getItem('user')).user_id) {
+          this.setState({project_id: json[i].project_id}) 
+        }
+      }
+    }
+  }
+
   async componentDidMount() {
+    await this.getProjectId()
     this.setEvents()
     this.fetchData();
   }

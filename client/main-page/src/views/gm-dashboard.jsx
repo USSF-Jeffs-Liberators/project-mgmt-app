@@ -1,27 +1,62 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-import IssueTrackerGM from "./Issue-Tracker/IssueGM";
+// import IssueTrackerGM from "./Issue-Tracker/IssueGM";
 import GanttChart from "./gantt-chart/App";
-import ProjectRequirements from "./requirements/Requirements";
+// import ProjectRequirements from "./requirements/Requirements";
 
 
-export default function GeneralManagerDashboard(props) {
+export default function GeneralManagerDashboard() {
+
+  // const [projects, setProjects] = useState(undefined);
+  // const [selectedProject, setSelectedProject] = useState(1);
+  // const projects = [];
+
+
+
+  if (localStorage.getItem("selectedProjectId") === null) {
+    localStorage.setItem("selectedProjectId", 1)
+  }
+
+  var projects = [];
+
+  const getProjects = async () => {
+    try {
+      const response = await fetch('http://localhost:3001/projects')
+      const json = await response.json()
+      projects = json
+    } catch (err) {
+      alert(err.message);
+    }
+  }
+
+  useEffect(() => {
+    getProjects();
+  });
+
   return (
     <div className="dashboard" id="gmDashboard">
       <section className="project-select col-1">
-        <select >
-          <option>USSF Leave Tracker</option>
-          <option>SAT-STAT</option>
-          <option>Autonomous Warfare Decision Maker</option>
+        <h2>Select Project:</h2>
+        <select class="rux-select" id="project-select" onChange={() => {
+          let x = document.getElementById("project-select").value
+          localStorage.setItem("selectedProjectId", x)
+          window.location.reload(false);
+        }}>
+          {/* <option selected>{projects[0].project_name}</option> */}
+          <option value="" selected disabled hidden>Select a Project</option>
+          <option value="1">USSF Leave Tracker</option>
+          <option value="2">SAT-STAT</option>
+          <option value="3">Autonomous Warfare Decision Maker</option>
         </select>
       </section>
-
-      <section className="project-timeline col-11">
+      <section className="project-timeline col-12">
         <h2>Gantt Chart</h2>
         <GanttChart />
       </section>
-      {/* <section className="gm-funding-requests col-s-6 col-4"><h5>All Open Funding Requests</h5></section>
-      <section className="gm-budget col-s-6 col-4"><h5>Budget Overview</h5></section>
+      <section className="gm-requirements col-6"><h2>This Projects Requirements</h2></section>
+      <section className="gm-issues col-6"><h2>This Projects Issues</h2></section>
+      {/* <section></section> */}
+      {/* 
       <section className="gm-issues col-s-6 col-4">
         {/* {/* <h5>All Issues</h5>
         <IssueTrackerGM /> */}

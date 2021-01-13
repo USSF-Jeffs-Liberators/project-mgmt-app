@@ -133,7 +133,7 @@ nav rux-button {
 }
 
 
-.project-select,
+
 .project-requirements,
 
 /* .project-requirements,
@@ -145,13 +145,11 @@ nav rux-button {
   height: 400px;
 } */
 
-.gm-funding-requests,
-.gm-budget {
+.gm-issues {
   float: right;
   /* height: 375px; */
 }
 
-.gm-issues,
 .gm-requirements {
   float: left;
   /* height: 250px; */
