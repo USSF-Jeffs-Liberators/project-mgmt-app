@@ -161,7 +161,6 @@ const IssueTrackerPM = () =>
     return "N/A"
   }
 
-    function saveIssues(priority)
 
     const saveIssues = async (e) =>
 
