@@ -261,7 +261,7 @@ app.get("/projects/:id/requirements", (req, res) => {
 app.get("/projects/:id/tasks", (req, res) => {
   const { id } = req.params;
   pool.query(
-    "SELECT * FROM Task WHERE Project_ID = $1",
+    "SELECT * FROM Task WHERE Project_ID = $1 ORDER BY Task_ID ASC",
     [id],
     (error, results) => {
       if (error) {
@@ -276,7 +276,7 @@ app.get("/projects/:id/tasks", (req, res) => {
 app.get("/projects/:id/dependencies", (req, res) => {
   const { id } = req.params;
   pool.query(
-    "SELECT * FROM Dependency WHERE Project_ID = $1",
+    "SELECT * FROM Dependency WHERE Project_ID = $1 ORDER BY Dependency_ID ASC",
     [id],
     (error, results) => {
       if (error) {
