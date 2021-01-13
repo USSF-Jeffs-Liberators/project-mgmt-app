@@ -40,10 +40,7 @@ export const ProjTeam = ({ formData, userData, setForm, navigation }) => {
         >
           <h1 style={{ marginTop: "26px" }}>Project Team</h1>
           <div className="rux-form-field" style={{ marginTop: "16px" }}>
-            <label
-              style={{ marginBottom: "6px" }}
-              htmlFor="projManager"
-            >
+            <label style={{ marginBottom: "6px" }} htmlFor="projManager">
               Project Manager
             </label>
             <select
@@ -60,28 +57,30 @@ export const ProjTeam = ({ formData, userData, setForm, navigation }) => {
               ))}
             </select>
           </div>
+          <div className="rux-button-group" style={{ marginTop: "175px" }}>
+            <button
+              className="rux-button"
+              type="button"
+              style={{ marginTop: "1rem" }}
+              onClick={() => navigation.previous()}
+            >
+              Back
+            </button>
+            <button
+              className="rux-button"
+              type="button"
+              style={{ marginTop: "1rem" }}
+              onClick={() => {
+                projManager != ""
+                  ? navigation.next()
+                  : alert("Please select a project manager.");
+              }}
+            >
+              Next
+            </button>
+          </div>
         </form>
         <AvailableUsers {...props} filterUsers={filterUsers} />
-      </div>
-      <div className="rux-button-group" style={{ marginLeft: "10px" }}>
-        <button
-          className="rux-button"
-          type="button"
-          style={{ marginTop: "1rem" }}
-          onClick={() => navigation.previous()}
-        >
-          Back
-        </button>
-        <button
-          className="rux-button"
-          type="button"
-          style={{ marginTop: "1rem" }}
-          onClick={() => {
-            projManager != "" ? navigation.next() : alert("Please select a project manager.")
-          }}
-        >
-          Next
-        </button>
       </div>
     </div>
   );
