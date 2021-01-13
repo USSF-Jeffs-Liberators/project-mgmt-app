@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 
 // import IssueTrackerGM from "./Issue-Tracker/IssueGM";
 import GanttChart from "./gantt-chart/App";
+import TeamRoster from "./team/Team";
 // import ProjectRequirements from "./requirements/Requirements";
 
 export default function GeneralManagerDashboard() {
@@ -45,8 +46,12 @@ export default function GeneralManagerDashboard() {
         <h2>Gantt Chart</h2>
         <GanttChart />
       </section>
-      <section className="gm-requirements col-6"><h2>This Projects Requirements</h2></section>
-      <section className="gm-issues col-6"><h2>This Projects Issues</h2></section>
+      <section className="gm-issues col-s-12 col-6"><h2>This Project's Issues</h2></section>
+      <section className="gm-issues col-s-12 col-6">
+        <h2>This Project's Team</h2>
+        <TeamRoster />
+      </section>
+      <section className="gm-requirements col-12"><h2>This Project's Requirements</h2></section>
       {/* <section></section> */}
       {/* 
       <section className="gm-issues col-s-6 col-4">

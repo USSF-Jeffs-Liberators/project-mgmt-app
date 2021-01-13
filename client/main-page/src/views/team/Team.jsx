@@ -10,7 +10,9 @@ const TeamRoster = (props) => {
       const user = AuthService.getCurrentUser();
       if (user) {
         setUserType(user.roles[0]);
-        getProjectID(user.user_id);
+        user.roles[0] === "General Manager"
+        ? setProjectID(localStorage.selectedProjectId)
+        : getProjectID(user.user_id);
       }
     }, []);
 
@@ -82,7 +84,7 @@ const TeamRoster = (props) => {
         } catch (err) {console.error(err.message)}
     };
 
-    useEffect(() => {projectID ? getTeamRoster(projectID) : null});
+    useEffect(() => {getTeamRoster(projectID)});
 
     ////// GET ALL USERS WHO ARE DEVELOPERS //////
     const getAllDevelopers = async () => {
@@ -121,7 +123,7 @@ const TeamRoster = (props) => {
         projectManagers.sort((a, b) => (a.last_name > b.last_name ? 1 : -1))
     }
 
-    getMatches();
+    getMatches()
 
     ////// DELETE MEMBER FROM TEAM //////
     const handleDeleteMember = async (id) => {
@@ -180,6 +182,7 @@ const TeamRoster = (props) => {
                 getMatches();
                 getAllUsersOnTeams();
                 getUsersNotOnATeam();
+                document.getElementById("input__developerRate").value = "";
             } catch (err) {console.error(err.message)}
     }
 
@@ -217,6 +220,7 @@ const TeamRoster = (props) => {
             getMatches();
             getAllUsersOnTeams();
             getUsersNotOnATeam();
+            document.getElementById("input__managerRate").value = "";
         } catch (err) {console.error(err.message)}
     }
 
@@ -245,13 +249,13 @@ const TeamRoster = (props) => {
                 {projectManagers.map(user => (
                     <tr key={user.user_id}>
                         <td>{user.first_name} {user.last_name}</td>
-                        { userType === "General Manager"  
+                        { userType === "Project Manager" || userType === "General Manager" 
                             ? <td>{team.map(each => (
                                 each.user_id === user.user_id 
                                 ? getDollarFigure(each.daily_rate)
                                 : null
                             ))}</td> : null }
-                        { userType === "Project Manager" ? <td>&nbsp;</td> : null }
+                        { userType === "Developer" ? <td>&nbsp;</td> : null }
                         { userType === "General Manager" 
                             ? <td><rux-button 
                                 size="small" 
@@ -276,8 +280,8 @@ const TeamRoster = (props) => {
                         </select>
                         </td>
                         <td className="rux-form-field rux-form-field--small">
-                            <label for="input__text">Daily Rate:</label>
-                            <input id="input__text" className="rux-input" type="number" required 
+                            <label for="input__managerRate">Daily Rate:</label>
+                            <input id="input__managerRate" className="rux-input" type="number" required 
                             onChange={handleInputManagerRate}/>
                         </td>
                         <td><rux-button
@@ -329,8 +333,8 @@ const TeamRoster = (props) => {
                         </select>
                         </td>
                         <td className="rux-form-field rux-form-field--small">
-                            <label for="input__text">Daily Rate:</label>
-                            <input id="input__text" className="rux-input" type="number" required 
+                            <label for="input__developerRate">Daily Rate:</label>
+                            <input id="input__developerRate" className="rux-input" type="number" required 
                             onChange={handleInputDeveloperRate}/>
                         </td>
                         <td><rux-button

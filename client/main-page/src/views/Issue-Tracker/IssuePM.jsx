@@ -163,7 +163,6 @@ const IssueTrackerPM = () =>
 
 
     const saveIssues = async (e) =>
-
     {
       console.log("HELLO SAVE ISSUES FUNCTION")
       let newValue = e.target.value;
@@ -192,6 +191,22 @@ const IssueTrackerPM = () =>
 
     }
 
+    const resolutionParse = (is_resolved, resolution) =>
+    {
+      let answer = "";
+      if(is_resolved === "true")
+      {
+        answer = resolution;
+      }
+      else if(is_resolved === "false")
+      {
+        answer = "N/A";
+      }
+      return answer;
+    }
+
+
+
     return (
       <div>
         <table className="rux-table">
@@ -199,8 +214,8 @@ const IssueTrackerPM = () =>
             <tr className="rux_table__column-head">
               <th>Description</th>
               <th>Date</th>
-              <th>Resolved</th>
               <th>Severity</th>
+              <th>Resolution</th>
             </tr>
             {getMatchesProjects()}
             {getProjectsIssues()}
@@ -210,17 +225,19 @@ const IssueTrackerPM = () =>
               <tr key={user.issue_id} >
                 <td>{user.issue_desc}</td>
                 <td>{parseDatabaseDate(user.issue_timestamp)}</td>
-                <td><rux-button type="button">{user.is_resolved.toString()}</rux-button></td>
-
                 <td>
                   <select id="priority" data-issue-id = {user.issue_id} className="rux-button" type="text" onChange={saveIssues} required>
                     <option value ="" selected disabled hidden>{user.severity}</option>
-                    <option value = "low">Low</option>
-                    <option value = "medium">Medium</option>
-                    <option value = "high">High</option>
+                    <option value = "Low">Low</option>
+                    <option value = "Medium">Medium</option>
+                    <option value = "High">High</option>
                   </select>
 
                 </td>
+                <td>
+                  <rux-button type="button">{resolutionParse(user.is_resolved.toString(), user.resolution)}</rux-button>
+                </td>
+
                 
               </tr>
             ))}
