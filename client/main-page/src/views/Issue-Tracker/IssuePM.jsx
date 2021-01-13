@@ -12,6 +12,7 @@ const IssueTrackerPM = () =>
     const [issues, setIssues] = useState([]);
     const [projects, setProjects] = useState([]);
     const [team, setTeam] = useState([]);
+    const [months, setMonths] = useState([]);
     const matches = [];
     const projMatches = [];
     const projIssues = [];
@@ -33,6 +34,23 @@ const IssueTrackerPM = () =>
       getAllIssues();
     }, []);
   
+    // Sets Month Abbreviations
+    useEffect(() => {
+      setMonths([
+        "JAN",
+        "FEB",
+        "MAR",
+        "APR",
+        "MAY",
+        "JUN",
+        "JUL",
+        "AUG",
+        "SEP",
+        "OCT",
+        "NOV",
+        "DEC",
+      ])
+    }, []);
 
     //Get all projects function
     const getAllProjects = async () =>
@@ -102,6 +120,28 @@ const IssueTrackerPM = () =>
     //     applyCustomOrder(projIssuesSeverity, orderIWant);
     // }
 
+
+
+  // Formats the Date Output
+  const parseDatabaseDate = (databaseDate) => {
+    if (databaseDate === null) {
+      return "N/A";
+    }
+    var date = new Date(databaseDate);
+    return (
+      date.getDate() +
+      " " +
+      months[date.getMonth()] +
+      " " +
+      date.getFullYear() +
+      " @ " +
+      date.getHours() +
+      ":" +
+      (date.getMinutes()<10?'0':'') + date.getMinutes()
+    );
+    return "N/A"
+  }
+
     function saveIssues(priority)
     {
       console.log("HELLO SAVE ISSUES FUNCTION")
@@ -124,7 +164,7 @@ const IssueTrackerPM = () =>
             {projIssues.map((user) => (
               <tr key={user.issue_id}>
                 <td>{user.issue_desc}</td>
-                <td>{user.issue_timestamp}</td>
+                <td>{parseDatabaseDate(user.issue_timestamp)}</td>
                 <td><rux-button type="button">{user.is_resolved.toString()}</rux-button></td>
 
                 <td>

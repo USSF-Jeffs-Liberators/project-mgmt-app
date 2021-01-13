@@ -13,12 +13,18 @@ class GanttChart extends React.Component {
       dependencies: [],
       users: [],
       teamMembers: [],
+      projectExpenses: [],
       taskFlag: false,
-      linksFlag: false,
+      linksFlag: false
     };
   }
-
+  
   async componentDidMount() {
+    this.setEvents()
+    this.fetchData();
+  }
+
+  setEvents() {
     gantt.attachEvent("onAfterTaskAdd", async (id, item) => {
       var taskData = {};
       taskData.project_id = this.state.project_id;
@@ -52,9 +58,9 @@ class GanttChart extends React.Component {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(taskData),
-      });
-      await this.fetchData();
-      await this.updateLaborExpense(this.getUserID(item.resource))
+      })
+      await this.fetchData()
+      this.updateLaborExpense(this.getUserID(item.resource))
     });
 
     gantt.attachEvent("onAfterTaskDelete", async (id, item) => {
@@ -62,7 +68,7 @@ class GanttChart extends React.Component {
         method: "DELETE",
       });
       await this.fetchData();
-      await this.updateLaborExpense(this.getUserID(item.resource))
+      this.updateLaborExpense(this.getUserID(item.resource))
     });
 
     gantt.attachEvent("onAfterLinkAdd", async (id, item) => {
@@ -87,8 +93,8 @@ class GanttChart extends React.Component {
       });
       this.fetchData();
     });
-    this.fetchData();
   }
+
 
   async updateLaborExpense(userID) {
     let numWorkDays = 0
@@ -119,6 +125,28 @@ class GanttChart extends React.Component {
         body: JSON.stringify(laborExpense),
       }
     );
+    this.updateCurrentCost()
+  }
+
+  async updateCurrentCost() {
+
+    await this.getExpenses()
+
+    var newCurrentCost = 0
+    for (let i = 0; i < this.state.projectExpenses.length; i++) {
+      newCurrentCost += parseFloat(this.state.projectExpenses[i].expense_amount)
+    }
+
+    await fetch(
+      `http://localhost:3001/projects/${this.state.project_id}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ current_cost: newCurrentCost }),
+      }
+    );
   }
 
   async fetchData() {
@@ -142,13 +170,21 @@ class GanttChart extends React.Component {
     const json4 = await response4.json();
     this.setState({ teamMembers: json4 });
 
-    this.setTaskData();
-    this.setLinkData();
+    await this.setTaskData();
+    await this.setLinkData();
 
     let currentScrollState = gantt.getScrollState().x;
-    gantt.clearAll();
-    gantt.parse(data);
+    await gantt.clearAll();
+    await gantt.parse(data);
     gantt.scrollTo(currentScrollState, null);
+  }
+
+  async getExpenses() {
+    const response = await fetch(
+      `http://localhost:3001/projects/${this.state.project_id}/expenses`
+    );
+    const json = await response.json();
+    this.setState({ projectExpenses: json });
   }
 
   setTaskData() {
@@ -227,7 +263,9 @@ class GanttChart extends React.Component {
       <div>
         {this.state.taskFlag && this.state.linksFlag ? (
           <div className="gantt-container">
-            <Gantt tasks={data} />
+            <Gantt 
+            tasks={data}
+             />
           </div>
         ) : null}
       </div>

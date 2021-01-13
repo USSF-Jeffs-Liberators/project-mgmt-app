@@ -22,6 +22,19 @@ const ProjectRequirements = () => {
     getRequirements();
   }, []);
 
+  const getStatusColor = (status) => {
+    if (status === "Completed") {
+      return "#08DB0F";
+    }
+    if (status === "Not Started") {
+      return "#FF0000";
+    }
+    if (status === "Started") {
+      return "FDC12A";
+    }
+    return "#ffffff";
+  }
+
   return (
     <table id="projectRequirements" className="rux-table">
       <tbody>
@@ -34,7 +47,7 @@ const ProjectRequirements = () => {
           <tr key={each.requirement_id}>
             <td>{each.requirement_desc}</td>
             <td>{each.priority}</td>
-            <td>{each.requirement_status}</td>
+            <td><font color={getStatusColor(each.requirement_status)}>{each.requirement_status}</font></td>
           </tr>
         ))}
       </tbody>
