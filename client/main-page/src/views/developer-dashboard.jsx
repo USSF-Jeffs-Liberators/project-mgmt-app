@@ -8,20 +8,21 @@ export default function DeveloperDashboard(props) {
   return (
     <div className="dashboard" id="developerDashboard">
       <section className="project-timeline col-12">
-        <h3>Timeline</h3>
+        <h2>Timeline</h2>
         <GanttChart />
       </section>
       <section className="project-team col-s-6 col-6">
-        <h3>Team Members</h3>
+        <h2>Team Members</h2>
         <TeamRoster />
       </section>{" "}
       
       <section className="project-issues col-s-6 col-6">
-        <h3>Issues Tracker</h3>
+        <h2>Issues Tracker</h2>
         <IssueTracker />
       </section>{" "}
+      <br></br>
       <section className="project-requirements col-s-6 col-6">
-        <h3>Project Requirements</h3>
+        <h2>Project Requirements</h2>
         <ProjectRequirements />
       </section>
       
