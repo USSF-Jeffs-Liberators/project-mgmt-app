@@ -61,7 +61,7 @@ export const ProjInfo = ({ formData, setForm, navigation, userData }) => {
             className="rux-button"
             type="button"
             style={{ marginTop: "1rem" }}
-            onClick={() => projName != "" && projDesc != "" && projBudget != "" ? navigation.next() : alert("Please fill out all fields.")}
+            onClick={() => projName != "" && projDesc != "" && projBudget != "" ? (projBudget.indexOf(".") != -1 && projBudget.indexOf(".") - projBudget.length === -3 ) ? navigation.next() : alert("The budget must have a cent value, like so: 0.00.") : alert("Please fill out all fields.")}
           >
             Next
           </button>
