@@ -4,14 +4,7 @@ import React, { useEffect } from "react";
 import GanttChart from "./gantt-chart/App";
 // import ProjectRequirements from "./requirements/Requirements";
 
-
 export default function GeneralManagerDashboard() {
-
-  // const [projects, setProjects] = useState(undefined);
-  // const [selectedProject, setSelectedProject] = useState(1);
-  // const projects = [];
-
-
 
   if (localStorage.getItem("selectedProjectId") === null) {
     localStorage.setItem("selectedProjectId", 1)
@@ -42,7 +35,6 @@ export default function GeneralManagerDashboard() {
           localStorage.setItem("selectedProjectId", x)
           window.location.reload(false);
         }}>
-          {/* <option selected>{projects[0].project_name}</option> */}
           <option value="" selected disabled hidden>Select a Project</option>
           <option value="1">USSF Leave Tracker</option>
           <option value="2">SAT-STAT</option>
