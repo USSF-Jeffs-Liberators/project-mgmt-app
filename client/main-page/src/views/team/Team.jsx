@@ -245,13 +245,13 @@ const TeamRoster = (props) => {
                 {projectManagers.map(user => (
                     <tr key={user.user_id}>
                         <td>{user.first_name} {user.last_name}</td>
-                        { userType === "General Manager"  
+                        { userType === "Project Manager" || userType === "General Manager"    
                             ? <td>{team.map(each => (
                                 each.user_id === user.user_id 
                                 ? getDollarFigure(each.daily_rate)
                                 : null
                             ))}</td> : null }
-                        { userType === "Project Manager" ? <td>&nbsp;</td> : null }
+                        { userType === "Developer" ? <td>&nbsp;</td> : null }
                         { userType === "General Manager" 
                             ? <td><rux-button 
                                 size="small" 
