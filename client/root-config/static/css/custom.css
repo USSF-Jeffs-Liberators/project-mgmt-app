@@ -132,12 +132,12 @@ nav rux-button {
   float: left;
 }
 
+.gm-issues,
 .gm-funding-requests,
 .gm-budget {
   float: right;
 }
 
-.gm-issues,
 .gm-requirements {
   float: left;
 }

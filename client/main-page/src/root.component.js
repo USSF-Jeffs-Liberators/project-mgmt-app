@@ -39,7 +39,6 @@ export default function Root(props) {
     } else {
       return <Route exact path="/" component={LoggedOut} />;
     }
-    
   };
 
   return (

@@ -57,11 +57,16 @@ class FinancePage extends React.Component {
   }
 
   async determineProject() {
-    const response = await fetch('http://localhost:3001/team-members');
-    const json = await response.json()
-    for (let i = 0; i < json.length; i++) {
-      if (json[i].user_id === this.state.user_id) {
-        this.setState({project_num: json[i].project_id})
+
+    if (JSON.parse(localStorage.getItem('user')).roles[0] === 'General Manager') {
+      this.setState({project_num: localStorage.getItem('selectedProjectId')}) 
+    } else {
+      const response = await fetch('http://localhost:3001/team-members');
+      const json = await response.json()
+      for (let i = 0; i < json.length; i++) {
+        if (json[i].user_id === this.state.user_id) {
+          this.setState({project_num: json[i].project_id})
+        }
       }
     }
   }
