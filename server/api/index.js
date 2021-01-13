@@ -331,6 +331,34 @@ app.get("/projects/:id/expenses", (req, res) => {
     }
   );
 });
+//get project requirements by user_id
+app.get("/projects/requirements/:userid", (req, res) => {
+  const { userid } = req.params;
+  pool.query(
+    "SELECT * FROM TEAM_MEMBER INNER JOIN Requirement on team_member.project_id = requirement.project_id where user_id = $1", 
+    [userid],
+    (error, results) => {
+      if(error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  )
+})
+app.delete("/projects/requirements", (req, res) => {
+  const { requirement_id } = req.body;
+  pool.query(
+    "DELETE FROM Requirement WHERE requirement_id = $1",
+    [requirement_id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+  
+});
 //
 // ~~~~~ /team-members Endpoints: ~~~~~
 //
@@ -357,6 +385,19 @@ app.post("/team-members", (req, res) => {
     }
   );
 });
+
+// EDIT a User's team
+// app.get("/team-members/:id", (req, res) => {
+//   const { id } = req.params;
+//   pool.query("UPDATE Team_Member SET user_id = $1, daily_rate = $2, WHERE project_id = $3",
+//   [req.body.user_id, req.body.daily_rate, id],
+//   (error, results) => {
+//     if (error) {
+//       throw error;
+//     }
+//     res.status(200).json(results.rows);
+//   });
+// });
 //
 // ~~~~~ /requirements Endpoints: ~~~~~
 //
@@ -563,6 +604,21 @@ app.post("/issues", (req, res) => {
 });
 
 //Update an Issue
+app.post("/issues/:issue_id/update", (req, res) => {
+  pool.query(
+    "UPDATE Issue SET severity = $1 WHERE issue_id = $2",
+    [
+      req.body.severity,
+      req.params.issue_id,
+    ],
+    (error, results) => {
+      if (error){
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+    )
+})
 
 
 //

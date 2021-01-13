@@ -1,10 +1,11 @@
 import React from "react";
 
-export const ProjInfo = ({ formData, setForm, navigation }) => {
-  const { projName, projDesc } = formData;
+export const ProjInfo = ({ formData, setForm, navigation, userData }) => {
+  const { projName, projDesc, projBudget } = formData;
+
   return (
     <div id="form">
-      <form className="rux-form">
+      <form>
         <h1 style={{ marginTop: "26px" }}>Project Information</h1>
         <div className="rux-form-field" style={{ marginTop: "16px" }}>
           <label className="rux-form-element label" htmlFor="projName">
@@ -36,12 +37,31 @@ export const ProjInfo = ({ formData, setForm, navigation }) => {
             style={{ marginTop: "6px" }}
           />
         </div>
+        <div className="rux-form-field" style={{ marginTop: "16px" }}>
+          <label className="rux-form-element label" htmlFor="projBudget">
+            Project Budget
+          </label>
+          <input
+            type="number"
+            step="0.01" 
+            min="0"
+            className="rux-form-element"
+            placeholder="0.00"
+            id="projBudget"
+            name="projBudget"
+            value={projBudget}
+            onChange={setForm}
+            autoComplete="off"
+            style={{ marginTop: "6px" }}
+            required
+          />
+        </div>
         <div className="rux-button-group">
           <button
             className="rux-button"
             type="button"
             style={{ marginTop: "1rem" }}
-            onClick={() => navigation.next()}
+            onClick={() => projName != "" && projDesc != "" && projBudget != "" ? navigation.next() : alert("Please fill out all fields.")}
           >
             Next
           </button>

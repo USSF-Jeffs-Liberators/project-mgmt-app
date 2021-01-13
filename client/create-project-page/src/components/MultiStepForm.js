@@ -3,38 +3,39 @@ import axios from "axios";
 import { useForm, useStep } from "react-hooks-helper";
 import { ProjInfo } from "./form/ProjInfo";
 import { ProjTimeline } from "./form/ProjTimeline";
-import { AvailableUsers } from "./form/ProjTeam";
+import { ProjTeam } from "./form/ProjTeam";
+import { ProjReview } from "./form/ProjReview";
+import { ProjSubmit } from "./form/ProjSubmit";
 
 const defaultData = {
   projName: "",
   projDesc: "",
+  projBudget: "",
   projStart: "",
   projDeadline: "",
-  state: "",
-  zip: "",
-  phone: "",
-  email: "",
+  projManager: "",
 };
 
 const steps = [
-  { id: "info" },
-  { id: "timeline" },
-  { id: "team" },
-  { id: "budget" },
+  { id: "project information" },
+  { id: "project timeline" },
+  { id: "project team" },
   { id: "review" },
   { id: "submit" },
 ];
+
+//TODO: 
 
 export const MultiStepForm = () => {
   const [userData, setUserData] = useState({ hits: [] });
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchUserData = async () => {
       const result = await axios(`http://localhost:3001/users/projects`);
-      setUserData(result.userData);
+      setUserData(result.data);
     };
-    fetchData();
-  });
+    fetchUserData();
+  }, []);
 
   const [formData, setForm] = useForm(defaultData);
   const { step, navigation } = useStep({
@@ -45,12 +46,16 @@ export const MultiStepForm = () => {
   const props = { formData, setForm, navigation, userData };
 
   switch (step.id) {
-    case "info":
+    case "project information":
       return <ProjInfo {...props} />;
-    case "timeline":
+    case "project timeline":
       return <ProjTimeline {...props} />;
-    case "team":
-      return <AvailableUsers {...props} />;
+    case "project team":
+      return <ProjTeam {...props} />;
+    case "review":
+      return <ProjReview {...props} />;
+    case "submit":
+      return <ProjSubmit {...props} />;
   }
 
   return (

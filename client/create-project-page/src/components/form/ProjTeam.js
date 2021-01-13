@@ -1,14 +1,14 @@
+//CREATE A FORM FOR ASSIGNING PEOPLE TO THE PROJECT
 import React from "react";
-import { RuxAccordion } from "../../altcomponents/components/Accordion/rux-accordion";
+import { AvailableUsers } from "./AvailableUsers";
 
-export const AvailableUsers = ({ navigation, userData, formData }) => {
-  const { go } = navigation;
-  const { projStart, projDeadline } = formData;
-  var formStartDate = new Date(projStart);
+export const ProjTeam = ({ formData, userData, setForm, navigation }) => {
+  const props = { navigation, formData, userData };
+  const { projDeadline, projManager } = formData;
   var formDeadlineDate = new Date(projDeadline);
 
   function filterUsers(role) {
-    const roleFiltered = userData.hits.filter((each) => each.name === role);
+    const roleFiltered = userData.filter((each) => each.name === role);
     const dateFiltered = roleFiltered.filter((each) => {
       var dataDeadline = new Date(each.deadline_date);
       var dataEnd =
@@ -27,60 +27,61 @@ export const AvailableUsers = ({ navigation, userData, formData }) => {
 
   return (
     <div>
-      <h1>Available Team Members</h1>
-      <RenderAccordion
-        summary="Project Managers"
-        availUsers={filterUsers("Project Manager")}
-      />
-      <RenderAccordion
-        summary="Developers"
-        availUsers={filterUsers("Developer")}
-      />
-      <button
-        className="rux-button"
-        type="button"
-        style={{ marginTop: "1rem" }}
-        onClick={() => go("submit")}
-      >
-        Submit
-      </button>
+      <div className="flex-container">
+        <form
+          id="form"
+          className="flex-child"
+          style={{
+            maxWidth: "250px",
+            minWidth: "225px",
+            marginTop: "0px",
+            marginRight: "64px",
+          }}
+        >
+          <h1 style={{ marginTop: "26px" }}>Project Team</h1>
+          <div className="rux-form-field" style={{ marginTop: "16px" }}>
+            <label style={{ marginBottom: "6px" }} htmlFor="projManager">
+              Project Manager
+            </label>
+            <select
+              className="rux-form-element rux-select"
+              name="projManager"
+              id="projManager"
+              value={projManager}
+              onChange={setForm}
+              autoComplete="off"
+            >
+              <option value="">Select Project Manager</option>
+              {filterUsers("Project Manager").map((each) => (
+                <option>{`${each.first_name} ${each.last_name}`}</option>
+              ))}
+            </select>
+          </div>
+          <div className="rux-button-group" style={{ marginTop: "175px" }}>
+            <button
+              className="rux-button"
+              type="button"
+              style={{ marginTop: "1rem" }}
+              onClick={() => navigation.previous()}
+            >
+              Back
+            </button>
+            <button
+              className="rux-button"
+              type="button"
+              style={{ marginTop: "1rem" }}
+              onClick={() => {
+                projManager != ""
+                  ? navigation.next()
+                  : alert("Please select a project manager.");
+              }}
+            >
+              Next
+            </button>
+          </div>
+        </form>
+        <AvailableUsers {...props} filterUsers={filterUsers} />
+      </div>
     </div>
   );
 };
-
-function parseDate(d) {
-  if (d != null) {
-    var date = new Date(d);
-    return (
-      date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
-    );
-  } else return null;
-}
-
-export const RenderAccordion = ({ summary, availUsers }) => (
-  <rux-accordion>
-    <span slot="label">{summary}</span>
-    <span slot="content">
-      <table className="rux-table">
-        <tbody>
-          <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Project Name</th>
-            <th>Project Start Date</th>
-            <th>Project Deadline</th>
-          </tr>
-          {availUsers.map((each) => (
-            <tr key={each.user_id}>
-              <td>{each.first_name}</td>
-              <td>{each.last_name}</td>
-              <td>{each.project_name}</td>
-              <td>{parseDate(each.start_date)}</td>
-              <td>{parseDate(each.deadline_date)}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </span>
-  </rux-accordion>
-);

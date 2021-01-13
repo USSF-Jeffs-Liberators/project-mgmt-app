@@ -1213,9 +1213,9 @@ label {
   font-family: "Open Sans", sans-serif;
   font-family: var(--fontFamily, "Open Sans", sans-serif);
 }
-.rux-form-field input[type="date"]::-webkit-calendar-picker-indicator,
+/* .rux-form-field input[type="date"]::-webkit-calendar-picker-indicator,
 .rux-form-field input[type="date"]::-webkit-inner-spin-button,
-.rux-form-field input[type="date"]::-webkit-outer-spin-button,
+.rux-form-field input[type="date"]::-webkit-outer-spin-button, */
 .rux-form-field input[type="number"]::-webkit-inner-spin-button,
 .rux-form-field input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;

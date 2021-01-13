@@ -6,16 +6,16 @@ import React, { useEffect, useState } from "react";
 const IssueTrackerGM = () =>
 {
     //mock logged in Project Manager user
-    const user_id = 4;
-    const projectManager_id = user_id;
+    // const user_id = 4;
+    // const projectManager_id = user_id;
   
     const [issues, setIssues] = useState([]);
-    const [projects, setProjects] = useState([]);
-    const [team, setTeam] = useState([]);
-    const matches = [];
-    const projMatches = [];
-    const projIssues = [];
-    const projIssuesSeverity = [];
+    // const [projects, setProjects] = useState([]);
+    // const [team, setTeam] = useState([]);
+    // const matches = [];
+    // const projMatches = [];
+    // const projIssues = [];
+    // const projIssuesSeverity = [];
   
     //Obtain all issues function
     const getAllIssues = async () => {

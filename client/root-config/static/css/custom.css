@@ -97,7 +97,7 @@ nav rux-button {
 /* Main-Page Styling
 ========================================================================== */
 
-#loggedOutPage {
+#loggedOutPage, #homePage {
   text-align: center;
   margin-top: 100px;
 }
@@ -132,33 +132,38 @@ nav rux-button {
   float: left;
 }
 
+
 .project-select,
 .project-requirements,
+
+/* .project-requirements,
+
 .project-tasks,
 .project-issues,
 .project-budget,
 .project-team {
   height: 400px;
-}
+} */
 
 .gm-funding-requests,
 .gm-budget {
   float: right;
-  height: 375px;
+  /* height: 375px; */
 }
 
 .gm-issues,
 .gm-requirements {
   float: left;
-  height: 250px;
+  /* height: 250px; */
 }
 
 /* Create-Project-Page Styling
 ========================================================================== */
 
 #form {
-  max-width: 300px;
+  max-width: 400px;
   margin: auto;
+  margin-left: 10px;
 }
 
 ul {
@@ -169,12 +174,27 @@ ul {
 
 li {
   margin-bottom: 1em;
+  overflow-wrap: break-word;
 }
 
 pre {
-  max-width:300px;
+  max-width: 90%;
   margin: auto;
   background: white;
   color: black;
   padding: 2em;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
 }
+
+.flex-container {
+  display: flex;
+}
+
+.flex-child {
+  flex: 1;
+}  
+
+.flex-child:first-child {
+  margin-right: 64px;
+} 
