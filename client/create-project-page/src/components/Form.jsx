@@ -10,7 +10,7 @@ function Form(props) {
 
   return (
     <div>
-      <form id="form" className="rux-form" onSubmit={props.onSubmit}>
+      <form id="form" onSubmit={props.onSubmit}>
         {header}
         <div className="rux-form-field">
           <label className="rux-form-field__label" htmlFor="input_text_field">

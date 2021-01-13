@@ -73,6 +73,7 @@ export class RuxAccordion extends LitElement {
           overflow: hidden;
           background: var(--accordionContentBackground, rgb(20, 32, 44));
           display: flex;
+          flex-direction: column;
           align-items: center;
           justify-content: center;
         }

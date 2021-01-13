@@ -49,8 +49,10 @@ export const ProjTimeline = ({ formData, setForm, navigation }) => {
             type="button"
             style={{ marginTop: "1rem" }}
             onClick={() => {
-              formData.projStart != "" && formData.projDeadline != ""
-                ? navigation.next()
+              projStart != "" && projDeadline != ""
+                ? projStart < projDeadline
+                  ? navigation.next()
+                  : alert("The deadline must be after the start date.")
                 : alert("Please enter a valid date.");
             }}
           >
