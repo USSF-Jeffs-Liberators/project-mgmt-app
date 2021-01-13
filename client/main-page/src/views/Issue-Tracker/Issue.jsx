@@ -75,21 +75,35 @@ const IssueTracker = () => {
     });
   };
 
+  const resolutionParse = (is_resolved, resolution) =>
+  {
+    let answer = "";
+    if(is_resolved === "true")
+    {
+      answer = resolution;
+    }
+    else if(is_resolved === "false")
+    {
+      answer = "N/A";
+    }
+    return answer;
+  }
+
   return (
     <div>
       <table className="rux-table">
         <tbody>
           <tr className="rux_table__column-head">
             <th>Description</th>
-            <th>Priority</th>
-            <th>Resolved</th>
+            <th>Severity</th>
+            <th>Resolution</th>
           </tr>
           {getMatches()}
           {matches.map((user) => (
             <tr key={user.issue_id}>
               <td>{user.issue_desc}</td>
               <td>{user.severity}</td>
-              <td>{user.is_resolved.toString()}</td>
+              <td>{resolutionParse(user.is_resolved.toString(), user.resolution)}</td>
             </tr>
           ))}
         </tbody>
