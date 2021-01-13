@@ -131,24 +131,24 @@ nav rux-button {
   float: left;
 }
 
-.project-requirements,
+/* .project-requirements,
 .project-tasks,
 .project-issues,
 .project-budget,
 .project-team {
   height: 400px;
-}
+} */
 
 .gm-funding-requests,
 .gm-budget {
   float: right;
-  height: 375px;
+  /* height: 375px; */
 }
 
 .gm-issues,
 .gm-requirements {
   float: left;
-  height: 250px;
+  /* height: 250px; */
 }
 
 /* Create-Project-Page Styling
