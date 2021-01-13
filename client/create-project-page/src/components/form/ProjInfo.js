@@ -3,10 +3,6 @@ import React from "react";
 export const ProjInfo = ({ formData, setForm, navigation, userData }) => {
   const { projName, projDesc, projBudget } = formData;
 
-  function financial(x) {
-    return Number.parseFloat(x).toFixed(2);
-  }
-
   return (
     <div id="form">
       <form>

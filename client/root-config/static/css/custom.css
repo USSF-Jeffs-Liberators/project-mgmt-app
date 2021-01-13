@@ -168,15 +168,17 @@ ul {
 
 li {
   margin-bottom: 1em;
+  overflow-wrap: break-word;
 }
 
 pre {
-  max-width: 550px;
+  max-width: 90%;
   margin: auto;
   background: white;
   color: black;
   padding: 2em;
   white-space: pre-wrap;
+  overflow-wrap: break-word;
 }
 
 .flex-container {

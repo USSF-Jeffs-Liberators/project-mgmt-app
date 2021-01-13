@@ -1,7 +1,6 @@
 import React from "react";
 import { RuxAccordion } from "../../altcomponents/components/Accordion/rux-accordion";
 
-
 export const ProjReview = ({ navigation, formData }) => {
   const { go } = navigation;
   const {
@@ -15,37 +14,37 @@ export const ProjReview = ({ navigation, formData }) => {
 
   return (
     <div id="form">
-      <h1>
-        Summary of all form data entered to this point, with options to go back
-        and make changes.
-      </h1>
-      <pre>
-        <code>{JSON.stringify(formData, null, 2)}</code>
-      </pre>
+      <h1 style={{ marginTop: "26px" }}>Review</h1>
       <RenderAccordion
-      summary="Project Information"
-      go ={ go }
-      details={[
-        { 'Project Name': projName },
-        { 'Project Description': projDesc },
-        { 'Project Budget': projBudget },
-      ]}
+        summary="Project Information"
+        go={go}
+        details={[
+          { "Project Name": projName },
+          { "Project Description": projDesc },
+          { "Project Budget": projBudget },
+        ]}
       />
       <RenderAccordion
-      summary="Project Timeline"
-      go ={ go }
-      details={[
-        { 'Project Start': projStart },
-        { 'Project Deadline': projDeadline },
-      ]}
+        summary="Project Timeline"
+        go={go}
+        details={[
+          { "Project Start": projStart },
+          { "Project Deadline": projDeadline },
+        ]}
       />
       <RenderAccordion
-      summary="Project Team"
-      go ={ go }
-      details={[
-        { 'Project Manager': projManager },
-      ]}
+        summary="Project Team"
+        go={go}
+        details={[{ "Project Manager": projManager }]}
       />
+      <rux-accordion>
+        <span slot="label">JSON View</span>
+        <div slot="content" style={{ whiteSpace: "normal", alignSelf: "flex-start", width: "368px" }}>
+          <pre>
+            <code>{JSON.stringify(formData, null, 2)}</code>
+          </pre>
+        </div>
+      </rux-accordion>
       <div className="rux-button-group">
         <button
           className="rux-button"
@@ -72,7 +71,7 @@ export const ProjReview = ({ navigation, formData }) => {
 export const RenderAccordion = ({ summary, details, go }) => (
   <rux-accordion>
     <span slot="label">{summary}</span>
-    <span slot="content">
+    <div slot="content" style={{ whiteSpace: "normal", alignSelf: "flex-start", width: "368px" }}>
       <ul>
         {details.map((data, index) => {
           const objKey = Object.keys(data)[0];
@@ -80,10 +79,15 @@ export const RenderAccordion = ({ summary, details, go }) => (
           return <li>{`${objKey}: ${objValue}`}</li>;
         })}
       </ul>
-      <rux-button size="small" iconOnly onClick={() => go(`${summary.toLowerCase()}`)}>
-        <rux-icon icon="resources" library="/icons/astro.svg" />
-      </rux-button>
-    </span>
+      <div style={{ float: "right" }} className="rux-button-group">
+        <rux-button
+          size="small"
+          iconOnly
+          onClick={() => go(`${summary.toLowerCase()}`)}
+        >
+          <rux-icon icon="resources" library="/icons/astro.svg" />
+        </rux-button>
+      </div>
+    </div>
   </rux-accordion>
 );
-
