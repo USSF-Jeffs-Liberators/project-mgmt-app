@@ -10,7 +10,9 @@ const TeamRoster = (props) => {
       const user = AuthService.getCurrentUser();
       if (user) {
         setUserType(user.roles[0]);
-        getProjectID(user.user_id);
+        user.roles[0] === "General Manager"
+        ? setProjectID(localStorage.selectedProjectId)
+        : getProjectID(user.user_id);
       }
     }, []);
 
