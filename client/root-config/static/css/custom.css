@@ -108,6 +108,18 @@ nav rux-button {
   margin: auto;
 }
 
+#signupPage .rux-form-field,
+#loginPage .rux-form-field {
+  display: block;
+}
+
+#signupPage input,
+#loginPage input {
+  background-image: none;
+  background-color: rgb(60, 82, 105);
+  color: white;
+}
+
 #signupPage {
   margin-top: 50px;
 }
