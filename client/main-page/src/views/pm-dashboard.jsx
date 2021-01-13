@@ -11,16 +11,16 @@ export default function ProjectManagerDashboard(props) {
         <h3>Gantt Chart</h3>
         <GanttChart />
       </section>{" "}
-      <section className="project-team col-s-6 col-6">
+      <section className="project-team col-4">
         <h3>Team Members</h3>
         <TeamRoster/>
       </section>{" "}
-      <section className="project-issues col-s-6 col-6">
+      <section className="project-issues col-4">
         <h3>Issues Tracker</h3>
         <IssueTrackerPM />
       </section>{" "}
       
-      <section className="project-requirements col-s-6 col-6">
+      <section className="project-requirements col-4">
         <h3>Project Requirements</h3>
         <ProjectRequirements />
       </section>

@@ -22,16 +22,15 @@ const TeamRoster = (props) => {
     }
 
     const [users, setUsers] = useState([]);
+    const [allUsersOnTeams, setAllUsersOnTeams] = useState([]);
     const [team, setTeam] = useState([]);
     const [allDevelopers, setAllDevelopers] = useState([])
     const [allManagers, setAllManagers] = useState([]);
+    let developersNotOnATeam = [];
+    let managersNotOnATeam = [];
     let matches = [];
     let projectDevelopers = [];
     let projectManagers = [];
-    let unassignedDevelopers = [];
-    let unassignedManagers = [];
-    let selectedManager = null;
-    let inputManagerRate = null;
 
     const getAllUsers = async () => {
         try {
@@ -42,6 +41,33 @@ const TeamRoster = (props) => {
     };
 
     useEffect(() => {getAllUsers()}, []);
+
+    const getAllUsersOnTeams = async () => {
+        try {
+            const response = await fetch(`http://localhost:3001/team-members`);
+            const jsonData = await response.json();
+            setAllUsersOnTeams(jsonData);
+        } catch (err) {console.error(err.message)}
+    };
+
+    useEffect(() => {getAllUsersOnTeams()}, []);
+
+    // find users who are NOT on a team
+    const getUsersNotOnATeam = () => {
+        let usersNotOnATeam = users.filter(user => {
+            return !allUsersOnTeams.find(({user_id}) => user.user_id === user_id)
+        })
+        developersNotOnATeam = allDevelopers.filter(user=> {
+            return usersNotOnATeam.find(({user_id}) => user.user_id === user_id)
+        })
+        managersNotOnATeam = allManagers.filter(user=> {
+            return usersNotOnATeam.find(({user_id}) => user.user_id === user_id)
+        })
+        developersNotOnATeam.sort((a, b) => (a.last_name > b.last_name ? 1 : -1))
+        managersNotOnATeam.sort((a, b) => (a.last_name > b.last_name ? 1 : -1))
+    }
+
+    getUsersNotOnATeam();
 
     const getTeamRoster = async (project_id) => {
         try {
@@ -115,8 +141,9 @@ const TeamRoster = (props) => {
         }
         
     ////// ADD DEVELOPER //////
-    let selectedDeveloper;
-    let inputDeveloperRate;
+    let selectedDeveloper = null;
+    let inputDeveloperRate = null;
+    // const [allDevelopers, setAllDevelopers] = useState([])
 
     const handleSelectDeveloper = e => {
         selectedDeveloper = e.target.value
@@ -150,18 +177,10 @@ const TeamRoster = (props) => {
             } catch (err) {console.error(err.message)}
     }
 
-    // get developers who are not assigned to this project
-    const getUnassignedDevelopers = () => {
-        unassignedDevelopers = allDevelopers.filter(developer => {
-            return !projectDevelopers.includes(developer)
-        })
-        // sort by last name
-        unassignedDevelopers.sort((a, b) => (a.last_name > b.last_name ? 1 : -1))
-    }
-
-    getUnassignedDevelopers();
-
      ////// ADD PROJECT MANAGER //////
+     let selectedManager = null;
+     let inputManagerRate = null;
+
     const handleSelectManager = e => {selectedManager = e.target.value}
     const handleInputManagerRate = e => {inputManagerRate = e.target.value}
 
@@ -188,15 +207,15 @@ const TeamRoster = (props) => {
     }
 
     // get managers who are not assigned to this project
-    const getUnassignedManagers = () => {
-        unassignedManagers = allManagers.filter(manager => {
-            return !projectManagers.includes(manager)
-        })
-        // sort by last name
-        unassignedManagers.sort((a, b) => (a.last_name > b.last_name ? 1 : -1))
-    }
+    // const getUnassignedManagers = () => {
+    //     unassignedManagers = allManagers.filter(manager => {
+    //         return !projectManagers.includes(manager)
+    //     })
+    //     // sort by last name
+    //     unassignedManagers.sort((a, b) => (a.last_name > b.last_name ? 1 : -1))
+    // }
 
-    getUnassignedManagers();
+    // getUnassignedManagers();
 
     const getDollarFigure = (amount) => {
         amount === undefined || amount === null ? "" : null;
@@ -245,7 +264,7 @@ const TeamRoster = (props) => {
                         <td>
                         <select className="rux-select" onChange={handleSelectManager}>
                             <option key="All" name="All">Choose Manager:</option>
-                            {unassignedManagers.map(each => (
+                            {managersNotOnATeam.map(each => (
                                 <option key={each.user_id} value={each.user_id}>
                                     {each.first_name} {each.last_name}
                                 </option>
@@ -298,7 +317,7 @@ const TeamRoster = (props) => {
                         <td>
                         <select className="rux-select" onChange={handleSelectDeveloper}>
                             <option key="All" name="All">Choose Developer:</option>
-                            {unassignedDevelopers.map(each => (
+                            {developersNotOnATeam.map(each => (
                                 <option key={each.user_id} value={each.user_id}>
                                     {each.first_name} {each.last_name}
                                 </option>
