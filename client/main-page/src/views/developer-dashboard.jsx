@@ -11,11 +11,11 @@ export default function DeveloperDashboard(props) {
         <h2>Gantt Chart</h2>
         <GanttChart />
       </section>
-      <section className="project-issues col-6">
+      <section className="project-issues col-s-12 col-6">
         <h2>Issues Tracker</h2>
         <IssueTracker />
       </section>
-      <section className="project-team col-6">
+      <section className="project-team col-s-12 col-6">
         <h2>Team Members</h2>
         <TeamRoster/>
       </section>
