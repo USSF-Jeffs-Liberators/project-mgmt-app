@@ -385,6 +385,19 @@ app.post("/team-members", (req, res) => {
     }
   );
 });
+
+// EDIT a User's team
+// app.get("/team-members/:id", (req, res) => {
+//   const { id } = req.params;
+//   pool.query("UPDATE Team_Member SET user_id = $1, daily_rate = $2, WHERE project_id = $3",
+//   [req.body.user_id, req.body.daily_rate, id],
+//   (error, results) => {
+//     if (error) {
+//       throw error;
+//     }
+//     res.status(200).json(results.rows);
+//   });
+// });
 //
 // ~~~~~ /requirements Endpoints: ~~~~~
 //

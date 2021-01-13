@@ -1,26 +1,40 @@
 import React, { useEffect, useState } from "react";
+import AuthService from "../../services/auth.service";
 
 const TeamRoster = (props) => {
-    // mock selected project
-    props = {
-        userType: "General Manager",
-        project_id: 2
+    const [userType, setUserType] = useState(undefined);
+    const [projectID, setProjectID] = useState("");
+
+    ////// GET CURRENT USER LOGGED IN //////
+    useEffect(() => {
+      const user = AuthService.getCurrentUser();
+      if (user) {
+        setUserType(user.roles[0]);
+        getProjectID(user.user_id);
+      }
+    }, []);
+
+    ////// GET PROJECT ID OF USER LOGGED IN //////
+    const getProjectID = async (user_id) => {
+      try {
+        const response = await fetch(`http://localhost:3001/users/${user_id}/team`);
+        const jsonData = await response.json();
+        setProjectID(jsonData[0].project_id);
+      } catch (err) {console.error(err.message)}
     }
 
     const [users, setUsers] = useState([]);
+    const [allUsersOnTeams, setAllUsersOnTeams] = useState([]);
     const [team, setTeam] = useState([]);
     const [allDevelopers, setAllDevelopers] = useState([])
     const [allManagers, setAllManagers] = useState([]);
+    let developersNotOnATeam = [];
+    let managersNotOnATeam = [];
     let matches = [];
     let projectDevelopers = [];
     let projectManagers = [];
-    let unassignedDevelopers = [];
-    let unassignedManagers = [];
-    let selectedDeveloper = null;
-    let selectedManager = null;
-    let inputDeveloperRate = null;
-    let inputManagerRate = null;
 
+    ////// GET ALL USERS //////
     const getAllUsers = async () => {
         try {
             const response = await fetch(`http://localhost:3001/users`);
@@ -31,16 +45,46 @@ const TeamRoster = (props) => {
 
     useEffect(() => {getAllUsers()}, []);
 
-    const getTeamRoster = async () => {
+    ////// GET ALL USERS ASSIGNED TO A TEAM //////
+    const getAllUsersOnTeams = async () => {
         try {
-            const response = await fetch(`http://localhost:3001/projects/${props.project_id}/team`);
+            const response = await fetch(`http://localhost:3001/team-members`);
+            const jsonData = await response.json();
+            setAllUsersOnTeams(jsonData);
+        } catch (err) {console.error(err.message)}
+    };
+
+    useEffect(() => {getAllUsersOnTeams()}, []);
+
+    ////// GET ALL USERS *NOT* ASSIGNED TO A TEAM //////
+    const getUsersNotOnATeam = () => {
+        let usersNotOnATeam = users.filter(user => {
+            return !allUsersOnTeams.find(({user_id}) => user.user_id === user_id)
+        })
+        developersNotOnATeam = allDevelopers.filter(user=> {
+            return usersNotOnATeam.find(({user_id}) => user.user_id === user_id)
+        })
+        managersNotOnATeam = allManagers.filter(user=> {
+            return usersNotOnATeam.find(({user_id}) => user.user_id === user_id)
+        })
+        developersNotOnATeam.sort((a, b) => (a.last_name > b.last_name ? 1 : -1))
+        managersNotOnATeam.sort((a, b) => (a.last_name > b.last_name ? 1 : -1))
+    }
+
+    getUsersNotOnATeam();
+
+    ////// GET ALL TEAM MEMBERS ON THIS PROJECT //////
+    const getTeamRoster = async (project_id) => {
+        try {
+            const response = await fetch(`http://localhost:3001/projects/${project_id}/team`);
             const jsonData = await response.json();
             setTeam(jsonData);
         } catch (err) {console.error(err.message)}
     };
 
-    useEffect(() => {getTeamRoster()}, []);
+    useEffect(() => {projectID ? getTeamRoster(projectID) : null});
 
+    ////// GET ALL USERS WHO ARE DEVELOPERS //////
     const getAllDevelopers = async () => {
         try {
             const response = await fetch(`http://localhost:3001/users/role/Developer`);
@@ -51,6 +95,7 @@ const TeamRoster = (props) => {
 
     useEffect(() => {getAllDevelopers()}, []);
 
+    ////// GET ALL USERS WHO ARE MANAGERS //////
     const getAllManagers = async () => {
         try {
             const response = await fetch(`http://localhost:3001/users/role/Project%20Manager`);
@@ -61,30 +106,28 @@ const TeamRoster = (props) => {
 
     useEffect(() => {getAllManagers()}, []);
 
-    // match team roster to users
+    ////// MERGE USER DATA WITH TEAM ROSTER TO GET FIRST AND LAST NAMES //////
     const getMatches = () => {
         team.map(each => (users.map(user => {
             each.user_id === user.user_id ? matches.push(user) : null
         })))
-
         matches.map(each => (allDevelopers.map(developer => {
             each.user_id === developer.user_id ? projectDevelopers.push(developer) : null
         })))
-
         matches.map(each => (allManagers.map(manager => {
             each.user_id === manager.user_id ? projectManagers.push(manager) : null
         })))
-
         projectDevelopers.sort((a, b) => (a.last_name > b.last_name ? 1 : -1))
         projectManagers.sort((a, b) => (a.last_name > b.last_name ? 1 : -1))
     }
 
     getMatches();
 
-    const handleDeleteMember = async id => {
+    ////// DELETE MEMBER FROM TEAM //////
+    const handleDeleteMember = async (id) => {
         try {
             let body = { 
-                project_id: props.project_id, 
+                project_id: projectID, 
                 user_id: id
             }
             const requestOptions = {
@@ -92,61 +135,72 @@ const TeamRoster = (props) => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body)
             };
-            await fetch(`http://localhost:3001/projects/${props.project_id}/team/${id}`, requestOptions)
+            await fetch(`http://localhost:3001/projects/${projectID}/team/${id}`, requestOptions)
             .then(response => response.json())
             .then(response => {
                 if(response.status === "failed")
                 alert(response.message)})
-                setTeam(team.filter(each => each.user_id !== id));
+            setTeam(team.filter(each => each.user_id !== id));
+            getAllUsersOnTeams();
+            getUsersNotOnATeam();
             } catch (err) {console.error(err.message)}
         }
         
-    ////// ADD DEVELOPER //////
-    const handleSelectDeveloper = e => {selectedDeveloper = e.target.value}
-    const handleInputDeveloperRate = e => {inputDeveloperRate = e.target.value}
+    ////// ADD DEVELOPER //////    let inputDeveloperRate = null;
+    let [selectedDeveloper, setSelectedDeveloper] = useState([])
+    let [inputDeveloperRate, setInputDeveloperRate] = useState([]);
+
+    const handleSelectDeveloper = e => {
+        selectedDeveloper = e.target.value
+        setSelectedDeveloper(selectedDeveloper)
+    }
+    const handleInputDeveloperRate = e => {
+        inputDeveloperRate = e.target.value
+        setInputDeveloperRate(inputDeveloperRate)
+    }
 
     const handleAddDeveloper = async () => {
-        try {
-            let body = { 
-                project_id: props.project_id, 
-                user_id: selectedDeveloper,
-                daily_rate: inputDeveloperRate
-            }
-            const requestOptions = {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body)
-            };
-            await fetch(`http://localhost:3001/team-members`, requestOptions)
-              .then(response => response.json())
-              .then(response => {
-              if(response.status === "failed")
-              alert(response.message)})
-            getTeamRoster();
-            getMatches();
-        } catch (err) {console.error(err.message)}
+            try {
+                let body = { 
+                    user_id: selectedDeveloper,
+                    project_id: projectID, 
+                    daily_rate: inputDeveloperRate
+                }
+                const requestOptions = {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                };
+                await fetch(`http://localhost:3001/team-members`, requestOptions)
+                .then(response => response.json())
+                .then(response => {
+                    if(response.status === "failed")
+                    alert(response.message)})
+                getTeamRoster(projectID);
+                getMatches();
+                getAllUsersOnTeams();
+                getUsersNotOnATeam();
+            } catch (err) {console.error(err.message)}
     }
-
-    // get developers who are not assigned to this project
-    const getUnassignedDevelopers = () => {
-        unassignedDevelopers = allDevelopers.filter(developer => {
-            return !projectDevelopers.includes(developer)
-        })
-        // sort by last name
-        unassignedDevelopers.sort((a, b) => (a.last_name > b.last_name ? 1 : -1))
-    }
-
-    getUnassignedDevelopers();
 
      ////// ADD PROJECT MANAGER //////
-    const handleSelectManager = e => {selectedManager = e.target.value}
-    const handleInputManagerRate = e => {inputManagerRate = e.target.value}
+     let [selectedManager, setSelectedManager] = useState([]);
+     let [inputManagerRate, setInputManagerRate] = useState([]);
 
-    const handleAddManager = async () => {
+    const handleSelectManager = e => {
+        selectedManager = e.target.value
+        setSelectedManager(selectedManager)
+    }
+    const handleInputManagerRate = e => {
+        inputManagerRate = e.target.value
+        setInputManagerRate(inputManagerRate)
+    }
+
+    const handleUpdateManager = async () => {
         try {
             let body = { 
-                project_id: props.project_id, 
                 user_id: selectedManager,
+                project_id: projectID, 
                 daily_rate: inputManagerRate
             }
             const requestOptions = {
@@ -159,22 +213,14 @@ const TeamRoster = (props) => {
               .then(response => {
               if(response.status === "failed")
               alert(response.message)})
-            getTeamRoster();
+            getTeamRoster(projectID);
             getMatches();
+            getAllUsersOnTeams();
+            getUsersNotOnATeam();
         } catch (err) {console.error(err.message)}
     }
 
-    // get managers who are not assigned to this project
-    const getUnassignedManagers = () => {
-        unassignedManagers = allManagers.filter(manager => {
-            return !projectManagers.includes(manager)
-        })
-        // sort by last name
-        unassignedManagers.sort((a, b) => (a.last_name > b.last_name ? 1 : -1))
-    }
-
-    getUnassignedManagers();
-
+    ////// REFORMAT DOLLAR FIGURES //////
     const getDollarFigure = (amount) => {
         amount === undefined || amount === null ? "" : null;
         let output = "$" + amount.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
@@ -191,22 +237,22 @@ const TeamRoster = (props) => {
                 {/* PM Table */}
                 <tr className="rux_table__column-head">
                     <th>Project Manager</th>
-                    { props.userType === "Project Manager" || props.userType === "General Manager" 
+                    { userType === "Project Manager" || userType === "General Manager" 
                         ? <th>Daily Rate</th> : null }
-                    { props.userType === "Project Manager" ? <th>&nbsp;</th> : null }
-                    { props.userType === "General Manager" ? <th>Modify</th> : null }
+                    { userType === "Project Manager" ? <th>&nbsp;</th> : null }
+                    { userType === "General Manager" ? <th>Modify</th> : null }
                 </tr>
                 {projectManagers.map(user => (
                     <tr key={user.user_id}>
                         <td>{user.first_name} {user.last_name}</td>
-                        { props.userType === "General Manager"  
+                        { userType === "General Manager"  
                             ? <td>{team.map(each => (
                                 each.user_id === user.user_id 
                                 ? getDollarFigure(each.daily_rate)
                                 : null
                             ))}</td> : null }
-                        { props.userType === "Project Manager" ? <td>&nbsp;</td> : null }
-                        { props.userType === "General Manager" 
+                        { userType === "Project Manager" ? <td>&nbsp;</td> : null }
+                        { userType === "General Manager" 
                             ? <td><rux-button 
                                 size="small" 
                                 icon="close-large" 
@@ -214,15 +260,15 @@ const TeamRoster = (props) => {
                                 Remove
                             </rux-button></td>
                             : null }
-                        { props.userType === "Project Manager" ? <td>&nbsp;</td> : null }
+                        { userType === "Project Manager" ? <td>&nbsp;</td> : null }
                     </tr>
                 ))}
-                { props.userType === "General Manager" 
+                { userType === "General Manager" 
                     ? <tr>
                         <td>
                         <select className="rux-select" onChange={handleSelectManager}>
                             <option key="All" name="All">Choose Manager:</option>
-                            {unassignedManagers.map(each => (
+                            {managersNotOnATeam.map(each => (
                                 <option key={each.user_id} value={each.user_id}>
                                     {each.first_name} {each.last_name}
                                 </option>
@@ -237,8 +283,8 @@ const TeamRoster = (props) => {
                         <td><rux-button
                             size="small"
                             icon="add-large"
-                            onClick={handleAddManager}>
-                            Add to Team
+                            onClick={handleUpdateManager}>
+                            Update Manager
                         </rux-button></td>
                     </tr>
                     : null }
@@ -246,21 +292,21 @@ const TeamRoster = (props) => {
                 {/* Developer Table */}
                 <tr className="rux_table__column-head">
                     <th>Developers</th>
-                    { props.userType === "Project Manager" || props.userType === "General Manager"  
+                    { userType === "Project Manager" || userType === "General Manager"  
                         ? <th>Daily Rate</th> : null }
-                    { props.userType === "Project Manager" || props.userType === "General Manager" 
+                    { userType === "Project Manager" || userType === "General Manager" 
                         ? <th>Modify</th> : null }
                 </tr>
                 {projectDevelopers.map(user => (
                     <tr key={user.user_id}>
                         <td>{user.first_name} {user.last_name}</td>
-                        { props.userType === "Project Manager" || props.userType === "General Manager"  
+                        { userType === "Project Manager" || userType === "General Manager"  
                             ? <td>{team.map(each => (
                                 each.user_id === user.user_id 
                                 ? getDollarFigure(each.daily_rate)
                                 : null
                             ))}</td> : null }
-                        { props.userType === "Project Manager" || props.userType === "General Manager" 
+                        { userType === "Project Manager" || userType === "General Manager" 
                             ? <td><rux-button 
                                 size="small" 
                                 icon="close-large" 
@@ -270,12 +316,12 @@ const TeamRoster = (props) => {
                             : null }
                     </tr>
                 ))}
-                { props.userType === "Project Manager" || props.userType === "General Manager"  
+                { userType === "Project Manager" || userType === "General Manager"  
                     ? <tr>
                         <td>
                         <select className="rux-select" onChange={handleSelectDeveloper}>
                             <option key="All" name="All">Choose Developer:</option>
-                            {unassignedDevelopers.map(each => (
+                            {developersNotOnATeam.map(each => (
                                 <option key={each.user_id} value={each.user_id}>
                                     {each.first_name} {each.last_name}
                                 </option>
