@@ -1,17 +1,32 @@
 import React, { useEffect, useState } from "react";
 
+import AuthService from "../../services/auth.service";
+
 //ISSUE TRACKER FOR PROJECT MANAGER
 
 
 const IssueTrackerPM = () =>
 {
+
+  const [projectManager_id, setProjectManagerID] = useState("");
     //mock logged in Project Manager user
-    const user_id = 4;
-    const projectManager_id = user_id;
+    const [currentUser, setCurrentUser] = useState(undefined);
+    useEffect(() => {
+      const user = AuthService.getCurrentUser();
+  
+      if (user) {
+        setCurrentUser(user);
+        setProjectManagerID(user.user_id);
+      }
+    }, []);
+
+
+    // let user_id = 4;
+    // //user_id = currentUser.user_id;
+    // const projectManager_id = user_id;
   
     const [issues, setIssues] = useState([]);
     const [projects, setProjects] = useState([]);
-    const [team, setTeam] = useState([]);
     const matches = [];
     const projMatches = [];
     const projIssues = [];
@@ -102,10 +117,33 @@ const IssueTrackerPM = () =>
     //     applyCustomOrder(projIssuesSeverity, orderIWant);
     // }
 
-    function saveIssues(priority)
+    const saveIssues = async (e) =>
     {
       console.log("HELLO SAVE ISSUES FUNCTION")
-      console.log(priority);
+      let newValue = e.target.value;
+      console.log(newValue);
+
+      //const selectedIndex = e.target.options.selectedIndex;
+      let issue_id = e.target.getAttribute("data-issue-id")
+      console.log(issue_id);
+
+      const settings = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            severity: newValue,
+        })
+      };
+      try 
+      {
+          const response = await fetch(`http://localhost:3001/issues/${issue_id}/update`, settings);
+          const json = await fetchResponse.json();
+      }
+      catch(err)
+      {
+          console.error(err.message);
+      }
+
     }
 
     return (
@@ -121,20 +159,15 @@ const IssueTrackerPM = () =>
             {getMatchesProjects()}
             {getProjectsIssues()}
             {/* {sortIssuesBySeverity()} */}
+
             {projIssues.map((user) => (
-              <tr key={user.issue_id}>
+              <tr key={user.issue_id} >
                 <td>{user.issue_desc}</td>
                 <td>{user.issue_timestamp}</td>
                 <td><rux-button type="button">{user.is_resolved.toString()}</rux-button></td>
 
                 <td>
-                  <select id="priority" className="rux-button" type="text" onChange={() => {
-                    let priority = document.getElementById("priority").value;
-
-                    saveIssues(priority);
-
-
-                  }} required>
+                  <select id="priority" data-issue-id = {user.issue_id} className="rux-button" type="text" onChange={saveIssues} required>
                     <option value ="" selected disabled hidden>{user.severity}</option>
                     <option value = "low">Low</option>
                     <option value = "medium">Medium</option>
