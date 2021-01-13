@@ -43,7 +43,8 @@ const TeamRoster = (props) => {
         } catch (err) {console.error(err.message)}
     };
 
-    useEffect(() => {getAllUsers()}, []);
+    // useEffect(() => {getAllUsers()}, []);
+    getAllUsers();
 
     ////// GET ALL USERS ASSIGNED TO A TEAM //////
     const getAllUsersOnTeams = async () => {
@@ -54,7 +55,8 @@ const TeamRoster = (props) => {
         } catch (err) {console.error(err.message)}
     };
 
-    useEffect(() => {getAllUsersOnTeams()}, []);
+    // useEffect(() => {getAllUsersOnTeams()}, []);
+    getAllUsersOnTeams();
 
     ////// GET ALL USERS *NOT* ASSIGNED TO A TEAM //////
     const getUsersNotOnATeam = () => {
@@ -82,7 +84,7 @@ const TeamRoster = (props) => {
         } catch (err) {console.error(err.message)}
     };
 
-    useEffect(() => {projectID ? getTeamRoster(projectID) : null});
+    projectID ? getTeamRoster(projectID) : null;
 
     ////// GET ALL USERS WHO ARE DEVELOPERS //////
     const getAllDevelopers = async () => {
@@ -93,7 +95,7 @@ const TeamRoster = (props) => {
         } catch (err) {console.error(err.message)}
     };
 
-    useEffect(() => {getAllDevelopers()}, []);
+    getAllDevelopers();
 
     ////// GET ALL USERS WHO ARE MANAGERS //////
     const getAllManagers = async () => {
@@ -104,7 +106,7 @@ const TeamRoster = (props) => {
         } catch (err) {console.error(err.message)}
     };
 
-    useEffect(() => {getAllManagers()}, []);
+    getAllManagers();
 
     ////// MERGE USER DATA WITH TEAM ROSTER TO GET FIRST AND LAST NAMES //////
     const getMatches = () => {
@@ -245,13 +247,13 @@ const TeamRoster = (props) => {
                 {projectManagers.map(user => (
                     <tr key={user.user_id}>
                         <td>{user.first_name} {user.last_name}</td>
-                        { userType === "General Manager"  
+                        { userType === "Project Manager" || userType === "General Manager"    
                             ? <td>{team.map(each => (
                                 each.user_id === user.user_id 
                                 ? getDollarFigure(each.daily_rate)
                                 : null
                             ))}</td> : null }
-                        { userType === "Project Manager" ? <td>&nbsp;</td> : null }
+                        { userType === "Developer" ? <td>&nbsp;</td> : null }
                         { userType === "General Manager" 
                             ? <td><rux-button 
                                 size="small" 
