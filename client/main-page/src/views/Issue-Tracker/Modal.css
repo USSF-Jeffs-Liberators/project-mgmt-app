@@ -1,0 +1,239 @@
+*:focus {
+    outline: none;
+  }
+  
+  .modal-wrapper {
+    background-color: #203246;
+    width: 600px;
+    margin: 4rem auto;
+    transition: all 0.3s;
+    position: fixed;
+    margin-top: 10%;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .modal-header {
+    background-color: rgb(20, 31, 44);
+    color: #e9e9e9;
+    padding: 1rem;
+    display: relative;
+    align-items: center;
+  }
+  
+  .modal-header h2 {
+    position: relative;
+    color: white;
+  }
+  
+  .modal-body h3 {
+    color: white;
+  }
+  
+  .modal-header span {
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
+  .modal-content {
+    padding: 1.5rem 1rem;
+  }
+  
+  .modal-body {
+    margin-bottom: 1rem;
+  }
+  
+  .modal-footer {
+    width: 100%;
+    align-items: right;
+    padding-bottom: 2rem;
+  }
+  
+  .back-drop {
+    background: rgba(0, 23, 36, 0.96);
+    height: 100%;
+    position: fixed;
+    transition: all 1.3s;
+    width: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+  
+  textarea {
+    box-sizing: border-box;
+    -webkit-order: 2;
+    order: 2;
+  
+    min-height: 4.25rem;
+    width: 100%;
+    padding: 0.5rem;
+  
+    border: 1px solid transparent;
+  
+    border: 1px solid transparent;
+  
+    border: 1px solid var(--inputBorderColor, transparent);
+    border-radius: 3px;
+  
+    font-family: "Open Sans", sans-serif;
+  
+    font-family: "Open Sans", sans-serif;
+  
+    font-family: var(--fontFamily, "Open Sans", sans-serif);
+    font-size: 1rem;
+    font-size: 1rem;
+    font-size: var(--fontSize, 1rem);
+    color: rgb(0, 0, 0);
+    color: rgb(0, 0, 0);
+    color: var(--inputTextColor, rgb(0, 0, 0));
+  }
+  
+  .currencyinput {
+    display: inline-block;
+    background-color: white;
+    color: black;
+    padding-left: 5px;
+    font-family: "Open Sans", sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    height: 2.15em;
+    line-height: 2;
+  }
+  .currencyinput input {
+    padding-left: 5px;
+    border: 0;
+    font-family: "Open Sans", sans-serif;
+    font-size: 1rem;
+  }
+  
+  .button-div1 {
+    width: 131px;
+    margin: 5px auto;
+  }
+  
+  .button-div2 {
+    width: 213px;
+    margin: 5px auto;
+  }
+  
+  .button-div3 {
+    /* margin: 5px auto; */
+    display: flex;
+    justify-content: space-between;
+    float: right;
+  }
+  
+  .wrapper {
+    position: relative;
+    width: 350px;
+    height: 350px;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: row;
+  }
+  .container {
+    flex: 1;
+    padding: 0 20px;
+  }
+  
+  .progress-div {
+    position: relative;
+    max-height: 20%;
+    align-items: center;
+  }
+  
+  .button-section {
+    align-items: center;
+  }
+  
+  .current-progress {
+    text-align: center;
+  }
+  
+  .modal-button {
+    margin: 20px
+  }
+  
+  /* Reset Select */
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none;
+    outline: 0;
+    box-shadow: none;
+    border: 0 !important;
+    background: #FFFFFF;
+    background-image: none;
+  }
+  
+  /* Remove IE arrow */
+  select::-ms-expand {
+    display: none;
+  }
+  
+  /* Custom Select */
+  .select-type {
+    position: relative;
+    display: flex;
+    width: 15em;
+    height: 2em;
+    line-height: 2;
+    background: #203246;
+    overflow: hidden;
+    border-radius: .25em;
+  }
+  
+  select {
+    flex: 1;
+    padding: 0 .5em;
+    color: black;
+    cursor: pointer;
+    font-family: "Open Sans", sans-serif;
+    font-size: 1rem;
+  }
+  
+  /* Arrow */
+  .select-type::after {
+    content: '\25BC';
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0 1em;
+    background: #005A8F;
+    cursor: pointer;
+    pointer-events: none;
+    -webkit-transition: .25s all ease;
+    -o-transition: .25s all ease;
+    transition: .25s all ease;
+  }
+  
+  /* Transition */
+  .select-type:hover::after {
+    background: #3A81BF;
+  }
+  
+  input[type="date"] {
+    width: 12rem;
+    height: 2.15em;
+    line-height: 2;
+    font-family: "Open Sans", sans-serif;
+    font-size: 1rem;
+    border: 1px solid transparent;
+    border-radius: 3px;
+  }
+  
+  .table-wrapper {
+   margin:auto;
+   width:97%; 
+  }
+  
+  .td-textarea {
+    max-width: 800px;
+  }
