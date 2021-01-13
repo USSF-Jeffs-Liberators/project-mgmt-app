@@ -124,6 +124,7 @@ nav rux-button {
   text-align: center;
 }
 
+.project-select,
 .project-timeline,
 .project-requirements,
 .project-issues,
@@ -131,7 +132,12 @@ nav rux-button {
   float: left;
 }
 
+
+.project-select,
+.project-requirements,
+
 /* .project-requirements,
+
 .project-tasks,
 .project-issues,
 .project-budget,

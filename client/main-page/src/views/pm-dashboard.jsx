@@ -8,11 +8,21 @@ export default function ProjectManagerDashboard(props) {
   return (
     <div className="dashboard" id="pmDashboard">
       <section className="project-timeline col-12">
-        <h3>Gantt Chart</h3>
+
+        <h2>Gantt Chart</h2>
         <GanttChart />
-      </section>{" "}
-      <section className="project-team col-4">
-        <h3>Team Members</h3>
+      </section>
+      <section className="project-requirements col-s-6 col-4">
+        <h2>Project Requirements</h2>
+        <ProjectRequirements />
+      </section>
+      <section className="project-issues col-s-6 col-4">
+        <h2>Issues Tracker</h2>
+        <IssueTrackerPM />
+      </section>
+      <section className="project-team col-s-6 col-4">
+        <h2>Team Members</h2>
+
         <TeamRoster/>
       </section>{" "}
       <section className="project-issues col-4">

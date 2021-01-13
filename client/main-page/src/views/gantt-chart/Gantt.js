@@ -5,6 +5,7 @@ import "./Gantt.css";
 
 export default class Gantt extends Component {
   componentDidMount() {
+
     var { tasks } = this.props;
 
     var textEditor = { type: "text", map_to: "text" };
@@ -80,7 +81,11 @@ export default class Gantt extends Component {
     gantt.config.autosize = "y";
     gantt.config.autoscroll = true;
     gantt.config.scroll_size = 20;
-    // gantt.config.readonly = true;   // IF NOT PROJECT MANAGER SET TO TRUE ELSE FALSE
+
+    if (JSON.parse(localStorage.getItem('user')).roles[0] !== 'Project Manager') {
+      gantt.config.readonly = true;
+    }
+
     gantt.init(this.ganttContainer);
     gantt.parse(tasks);
 
