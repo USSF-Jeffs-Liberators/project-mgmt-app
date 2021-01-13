@@ -23,12 +23,12 @@ export const links = {
             name: "Project Dashboard",
             href: "",
             class: "dashboardLink"
-        },
-        {
-            name: "Submit Issue",
-            href: "issue",
-            class: "issueLink"
         }
+        //, {
+        //     name: "Submit Issue",
+        //     href: "issue",
+        //     class: "issueLink"
+        // }
     ],
     projectManager: [
         {

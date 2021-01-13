@@ -7,8 +7,8 @@
   width: 100%;
 }
 
-/* Medium devices (landscape tablets) */
-@media only screen and (min-width: 768px) {
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px)  {
   .col-s-1 {
     width: 8.33%;
   }
@@ -47,8 +47,8 @@
   }
 }
 
-/* Large devices (laptops/desktops) */
-@media only screen and (min-width: 992px) {
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
   .col-1 {
     width: 8.33%;
   }
@@ -120,7 +120,7 @@ nav rux-button {
   border: 10px solid #182636;
 }
 
-.dashboard h5 {
+.dashboard h2 {
   text-align: center;
 }
 
@@ -132,27 +132,14 @@ nav rux-button {
   float: left;
 }
 
-
-
-.project-requirements,
-
-/* .project-requirements,
-
-.project-tasks,
-.project-issues,
-.project-budget,
-.project-team {
-  height: 400px;
-} */
-
-.gm-issues {
+.gm-issues,
+.gm-funding-requests,
+.gm-budget {
   float: right;
-  /* height: 375px; */
 }
 
 .gm-requirements {
   float: left;
-  /* height: 250px; */
 }
 
 /* Create-Project-Page Styling
