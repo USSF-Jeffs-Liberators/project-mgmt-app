@@ -7,6 +7,9 @@ import ProjectRequirements from "./requirements/Requirements";
 export default function DeveloperDashboard(props) {
   return (
     <div className="dashboard" id="developerDashboard">
+      <section className="col-12">
+        <h1>PROJECT NAME</h1>
+      </section>
       <section className="project-timeline col-12">
         <h2>Timeline</h2>
         <GanttChart />
@@ -20,7 +23,7 @@ export default function DeveloperDashboard(props) {
         <IssueTracker />
       </section>{" "}
       <br></br>
-      <section className="project-requirements col-s-6 col-6">
+      <section className="project-requirements col-12">
         <h2>Project Requirements</h2>
         <ProjectRequirements />
       </section>

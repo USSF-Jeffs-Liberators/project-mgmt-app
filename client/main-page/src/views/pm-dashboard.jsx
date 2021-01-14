@@ -7,8 +7,11 @@ import ProjectRequirements from "./requirements/Requirements";
 export default function ProjectManagerDashboard(props) {
   return (
     <div className="dashboard" id="pmDashboard">
+      <section className="col-12">
+        <h1>{localStorage.getItem("selectedProjectName")}</h1>
+      </section>
       <section className="project-timeline col-12">
-        <h2>Gantt Chart</h2>
+        <h2>Timeline</h2>
         <GanttChart />
       </section>
       <section className="project-issues col-s-12 col-6">
