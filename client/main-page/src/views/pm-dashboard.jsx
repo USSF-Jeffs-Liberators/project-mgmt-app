@@ -11,14 +11,13 @@ export default function ProjectManagerDashboard(props) {
         <h1>{localStorage.getItem("selectedProjectName")}</h1>
       </section>
       <section className="project-timeline col-12">
-        <h2>Timeline</h2>
         <GanttChart />
       </section>
-      <section className="project-issues col-s-12 col-6">
+      <section className="project-issues col-s-12 col-8">
         <h2>Issues Tracker</h2>
         <IssueTracker />
       </section>
-      <section className="project-team col-s-12 col-6">
+      <section className="project-team col-s-12 col-4">
         <h2>Team Members</h2>
         <TeamRoster />
       </section>

@@ -49,7 +49,6 @@ export default function GeneralManagerDashboard() {
         <h1>{localStorage.getItem("selectedProjectName")}</h1>
       </section>
       <section className="project-timeline col-12">
-        <h2>Timeline</h2>
         <GanttChart />
       </section>
       <section className="gm-issues col-s-12 col-6">
