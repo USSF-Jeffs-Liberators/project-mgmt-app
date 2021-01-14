@@ -1,23 +1,23 @@
 import React from "react";
-import { RuxAccordion } from "../../altcomponents/components/Accordion/rux-accordion";
+import { RuxAccordion } from "../rux-accordion";
 
-export const AvailableUsers = (props) => {
+export const AvailableUsers = ({ UserFilter, userData }) => {
 
   return (
-    <div className="flex-child" style={{ minWidth: "950px", maxWidth:"950px" }}>
+    <div className="flex-child" style={{ flexDirection: "column" , minWidth: "950px", maxWidth:"950px" }}>
       <h1 style={{ marginTop: "26px" }}>Available Team Members</h1>
       <RenderAccordion
         summary="Project Managers"
-        availUsers={props.filterUsers("Project Manager")}
+        availUsers={UserFilter("Project Manager")}
       />
       <RenderAccordion
         summary="Developers"
-        availUsers={props.filterUsers("Developer")}
+        availUsers={UserFilter("Developer")}
       />
       <h1 style={{ marginTop: "26px" }}>All Team Members</h1>
       <RenderAccordion
         summary="All Developers And Project Managers"
-        availUsers={props.userData.filter((each) => each.first_name != 'admin')}
+        availUsers={userData.filter((each) => each.first_name != 'admin')}
       />
     </div>
   );
