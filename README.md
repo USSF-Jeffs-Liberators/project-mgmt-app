@@ -5,10 +5,7 @@
 - Lt. Kreimier - Space CAMP Leadership
 - PS 1: A way to manage the portfolio of different applications and receive updates on all programs.
 
-An application showing all things helpful related to Program Management:
-Blockers
-Needs
-Funding
+Project-management app, aims to be an information radiator from developers to project managers to portfolio managers. In the app we can show and update project schedules, raise development issues, manage project finances, create/edit project requirements, and manage manpower on teams. Altogether, project-management app empowers project managers with the tools they need to manage their project and communicate effectively
 
 ### Tech Stack:
 
