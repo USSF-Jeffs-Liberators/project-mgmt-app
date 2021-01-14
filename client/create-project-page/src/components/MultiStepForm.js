@@ -15,11 +15,7 @@ const defaultData = {
   projManager: "",
 };
 
-const steps = [
-  { id: "project form" },
-  { id: "review" },
-  { id: "submit" },
-];
+const steps = [{ id: "project form" }, { id: "review" }, { id: "submit" }];
 
 function isInDateRange(d, d1, d2) {
   // compare dates
@@ -115,7 +111,11 @@ export const MultiStepForm = () => {
         </div>
       );
     case "review":
-      return <ProjReview {...props} />;
+      return (
+        <div className="flex-container">
+          <ProjReview {...props} />
+        </div>
+      );
     // Add button onClick={() => go(`submit`)}
     case "submit":
       return <ProjSubmit {...props} />;
@@ -128,7 +128,8 @@ export const MultiStepForm = () => {
   );
 };
 
-{/* <button
+{
+  /* <button
             className="rux-button"
             type="button"
             style={{ marginTop: "1rem" }}
@@ -153,4 +154,5 @@ export const MultiStepForm = () => {
               }}
             >
               Next
-            </button>*/}
+            </button>*/
+}
