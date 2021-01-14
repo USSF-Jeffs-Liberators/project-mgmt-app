@@ -271,6 +271,7 @@ const TeamRoster = (props) => {
     }
   };
 
+
   ////// REFORMAT DOLLAR FIGURES //////
   const getDollarFigure = (amount) => {
     amount === undefined || amount === null ? "" : null;
@@ -313,7 +314,7 @@ const TeamRoster = (props) => {
                 )}
               </td>
             ) : null}
-            {userType === "Developer" ? <td>&nbsp;</td> : null}
+            { userType === "Developer" ? null : null }
             {userType === "General Manager" ? (
               <td>
                 <rux-button
@@ -339,6 +340,7 @@ const TeamRoster = (props) => {
                   <option key={each.user_id} value={each.user_id}>
                     {each.first_name} {each.last_name}
                   </option>
+
                 ))}
               </select>
             </td>
