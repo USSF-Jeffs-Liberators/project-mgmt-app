@@ -13,15 +13,15 @@ export default function GeneralManagerDashboard() {
 
   const [projects, setProjects] = useState(1)
 
-  const getProjects = async () => {
-    const response = await fetch('http://localhost:3001/projects')
-    const json = await response.json()
-    setProjects(json)
-  }
+  // const getProjects = async () => {
+  //   const response = await fetch('http://localhost:3001/projects')
+  //   const json = await response.json()
+  //   setProjects(json)
+  // }
 
-  useEffect(() => {
-    getProjects();
-  });
+  // useEffect(() => {
+  //   getProjects();
+  // });
 
   return (
     <div className="dashboard" id="gmDashboard">
