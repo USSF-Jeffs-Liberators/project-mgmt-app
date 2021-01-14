@@ -10,18 +10,9 @@ export default function GeneralManagerDashboard() {
   if (localStorage.getItem("selectedProjectId") === null) {
     localStorage.setItem("selectedProjectId", 1)
   }
-
-  // const [projects, setProjects] = useState(1)
-
-  // const getProjects = async () => {
-  //   const response = await fetch('http://localhost:3001/projects')
-  //   const json = await response.json()
-  //   setProjects(json)
-  // }
-
-  // useEffect(() => {
-  //   getProjects();
-  // });
+  if (localStorage.getItem("selectedProjectName") === null) {
+    localStorage.setItem("selectedProjectName", "USSF Leave Tracker")
+  }
 
   return (
     <div className="dashboard" id="gmDashboard">
@@ -30,6 +21,20 @@ export default function GeneralManagerDashboard() {
         <select class="rux-select" id="project-select" onChange={() => {
           let x = document.getElementById("project-select").value
           localStorage.setItem("selectedProjectId", x)
+          switch(x) {
+            case "1":
+              localStorage.setItem("selectedProjectName", "USSF Leave Tracker")
+              break;
+            case "2":
+              localStorage.setItem("selectedProjectName", "SAT-STAT")
+              break;
+            case "3":
+              localStorage.setItem("selectedProjectName", "Autonomous Warfare Decision Maker")
+              break;
+            default:
+              localStorage.setItem("selectedProjectName", "USSF Leave Tracker")
+              break;
+          }
           window.location.reload(false);
         }}>
           <option value="" selected disabled hidden>Select a Project</option>
@@ -38,8 +43,11 @@ export default function GeneralManagerDashboard() {
           <option value="3">Autonomous Warfare Decision Maker</option>
         </select>
       </section>
+      <section className="col-11">
+        <h1>{localStorage.getItem("selectedProjectName")}</h1>
+      </section>
       <section className="project-timeline col-12">
-        <h2>Gantt Chart</h2>
+        <h2>Timeline</h2>
         <GanttChart />
       </section>
       <section className="gm-issues col-s-12 col-6">

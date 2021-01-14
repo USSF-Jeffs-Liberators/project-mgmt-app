@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AuthService from "../../services/auth.service";
-// import {ReqModal} from "./ReqModal"
+import {ReqModal} from "./ReqModal"
 
 const ProjectRequirements = () => {
 
@@ -22,6 +22,17 @@ const ProjectRequirements = () => {
       console.error(err.message);
     }
   };
+  const getGMRequirements = async (project_id) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3001/projects/${project_id}/requirements`
+      );
+      const jsonData = await response.json();
+      setRequirements(jsonData);
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
 
   const [currentUser, setCurrentUser] = useState(undefined);
   useEffect(() => {
@@ -29,112 +40,123 @@ const ProjectRequirements = () => {
 
     if (user) {
       setCurrentUser(user)
-      getRequirements(user.user_id);
+      
       setCurrentRole(user.roles[0])
       if(user.roles[0] === "General Manager"){
-        setCurrentProject(localStorage.getItem("selectedProjectId"))
+        let currentProj = localStorage.getItem("selectedProjectId")
+        setCurrentProject(currentProj)
+        getGMRequirements(currentProj)
+      } else {
+        getRequirements(user.user_id);
       }
     }
   },[]);
 //modal functions
-  // const openRequirementModal = (requirement) => {
-  //   if(currentUser.roles[0] === "Project Manager"){
-  //     setCurrentProject(requirements[0].project_id)
-  //   }
-    
-  //   setSelectedRequirement(requirement);
-  //   setRequirementModalElements(requirement);
-  //   setShowRequirementModal(true);
-  //   toggleElementsOff()
-  // }
+  const openRequirementModal = (requirement) => {
+    if(currentRole === "Project Manager"){
+      setCurrentProject(requirements[0].project_id)
+    }
+    setSelectedRequirement(requirement);
+    setRequirementModalElements(requirement);
+    setShowRequirementModal(true);
+    toggleElementsOff()
+  }
 
 
-  // const closeRequirementModal = () => {
-  //   setSelectedRequirement(undefined);
-  //   setShowRequirementModal(false);
-  //   toggleElementsOn()
-  // }
+  const closeRequirementModal = () => {
+    setSelectedRequirement(undefined);
+    setShowRequirementModal(false);
+    toggleElementsOn()
+  }
   
-  // const toggleElementsOff= () => {
-  //   document.querySelector(".modal-wrapper").style.display = "block";
-  //   document.querySelector("body").style.overflow = "hidden";
-  //   document.querySelectorAll(".rux-button:not(.modal-button),.modal-button:not(.rux-button)").forEach(element => element.style.display = 'none')
-  // }
+  const toggleElementsOff= () => {
+    document.querySelector(".modal-wrapper").style.display = "block";
+    document.querySelector("body").style.overflow = "hidden";
+    document.querySelectorAll(".rux-button:not(.modal-button),.modal-button:not(.rux-button)").forEach(element => element.style.display = 'none')
+  }
 
-  // const toggleElementsOn = () => {
-  //   document.querySelector("body").style.overflow = "auto";
-  //   document.querySelectorAll(".rux-button:not(.modal-button),.modal-button:not(.rux-button)").forEach(element => element.style.display = 'inline-flex')
-  // }
+  const toggleElementsOn = () => {
+    document.querySelector("body").style.overflow = "auto";
+    document.querySelectorAll(".rux-button:not(.modal-button),.modal-button:not(.rux-button)").forEach(element => element.style.display = 'inline-flex')
+  }
 
-  // const setRequirementModalElements = (requirement) => {
-  //   if (requirement !== null) {
-  //     document.getElementById("req-desc").value = requirement.requirement_desc;
-  //     document.getElementById("priority-select").value = requirement.priority;
-  //     document.getElementById("req-status").value = requirement.requirement_status;
-  //   } else {
-  //     document.getElementById("req-desc").value = "";
-  //     document.getElementById("priority-select").value = "";
-  //     document.getElementById("req-status").value = "";
-  //   }
-  // }
-  // const addRequirement = async (reqDesc, priority, reqStatus, projectId) => {
-  //   var requirement = {};
-  //   requirement.project_id = projectId;
-  //   requirement.requirement_desc = reqDesc;
-  //   requirement.priority = priority;
-  //   requirement.requirement_status = reqStatus;
+  const setRequirementModalElements = (requirement) => {
+    if (requirement !== null) {
+      document.getElementById("req-desc").value = requirement.requirement_desc;
+      document.getElementById("priority-select").value = requirement.priority;
+      document.getElementById("req-status").value = requirement.requirement_status;
+    } else {
+      document.getElementById("req-desc").value = "";
+      document.getElementById("priority-select").value = "";
+      document.getElementById("req-status").value = "";
+    }
+  }
+  const addRequirement = async (reqDesc, priority, projectId) => {
+    var requirement = {};
+    requirement.project_id = projectId;
+    requirement.requirement_desc = reqDesc;
+    requirement.priority = priority;
+    requirement.requirement_status = "Not Started";
 
-  //   await fetch("http://localhost:3001/requirements", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(requirement),
-  //   })
-  //   await getRequirements(currentUser.user_id);
-  // }
+    await fetch("http://localhost:3001/requirements", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requirement),
+    })
+    if(currentRole === "General Manager"){
+      await getGMRequirements(currentProject)
+    } else {
+      await getRequirements(currentUser.user_id);
+    }
+  }
 
-  // const editRequirement = async (reqDesc, priority, reqStatus, reqId) => {
-  //   var requirement = {};
+  const editRequirement = async (reqDesc, priority, reqStatus, reqId) => {
+    var requirement = {};
     
-  //   requirement.requirement_desc = reqDesc;
-  //   requirement.priority = priority;
-  //   requirement.requirement_status = reqStatus;
+    requirement.requirement_desc = reqDesc;
+    requirement.priority = priority;
+    requirement.requirement_status = reqStatus;
 
-  //   await fetch(
-  //     `http://localhost:3001/requirements/${reqId}`,
-  //     {
-  //       method: "PATCH",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(requirement),
-  //     }
-  //   );
-  //   await getRequirements(currentUser.user_id);
-  // }
+    await fetch(
+      `http://localhost:3001/requirements/${reqId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requirement),
+      }
+    );
+    if(currentRole === "General Manager"){
+      await getGMRequirements(currentProject)
+    } else {
+      await getRequirements(currentUser.user_id);
+    }
+  }
 
-  // const deleteRequirement = async requirement_id => {
-  //   try {
-  //       let body = {requirement_id
-  //         }
-  //       const requestOptions = {
-  //           method: 'DELETE',
-  //           headers: { 'Content-Type': 'application/json' },
-  //           body: JSON.stringify(body)
-  //       };
-  //       await fetch(`http://localhost:3001/projects/requirements`, requestOptions)
-  //         .then(response => response.json())
-  //         .then(response => {
-  //         if(response.status === "failed")
-  //         alert(response.message)})
+  const deleteRequirement = async requirement_id => {
+    try {
+        let body = {requirement_id
+          }
+        const requestOptions = {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        };
+        await fetch(`http://localhost:3001/projects/requirements`, requestOptions)
+          .then(response => response.json())
+          .then(response => {
+          if(response.status === "failed")
+          alert(response.message)})
 
 
-  //       setRequirements(requirements.filter(each => each.requirement_id !== requirement_id));
-  //   } catch (err) {
-  //     console.error(err.message);
-  //   }
-  // };
+        setRequirements(requirements.filter(each => each.requirement_id !== requirement_id));
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
 
   const getStatusColor = (status) => {
     if (status === "Completed" || status === "Low") {
@@ -175,7 +197,7 @@ const ProjectRequirements = () => {
 
     <div>
       
-      {/* {showRequirementModal ? (
+      {showRequirementModal ? (
           <div
             className="back-drop"
             onClick={() => {
@@ -193,23 +215,33 @@ const ProjectRequirements = () => {
           verifyDescription={verifyDescription}
           verifyPriority={verifyPriority}
           verifyStatus={verifyStatus}
-        /> */}
+        />
       <table id="projectRequirements" className="rux-table">
         <tbody>
+          {currentRole === "Developer" ? (
+          <tr className="rux_table__column-head">
+            <th>Description</th>
+            <th>Priority</th>
+            <th>Status</th> 
+          </tr>) :(
           <tr className="rux_table__column-head">
             <th>Description</th>
             <th>Priority</th>
             <th>Status</th>
-            {/* {currentRole === "Developer" ? 
-              null : ( */}
-              
-                  <th>Edit</th>
-                  <th>Delete</th>
-              
-            
-            
-          </tr>
+            <th>Edit</th>
+          <th>Delete</th>  
+        </tr>)}
+
           {requirements.map((each) => (
+            currentRole === "Developer" ? (
+            <tr key={each.requirement_id}>
+              <td>{each.requirement_desc}</td>
+              <td>{each.priority}</td>
+
+              <td><font color={getStatusColor(each.requirement_status)}>{each.requirement_status}</font></td>
+              
+            </tr>) 
+            : (
             <tr key={each.requirement_id}>
               <td>{each.requirement_desc}</td>
               <td>{each.priority}</td>
@@ -218,34 +250,36 @@ const ProjectRequirements = () => {
               <td><button
                     className="rux-button"
                     id = {`req-${each.requirement_id}`}
-                    // onClick={() => openRequirementModal(each)}
+                    onClick={() => openRequirementModal(each)}
                   >
                     Edit
                   </button></td>
               <td><button
                     className="rux-button"
-                    // onClick={() => deleteRequirement(each.requirement_id)}
+                    onClick={() => deleteRequirement(each.requirement_id)}
                   >
                     Delete
                   </button></td>
-            </tr>
+            </tr> )
+
           ))}
-          {/* {currentRole === "Developer" ? 
-              null :( */}
+          {currentRole === "Developer" ? 
+              null :(
               <tr class="rux-table__column-head">
               <th colspan="6" className="button-section">
                 <div className="button-div1">
                   <button
                     className="rux-button"
                     onClick={() => {
-                      // openRequirementModal(null);
+                      openRequirementModal(null);
                     }}
                   >
-                    Add Expense
+                    Add Requirement
                   </button>
                 </div>
               </th>
             </tr> 
+          )} 
         </tbody>
       </table>
     </div>

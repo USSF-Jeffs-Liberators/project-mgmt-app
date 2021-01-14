@@ -136,6 +136,10 @@ nav rux-button {
   text-align: center;
 }
 
+.dashboard h1 {
+  text-align: center;
+}
+
 .gm-issues,
 .gm-requirements,
 .project-select,

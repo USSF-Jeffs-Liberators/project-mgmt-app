@@ -15,8 +15,45 @@ export const ProjInfo = ({ formData, setForm, navigation, UserFilter }) => {
     projManager,
   } = formData;
 
+  // const form = useRef();
+  // const checkBtn = useRef();
+  // const [loading, setLoading] = useState(false);
+  // const [message, setMessage] = useState("");
+
+  // const required = (value) => {
+  //   if (!value || value === "") {
+  //     return (
+  //       <div className="alert alert-danger" role="alert">
+  //         This field is required!
+  //       </div>
+  //     );
+  //   }
+  // };
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   setMessage("");
+  //   setLoading(true);
+
+  //   form.current.validateAll();
+
+  //   if (checkBtn.current.context._errors.length === 0) {
+  //     //post ... 
+  //     //set 
+  //     //if there are no errors
+  //     //send the form data to the db
+  //   } else {
+  //     setLoading(false);
+  //   }
+
+  //   //else setloading(false)
+  // }
+
   return (
-    <Form className="flex-child">
+    <Form className="flex-child" 
+    // onSubmit={handleSubmit} 
+    // ref={form}
+    >
       <h1 style={{ marginTop: "26px" }}>Project Information</h1>
       <div className="rux-form-field" style={{ marginTop: "16px" }}>
         <label htmlFor="projName">Project Name</label>
@@ -28,6 +65,7 @@ export const ProjInfo = ({ formData, setForm, navigation, UserFilter }) => {
           value={projName}
           onChange={setForm}
           autoComplete="off"
+          // validations={[required]}
         />
       </div>
       <div className="rux-form-field" style={{ marginTop: "16px" }}>
@@ -40,6 +78,7 @@ export const ProjInfo = ({ formData, setForm, navigation, UserFilter }) => {
           value={projDesc}
           onChange={setForm}
           autoComplete="off"
+          // validations={[required]}
         />
       </div>
       <div className="rux-form-field" style={{ marginTop: "16px" }}>
@@ -54,6 +93,7 @@ export const ProjInfo = ({ formData, setForm, navigation, UserFilter }) => {
           value={projBudget}
           onChange={setForm}
           autoComplete="off"
+          // validations={[required]}
         />
       </div>
       <div className="rux-form-field" style={{ marginTop: "16px" }}>
@@ -66,6 +106,7 @@ export const ProjInfo = ({ formData, setForm, navigation, UserFilter }) => {
           min="2020-01-01"
           max="2041-01-01"
           onChange={setForm}
+          // validations={[required]}
         />
       </div>
       <div className="rux-form-field" style={{ marginTop: "16px" }}>
@@ -78,6 +119,7 @@ export const ProjInfo = ({ formData, setForm, navigation, UserFilter }) => {
           min="2020-01-01"
           max="2041-01-01"
           onChange={setForm}
+          // validations={[required]}
         />
       </div>
       <div className="rux-form-field" style={{ marginTop: "16px" }}>
@@ -89,6 +131,7 @@ export const ProjInfo = ({ formData, setForm, navigation, UserFilter }) => {
           value={projManager}
           onChange={setForm}
           autoComplete="off"
+          // validations={[required]}
         >
           <option value="">Select Project Manager</option>
           {UserFilter("Project Manager").map((each) => (

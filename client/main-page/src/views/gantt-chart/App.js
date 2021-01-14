@@ -27,10 +27,30 @@ class GanttChart extends React.Component {
       const json = await response.json()
       for (let i = 0; i < json.length; i++) {
         if (json[i].user_id === JSON.parse(localStorage.getItem('user')).user_id) {
-          this.setState({project_id: json[i].project_id}) 
+          this.setState({project_id: json[i].project_id})
+          this.setLocalStorageVariables(json[i].project_id)
         }
       }
     }
+  }
+
+  setLocalStorageVariables(projectId) {
+    localStorage.setItem("selectedProjectId", projectId)
+    switch(projectId) {
+      case 1:
+        localStorage.setItem("selectedProjectName", "USSF Leave Tracker")
+        break;
+      case 2:
+        localStorage.setItem("selectedProjectName", "SAT-STAT")
+        break;
+      case 3:
+        localStorage.setItem("selectedProjectName", "Autonomous Warfare Decision Maker")
+        break;
+      default:
+        localStorage.setItem("selectedProjectName", "USSF Leave Tracker")
+        break;
+    }
+    this.forceUpdate()
   }
 
   async componentDidMount() {
