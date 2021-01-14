@@ -102,6 +102,14 @@ nav rux-button {
   margin-top: 100px;
 }
 
+#loggedOutPage img {
+  max-width: 300px
+}
+
+#loggedOutPage h5 {
+  margin-top: 0
+}
+
 #signupPage,
 #loginPage {
   max-width: 300px;
