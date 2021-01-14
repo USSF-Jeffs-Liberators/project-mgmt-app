@@ -91,12 +91,12 @@ const ProjectRequirements = () => {
       document.getElementById("req-status").value = "";
     }
   }
-  const addRequirement = async (reqDesc, priority, reqStatus, projectId) => {
+  const addRequirement = async (reqDesc, priority, projectId) => {
     var requirement = {};
     requirement.project_id = projectId;
     requirement.requirement_desc = reqDesc;
     requirement.priority = priority;
-    requirement.requirement_status = reqStatus;
+    requirement.requirement_status = "Not Started";
 
     await fetch("http://localhost:3001/requirements", {
       method: "POST",

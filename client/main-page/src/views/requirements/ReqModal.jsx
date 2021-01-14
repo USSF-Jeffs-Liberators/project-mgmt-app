@@ -32,7 +32,10 @@ export const ReqModal = (props) => {
             </select>
           </div>
           <br></br><br></br>
-          <h3>Status</h3>
+          {props.selectedRequirement === null ? null :
+          <h3>Status</h3>}
+          {props.selectedRequirement === null ? null : (
+          
           <div class="select-type">
             <select id="req-status" required>
               <option selected disabled>Choose an option</option>
@@ -42,7 +45,7 @@ export const ReqModal = (props) => {
               <option value="Cancelled">Cancelled</option>
             </select>
           </div>
-          
+          )}
         </div>
         <div className="modal-footer">
           <div className="button-div3">
@@ -51,10 +54,14 @@ export const ReqModal = (props) => {
               onClick={() => {
                 let reqDesc = document.getElementById("req-desc").value;
                 let priority = document.getElementById("priority-select").value;
-                let reqStatus = document.getElementById("req-status").value
-                if (props.verifyDescription(reqDesc) && props.verifyPriority(priority) && props.verifyStatus(reqStatus)) {
+                let reqStatus;
+                if(props.selectedRequirement !== null){
+                  reqStatus = document.getElementById("req-status").value
+                }
+                
+                if (props.verifyDescription(reqDesc) && props.verifyPriority(priority)) {
                   if (props.selectedRequirement === null) {
-                    props.addRequirement(reqDesc, priority, reqStatus, props.currentProject);
+                    props.addRequirement(reqDesc, priority, props.currentProject);
                   } else {
                     props.editRequirement(reqDesc, priority, reqStatus, props.selectedRequirement.requirement_id);
                   }
