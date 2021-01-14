@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import Textarea from "react-validation/build/textarea";
@@ -15,45 +15,49 @@ export const ProjInfo = ({ formData, setForm, navigation, UserFilter }) => {
     projManager,
   } = formData;
 
-  // const form = useRef();
-  // const checkBtn = useRef();
-  // const [loading, setLoading] = useState(false);
-  // const [message, setMessage] = useState("");
+  const name = (value) => {
+    if (typeof value !== "string") {
+      return (
+        <div className="alert altert-danger" role="alert">
+          This field must be a string.
+        </div>
+      );
+    }
+  };
+  
+  const required = (value) => {
+    if (!value) {
+      return (
+        <div className="alert alert-danger" role="alert">
+          This field is required!
+        </div>
+      );
+    }
+  };
 
-  // const required = (value) => {
-  //   if (!value || value === "") {
-  //     return (
-  //       <div className="alert alert-danger" role="alert">
-  //         This field is required!
-  //       </div>
-  //     );
-  //   }
-  // };
+  const form = useRef();
+  const checkBtn = useRef();
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   setMessage("");
-  //   setLoading(true);
+  const handleReview = (e) => {
+    e.preventDefault();
+    setMessage("");
+    setLoading(true);
 
-  //   form.current.validateAll();
+    form.current.validateAll();
 
-  //   if (checkBtn.current.context._errors.length === 0) {
-  //     //post ... 
-  //     //set 
-  //     //if there are no errors
-  //     //send the form data to the db
-  //   } else {
-  //     setLoading(false);
-  //   }
-
-  //   //else setloading(false)
-  // }
+    if (checkBtn.current.context._errors.length === 0) {
+      () => navigation.go("review");
+      console.log(JSON.stringify(formData, null, 2));
+      setLoading(false);
+    } else {
+      setLoading(false);
+    }
+  };
 
   return (
-    <Form className="flex-child" 
-    // onSubmit={handleSubmit} 
-    // ref={form}
-    >
+    <Form className="flex-child" ref={form}>
       <h1 style={{ marginTop: "26px" }}>Project Information</h1>
       <div className="rux-form-field" style={{ marginTop: "16px" }}>
         <label htmlFor="projName">Project Name</label>
@@ -65,7 +69,7 @@ export const ProjInfo = ({ formData, setForm, navigation, UserFilter }) => {
           value={projName}
           onChange={setForm}
           autoComplete="off"
-          // validations={[required]}
+          validations={[required, name]}
         />
       </div>
       <div className="rux-form-field" style={{ marginTop: "16px" }}>
@@ -78,7 +82,7 @@ export const ProjInfo = ({ formData, setForm, navigation, UserFilter }) => {
           value={projDesc}
           onChange={setForm}
           autoComplete="off"
-          // validations={[required]}
+          validations={[required]}
         />
       </div>
       <div className="rux-form-field" style={{ marginTop: "16px" }}>
@@ -93,7 +97,7 @@ export const ProjInfo = ({ formData, setForm, navigation, UserFilter }) => {
           value={projBudget}
           onChange={setForm}
           autoComplete="off"
-          // validations={[required]}
+          validations={[required]}
         />
       </div>
       <div className="rux-form-field" style={{ marginTop: "16px" }}>
@@ -106,7 +110,7 @@ export const ProjInfo = ({ formData, setForm, navigation, UserFilter }) => {
           min="2020-01-01"
           max="2041-01-01"
           onChange={setForm}
-          // validations={[required]}
+          validations={[required]}
         />
       </div>
       <div className="rux-form-field" style={{ marginTop: "16px" }}>
@@ -119,7 +123,7 @@ export const ProjInfo = ({ formData, setForm, navigation, UserFilter }) => {
           min="2020-01-01"
           max="2041-01-01"
           onChange={setForm}
-          // validations={[required]}
+          validations={[required]}
         />
       </div>
       <div className="rux-form-field" style={{ marginTop: "16px" }}>
@@ -147,11 +151,25 @@ export const ProjInfo = ({ formData, setForm, navigation, UserFilter }) => {
           className="rux-button"
           type="button"
           style={{ marginTop: "1.5rem" }}
-          onClick={() => navigation.go("review")}
+          onClick={handleReview}
         >
           Review
         </button>
+        {/* <button className="rux-button" disabled={loading}>
+          {loading && (
+            <span className="spinner-border spinner-border-sm"></span>
+          )}
+          <span>Login</span>
+        </button> */}
       </div>
+      {message && (
+        <div className="rux-form">
+          <div className="alert alert-danger" role="alert">
+            {message}
+          </div>
+        </div>
+      )}
+      <CheckButton style={{ display: "none" }} ref={checkBtn} />
       {/* <div className="rux-button-group" style={{ alignSelf: "flex-start", margin: "0rem" }}> 
           <button
             className="rux-button"
