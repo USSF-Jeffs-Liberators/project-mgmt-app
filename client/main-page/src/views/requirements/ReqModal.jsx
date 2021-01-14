@@ -9,7 +9,7 @@ export const ReqModal = (props) => {
       style={{
         transform: props.showRequirementModal
           ? "translateY(0vh)"
-          : "translateY(10vh)",
+          : "translateY(1000vh)",
         opacity: props.showRequirementModal ? "1" : 0,
         position: props.showRequirementModal ? "auto" : "fixed"
       }}
