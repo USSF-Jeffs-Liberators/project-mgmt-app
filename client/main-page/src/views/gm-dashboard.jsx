@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import IssueTracker from "./Issue-Tracker/Issue";
 import GanttChart from "./gantt-chart/App";
 import TeamRoster from "./team/Team";
-// import ProjectRequirements from "./requirements/Requirements";
+import ProjectRequirements from "./requirements/Requirements";
 
 export default function GeneralManagerDashboard() {
 
@@ -58,10 +58,10 @@ export default function GeneralManagerDashboard() {
         <h2>Team Members</h2>
         <TeamRoster />
       </section>
-      {/* <section className="gm-requirements col-12">
+      <section className="gm-requirements col-12">
         <h2>Project Requirements</h2>
         <ProjectRequirements />
-      </section> */}
+      </section>
   </div>
   );
 }
