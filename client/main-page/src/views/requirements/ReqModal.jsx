@@ -8,7 +8,7 @@ export const ReqModal = (props) => {
       className="modal-wrapper"
       style={{
         transform: props.showRequirementModal
-          ? "translateY(-235vh)"
+          ? "translateY(0vh)"
           : "translateY(10vh)",
         opacity: props.showRequirementModal ? "1" : 0,
         position: props.showRequirementModal ? "auto" : "fixed"
