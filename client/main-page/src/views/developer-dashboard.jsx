@@ -8,7 +8,7 @@ export default function DeveloperDashboard(props) {
   return (
     <div className="dashboard" id="developerDashboard">
       <section className="col-12">
-        <h1>PROJECT NAME</h1>
+        <h1>{localStorage.getItem("selectedProjectName")}</h1>
       </section>
       <section className="project-timeline col-12">
         <GanttChart />

@@ -18,30 +18,32 @@ export default function GeneralManagerDashboard() {
     <div className="dashboard" id="gmDashboard">
       <section className="project-select col-1">
         <h2>Select Project:</h2>
-        <select class="rux-select" id="project-select" onChange={() => {
-          let x = document.getElementById("project-select").value
-          localStorage.setItem("selectedProjectId", x)
-          switch(x) {
-            case "1":
-              localStorage.setItem("selectedProjectName", "USSF Leave Tracker")
-              break;
-            case "2":
-              localStorage.setItem("selectedProjectName", "SAT-STAT")
-              break;
-            case "3":
-              localStorage.setItem("selectedProjectName", "Autonomous Warfare Decision Maker")
-              break;
-            default:
-              localStorage.setItem("selectedProjectName", "USSF Leave Tracker")
-              break;
-          }
-          window.location.reload(false);
-        }}>
-          <option value="" selected disabled hidden>Select a Project</option>
-          <option value="1">USSF Leave Tracker</option>
-          <option value="2">SAT-STAT</option>
-          <option value="3">Autonomous Warfare Decision Maker</option>
-        </select>
+        <div class="select-type">
+          <select id="project-select" onChange={() => {
+            let x = document.getElementById("project-select").value
+            localStorage.setItem("selectedProjectId", x)
+            switch(x) {
+              case "1":
+                localStorage.setItem("selectedProjectName", "USSF Leave Tracker")
+                break;
+              case "2":
+                localStorage.setItem("selectedProjectName", "SAT-STAT")
+                break;
+              case "3":
+                localStorage.setItem("selectedProjectName", "Autonomous Warfare Decision Maker")
+                break;
+              default:
+                localStorage.setItem("selectedProjectName", "USSF Leave Tracker")
+                break;
+            }
+            window.location.reload(false);
+          }}>
+            <option value="" selected disabled hidden>Select a Project</option>
+            <option value="1">USSF Leave Tracker</option>
+            <option value="2">SAT-STAT</option>
+            <option value="3">Autonomous Warfare Decision Maker</option>
+          </select>
+        </div>
       </section>
       <section className="col-11">
         <h1>{localStorage.getItem("selectedProjectName")}</h1>

@@ -19,11 +19,11 @@ exports.signup = (req, res) => {
     last_name: req.body.last_name
   })
     .then(user => {
-      if (req.body.roles) {
+      if (req.body.role) {
         Role.findAll({
           where: {
             name: {
-              [Op.or]: req.body.roles
+              [Op.or]: req.body.role
             }
           }
         }).then(roles => {
