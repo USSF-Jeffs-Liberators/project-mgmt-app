@@ -4267,3 +4267,12 @@ input:-moz-focusring {
   border-color: transparent transparent transparent
     var(--treeSelectedAccentColor, rgb(77, 172, 255));
 }
+
+#projName,
+#projDesc,
+#projBudget,
+#projStart,
+#projDeadline {
+  background-color: white;
+  color:black;
+}
