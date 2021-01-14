@@ -105,7 +105,11 @@ const ProjectRequirements = () => {
       },
       body: JSON.stringify(requirement),
     })
-    await getRequirements(currentUser.user_id);
+    if(currentRole === "General Manager"){
+      await getGMRequirements(currentProject)
+    } else {
+      await getRequirements(currentUser.user_id);
+    }
   }
 
   const editRequirement = async (reqDesc, priority, reqStatus, reqId) => {
@@ -125,7 +129,11 @@ const ProjectRequirements = () => {
         body: JSON.stringify(requirement),
       }
     );
-    await getRequirements(currentUser.user_id);
+    if(currentRole === "General Manager"){
+      await getGMRequirements(currentProject)
+    } else {
+      await getRequirements(currentUser.user_id);
+    }
   }
 
   const deleteRequirement = async requirement_id => {
