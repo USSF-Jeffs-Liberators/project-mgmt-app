@@ -47,7 +47,7 @@ export default function Root(props) {
 
   return (
     <rux-global-status-bar className="dark-theme">
-      <h2 id="navbarLogo" onClick={() => history.push("/")}>Supra Project Management Platform</h2>
+      <h2 id="navbarLogo" onClick={() => history.push("/")}><img src="/static/img/ussf-logo.png" alt="US Space Force logo"></img>Supra Project Management Platform</h2>
       <rux-tabs small id="navigation-tabs">
         {tabLinks.map((link) => {
           return (
