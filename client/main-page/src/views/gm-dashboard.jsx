@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 import IssueTracker from "./Issue-Tracker/Issue";
 import GanttChart from "./gantt-chart/App";
@@ -11,16 +11,12 @@ export default function GeneralManagerDashboard() {
     localStorage.setItem("selectedProjectId", 1)
   }
 
-  var projects = [];
+  const [projects, setProjects] = useState(1)
 
   const getProjects = async () => {
-    try {
-      const response = await fetch('http://localhost:3001/projects')
-      const json = await response.json()
-      projects = json
-    } catch (err) {
-      alert(err.message);
-    }
+    const response = await fetch('http://localhost:3001/projects')
+    const json = await response.json()
+    setProjects(json)
   }
 
   useEffect(() => {
@@ -56,9 +52,8 @@ export default function GeneralManagerDashboard() {
       </section>
       <section className="gm-requirements col-12">
         <h2>Project Requirements</h2>
-        <ProjectRequirements/>
+        <ProjectRequirements />
       </section>
-
   </div>
   );
 }
