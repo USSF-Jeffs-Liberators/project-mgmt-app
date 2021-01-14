@@ -22,6 +22,17 @@ const ProjectRequirements = () => {
       console.error(err.message);
     }
   };
+  const getGMRequirements = async (project_id) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3001/projects/${project_id}/requirements`
+      );
+      const jsonData = await response.json();
+      setRequirements(jsonData);
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
 
   const [currentUser, setCurrentUser] = useState(undefined);
   useEffect(() => {
@@ -29,18 +40,22 @@ const ProjectRequirements = () => {
 
     if (user) {
       setCurrentUser(user)
-      getRequirements(user.user_id);
+      
       setCurrentRole(user.roles[0])
-      // if(user.roles[0] === "General Manager"){
-      //   setCurrentProject(localStorage.getItem("selectedProjectId"))
-      // }
+      if(user.roles[0] === "General Manager"){
+        let currentProj = localStorage.getItem("selectedProjectId")
+        setCurrentProject(currentProj)
+        getGMRequirements(currentProj)
+      } else {
+        getRequirements(user.user_id);
+      }
     }
   },[]);
 //modal functions
   const openRequirementModal = (requirement) => {
-    
-    setCurrentProject(requirements[0].project_id)
-    
+    if(currentRole === "Project Manager"){
+      setCurrentProject(requirements[0].project_id)
+    }
     setSelectedRequirement(requirement);
     setRequirementModalElements(requirement);
     setShowRequirementModal(true);
@@ -195,20 +210,30 @@ const ProjectRequirements = () => {
         />
       <table id="projectRequirements" className="rux-table">
         <tbody>
+          {currentRole === "Developer" ? (
+          <tr className="rux_table__column-head">
+            <th>Description</th>
+            <th>Priority</th>
+            <th>Status</th> 
+          </tr>) :(
           <tr className="rux_table__column-head">
             <th>Description</th>
             <th>Priority</th>
             <th>Status</th>
-            {/* {currentRole === "Developer" ? 
-              null : ( */}
-              
-                  <th>Edit</th>
-                  <th>Delete</th>
-              
-            
-            
-          </tr>
+            <th>Edit</th>
+          <th>Delete</th>  
+        </tr>)}
+
           {requirements.map((each) => (
+            currentRole === "Developer" ? (
+            <tr key={each.requirement_id}>
+              <td>{each.requirement_desc}</td>
+              <td>{each.priority}</td>
+
+              <td><font color={getStatusColor(each.requirement_status)}>{each.requirement_status}</font></td>
+              
+            </tr>) 
+            : (
             <tr key={each.requirement_id}>
               <td>{each.requirement_desc}</td>
               <td>{each.priority}</td>
@@ -227,10 +252,11 @@ const ProjectRequirements = () => {
                   >
                     Delete
                   </button></td>
-            </tr>
+            </tr> )
+
           ))}
-          {/* {currentRole === "Developer" ? 
-              null :( */}
+          {currentRole === "Developer" ? 
+              null :(
               <tr class="rux-table__column-head">
               <th colspan="6" className="button-section">
                 <div className="button-div1">
@@ -240,11 +266,12 @@ const ProjectRequirements = () => {
                       openRequirementModal(null);
                     }}
                   >
-                    Add Expense
+                    Add Requirement
                   </button>
                 </div>
               </th>
             </tr> 
+          )} 
         </tbody>
       </table>
     </div>
