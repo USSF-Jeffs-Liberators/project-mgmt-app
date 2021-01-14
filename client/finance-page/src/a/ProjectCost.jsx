@@ -32,15 +32,15 @@ function ProjectCost(props) {
           {props.selectedProjectExpenses.map((expense) => (
             <tr>
               {expense.expense_type === "Labor" ? (
-                <td colspan="1"><font color="#47E0FF">{props.getExpenseDescription(expense)}</font></td>
+                <td colspan="1"><font color="#A9A9A9">{props.getExpenseDescription(expense)}</font></td>
               ) : (
                 <td colspan="2">{props.getExpenseDescription(expense)}</td>
               )}
               {expense.expense_type === "Labor" ? (
-                <td><font color="#47E0FF">{props.getPayRate(expense)}</font></td>
+                <td><font color="#A9A9A9">{props.getPayRate(expense)}</font></td>
               ) : null}
-              <td><font color={expense.expense_type === "Labor" ? ("#47E0FF") : ("FFFFFF")}>{expense.expense_type}</font></td>
-              <td><font color={expense.expense_type === "Labor" ? ("#47E0FF") : ("FFFFFF")}>{props.getDollarFigure(expense.expense_amount)}</font></td>
+              <td><font color={expense.expense_type === "Labor" ? ("#A9A9A9") : ("FFFFFF")}>{expense.expense_type}</font></td>
+              <td><font color={expense.expense_type === "Labor" ? ("#A9A9A9") : ("FFFFFF")}>{props.getDollarFigure(expense.expense_amount)}</font></td>
               {props.userType === 'Project Manager' ? (expense.expense_type !== "Labor" ? (
                 <td>
                   <button

@@ -55,6 +55,7 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-hooks-helper": "^1.6.0",
-    "react-router-dom": "^5.2.0"
+    "react-router-dom": "^5.2.0",
+    "react-validation": "^3.0.7"
   }
 }

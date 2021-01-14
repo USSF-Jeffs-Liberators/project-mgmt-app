@@ -1,33 +1,22 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
-// import IssueTrackerGM from "./Issue-Tracker/IssueGM";
+import IssueTracker from "./Issue-Tracker/Issue";
 import GanttChart from "./gantt-chart/App";
 import TeamRoster from "./team/Team";
-// import ProjectRequirements from "./requirements/Requirements";
-
+import ProjectRequirements from "./requirements/Requirements";
 
 export default function GeneralManagerDashboard() {
-
-  // const [projects, setProjects] = useState(undefined);
-  // const [selectedProject, setSelectedProject] = useState(1);
-  // const projects = [];
-
-
 
   if (localStorage.getItem("selectedProjectId") === null) {
     localStorage.setItem("selectedProjectId", 1)
   }
 
-  var projects = [];
+  const [projects, setProjects] = useState(1)
 
   const getProjects = async () => {
-    try {
-      const response = await fetch('http://localhost:3001/projects')
-      const json = await response.json()
-      projects = json
-    } catch (err) {
-      alert(err.message);
-    }
+    const response = await fetch('http://localhost:3001/projects')
+    const json = await response.json()
+    setProjects(json)
   }
 
   useEffect(() => {
@@ -43,7 +32,6 @@ export default function GeneralManagerDashboard() {
           localStorage.setItem("selectedProjectId", x)
           window.location.reload(false);
         }}>
-          {/* <option selected>{projects[0].project_name}</option> */}
           <option value="" selected disabled hidden>Select a Project</option>
           <option value="1">USSF Leave Tracker</option>
           <option value="2">SAT-STAT</option>
@@ -54,19 +42,18 @@ export default function GeneralManagerDashboard() {
         <h2>Gantt Chart</h2>
         <GanttChart />
       </section>
-      <section className="gm-issues col-s-12 col-6"><h2>This Project's Issues</h2></section>
       <section className="gm-issues col-s-12 col-6">
-        <h2>This Project's Team</h2>
+        <h2>Issues Tracker</h2>
+        <IssueTracker />
+      </section>
+      <section className="gm-team col-s-12 col-6">
+        <h2>Team Members</h2>
         <TeamRoster />
       </section>
-      <section className="gm-requirements col-12"><h2>This Project's Requirements</h2></section>
-      {/* <section></section> */}
-      {/* 
-      <section className="gm-issues col-s-6 col-4">
-        {/* {/* <h5>All Issues</h5>
-        <IssueTrackerGM /> */}
-        {/* </section> */}
-      {/* <section className="gm-requirements col-s-6 col-4"><h5>All Requirements</h5></section> */}
+      <section className="gm-requirements col-12">
+        <h2>Project Requirements</h2>
+        <ProjectRequirements />
+      </section>
   </div>
   );
 }
