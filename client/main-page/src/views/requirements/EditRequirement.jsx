@@ -1,18 +1,18 @@
 import React, { Fragment, useState } from "react";
 
 const EditRequirement = ({ each }) => {
-  const [sr_task, setTask] = useState("");
-  const [sr_contractor, setContractor] = useState("");
-  const [sr_name, setName] = useState("");
+  const [requirement_desc, setRequirementDescription] = useState("");
+  const [priority, setPriority] = useState("");
+  const [requirement_status, setRequirementStatus] = useState("");
 
   //edit SR function
 
-  const updateSR = async e => {
+  const updateRequirement = async e => {
     e.preventDefault();
     try {
-      const body = { sr_name, sr_contractor, sr_task };
+      const body = { requirement_desc, priority, requirement_status };
       const response = await fetch(
-        `http://localhost:3001/service_requests/${each.id}`,
+        `http://localhost:3001/requirements/${each.requirement_id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -30,34 +30,88 @@ const EditRequirement = ({ each }) => {
     <Fragment>
       <button
         type="button"
-        class="btn btn-warning"
-        data-toggle="modal"
+        className="rux-button"
+        data-toggle="rux-modal-container"
         data-target={`#id${each.id}`}
       >
         Edit
       </button>
 
-      <div
-        class="modal"
+      <div className="rux-modal-container"
         id={`id${each.id}`}
         onClick={() => {
-            setName(each.sr_name)
-            setContractor(each.sr_contractor)
-            setTask(each.sr_task)
+          setRequirementDescription(each.requirement_desc)
+          setPriority(each.priority)
+          setRequirementStatus(each.requirement_status)
+          }}>
+        <dialog class="rux-modal" role="dialog" open="">
+          <header class="rux-modal__titlebar">
+            <h2>Edit Requirement</h2>
+          </header>
+          <div class="rux-modal__content">
+            <div class="rux-modal__input">
+              
+            
+              <input
+                type="text"
+                className="form-control"
+                value={requirement_desc}
+                placeholder= {requirement_desc}
+                onChange={e => setRequirementDescription(e.target.value)}
+              />
+              <input
+                type="text"
+                className="form-control"
+                value={priority}
+                placeholder= {priority}
+                onChange={e => setPriority(e.target.value)}
+              />
+              <input
+                type="text"
+                className="form-control"
+                value={requirement_status}
+                placeholder= {requirement_status}
+                onChange={e => setRequirementStatus(e.target.value)}
+              />
+            
+            </div>
+            <div class="rux-button-group">
+              <rux-button data-value="false" tabindex="-1" outline="">
+                Cancel
+              </rux-button>
+              <rux-button 
+                data-value="true"
+                tabindex="0"
+                onClick={e => updateRequirement(e)}>
+                Update
+              </rux-button>
+            </div>
+          </div>
+        </dialog>
+      </div>
+
+
+      {/* <div
+        className="rux-modal"
+        id={`id${each.id}`}
+        onClick={() => {
+            setRequirementDescription(each.requirement_desc)
+            setPriority(each.priority)
+            setRequirementStatus(each.requirement_status)
             }}
       >
-        <div class="modal-dialog">
+        <div class="rux-modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">Edit Service Request</h4>
+              <h4 class="modal-title">Edit Requirement</h4>
               { <button
                 type="button"
                 class="close"
                 data-dismiss="modal"
                 onClick={() => {
-                    setName(each.sr_name)
-                    setContractor(each.sr_contractor)
-                    setTask(each.sr_task)
+                  setRequirementDescription(each.requirement_desc)
+                  setPriority(each.priority)
+                  setRequirementStatus(each.requirement_status)
                     }
                 }>
                 &times;
@@ -68,23 +122,23 @@ const EditRequirement = ({ each }) => {
               <input
                 type="text"
                 className="form-control"
-                value={sr_name}
-                placeholder= {sr_name}
-                onChange={e => setName(e.target.value)}
+                value={requirement_desc}
+                placeholder= {requirement_desc}
+                onChange={e => setRequirementDescription(e.target.value)}
               />
               <input
                 type="text"
                 className="form-control"
-                value={sr_contractor}
-                placeholder= {sr_contractor}
-                onChange={e => setContractor(e.target.value)}
+                value={priority}
+                placeholder= {priority}
+                onChange={e => setPriority(e.target.value)}
               />
               <input
                 type="text"
                 className="form-control"
-                value={sr_task}
-                placeholder= {sr_task}
-                onChange={e => setTask(e.target.value)}
+                value={requirement_status}
+                placeholder= {requirement_status}
+                onChange={e => setRequirementStatus(e.target.value)}
               />
             </div>
 
@@ -93,7 +147,7 @@ const EditRequirement = ({ each }) => {
                 type="button"
                 class="btn btn-warning"
                 data-dismiss="modal"
-                onClick={e => updateSR(e)}
+                onClick={e => updateRequirement(e)}
               >
                 Edit
               </button>
@@ -108,7 +162,7 @@ const EditRequirement = ({ each }) => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </Fragment>
   );
 };
