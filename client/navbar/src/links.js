@@ -37,7 +37,7 @@ export const links = {
             class: "dashboardLink"
         },
         {
-            name: "View Financials",
+            name: "View Finances",
             href: "finance",
             class: "financeLink"
         }
@@ -49,14 +49,14 @@ export const links = {
             class: "dashboardLink"
         },
         {
-            name: "Create a Project",
-            href: "create-project",
-            class: "createProjectLink"
-        },
-        {
-            name: "View Financials",
+            name: "View Finances",
             href: "finance",
             class: "financeLink"
+        },
+        {
+            name: "Create New Project",
+            href: "create-project",
+            class: "createProjectLink"
         }
     ]
 }

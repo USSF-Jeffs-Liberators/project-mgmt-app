@@ -3,6 +3,8 @@ import AuthService from "../../services/auth.service";
 import {ReqModal} from "./ReqModal"
 
 const ProjectRequirements = () => {
+
+
   const [requirements, setRequirements] = useState([]);
   const [showRequirementModal, setShowRequirementModal] = useState(false);
   const [selectedRequirement, setSelectedRequirement] = useState("");
@@ -37,6 +39,7 @@ const ProjectRequirements = () => {
     setShowRequirementModal(true);
     toggleElementsOff()
   }
+
 
   const closeRequirementModal = () => {
     setSelectedRequirement(undefined);
@@ -126,14 +129,17 @@ const ProjectRequirements = () => {
   };
 
   const getStatusColor = (status) => {
-    if (status === "Completed") {
+    if (status === "Completed" || status === "Low") {
       return "#08DB0F";
     }
-    if (status === "Not Started") {
+    if (status === "Not Started" || status === "High") {
       return "#FF0000";
     }
-    if (status === "Started") {
-      return "FDC12A";
+    if (status === "Started" || status === "Medium") {
+      return "#FDC12A";
+    }
+    if (status === "Cancelled") {
+      return "#A9A9A9"
     }
     return "#ffffff";
   }
@@ -158,6 +164,7 @@ const ProjectRequirements = () => {
 
 
   return (
+
     <div>
       
       {showRequirementModal ? (
@@ -187,6 +194,7 @@ const ProjectRequirements = () => {
             <th>Status</th>
             <th>Edit</th>
             <th>Delete</th>
+            
           </tr>
           {requirements.map((each) => (
             <tr key={each.requirement_id}>
