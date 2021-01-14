@@ -31,16 +31,15 @@ const ProjectRequirements = () => {
       setCurrentUser(user)
       getRequirements(user.user_id);
       setCurrentRole(user.roles[0])
-      if(user.roles[0] === "General Manager"){
-        setCurrentProject(localStorage.getItem("selectedProjectId"))
-      }
+      // if(user.roles[0] === "General Manager"){
+      //   setCurrentProject(localStorage.getItem("selectedProjectId"))
+      // }
     }
   },[]);
 //modal functions
   const openRequirementModal = (requirement) => {
-    if(currentUser.roles[0] === "Project Manager"){
-      setCurrentProject(requirements[0].project_id)
-    }
+    
+    setCurrentProject(requirements[0].project_id)
     
     setSelectedRequirement(requirement);
     setRequirementModalElements(requirement);

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { RuxAccordion } from "../rux-accordion";
 
 export const ProjReview = ({ navigation, formData }) => {
+
   useEffect(() => {
     const fetchManagerData = async () => {
       projManager !== ""
@@ -12,7 +13,7 @@ export const ProjReview = ({ navigation, formData }) => {
   }, [projManager]);
 
   const [manager, setManager] = useState([]);
-
+  
   const {
     projName,
     projDesc,
