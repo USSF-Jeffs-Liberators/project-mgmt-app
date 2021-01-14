@@ -2,7 +2,7 @@ import React from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import Textarea from "react-validation/build/textarea";
-import Select from "react-validation/build/select";
+// import Select from "react-validation/build/select";
 import CheckButton from "react-validation/build/button";
 
 export const ProjInfo = ({ formData, setForm, navigation, UserFilter }) => {
@@ -124,22 +124,16 @@ export const ProjInfo = ({ formData, setForm, navigation, UserFilter }) => {
       </div>
       <div className="rux-form-field" style={{ marginTop: "16px" }}>
         <label htmlFor="projManager">Project Manager</label>
-        <Select
-          className="rux-form-element rux-select"
-          name="projManager"
-          id="projManager"
-          value={projManager}
-          onChange={setForm}
-          autoComplete="off"
-          // validations={[required]}
-        >
-          <option value="">Select Project Manager</option>
-          {UserFilter("Project Manager").map((each) => (
-            <option
-              value={JSON.stringify(each)}
-            >{`${each.first_name} ${each.last_name}`}</option>
-          ))}
-        </Select>
+          <div class="select-type">
+            <select name="projManager" id="projManager" value={projManager} onChange={setForm} autoComplete="off">
+              <option value="">Select Project Manager</option>
+              {UserFilter("Project Manager").map((each) => (
+                <option
+                  value={JSON.stringify(each)}
+                >{`${each.first_name} ${each.last_name}`}</option>
+              ))}
+            </select>
+          </div>
       </div>
       <div
         className="rux-button-group"
