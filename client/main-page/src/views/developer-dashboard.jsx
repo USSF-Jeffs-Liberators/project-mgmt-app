@@ -20,7 +20,7 @@ export default function DeveloperDashboard(props) {
         <IssueTracker />
       </section>{" "}
       <br></br>
-      <section className="project-requirements col-s-6 col-6">
+      <section className="project-requirements col-s-6 col-12">
         <h2>Project Requirements</h2>
         <ProjectRequirements />
       </section>
