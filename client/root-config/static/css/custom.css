@@ -94,6 +94,12 @@ nav rux-button {
   margin: 2px;
 }
 
+nav img {
+  max-width: 50px;
+  position: relative;
+  top: 10px;
+}
+
 /* Main-Page Styling
 ========================================================================== */
 
