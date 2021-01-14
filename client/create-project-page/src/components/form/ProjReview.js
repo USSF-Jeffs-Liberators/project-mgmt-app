@@ -2,7 +2,9 @@ import React from "react";
 import { RuxAccordion } from "../rux-accordion";
 
 export const ProjReview = ({ navigation, formData }) => {
-  const manager = (projManager !== "") ? JSON.parse(projManager) : JSON.parse('{"first_name": "", "last_name": ""}');
+  //JSON.parse(projManager) breaks the app if you go to review before projManager is set.
+  //I'm going to fix this by implementing validation so the user can't go to review before the value is set.
+  const manager = (projManager != "") ? JSON.parse(projManager) : JSON.parse('{"first_name": "", "last_name": ""}');
   const {
     projName,
     projDesc,
