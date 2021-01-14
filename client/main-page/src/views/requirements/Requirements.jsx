@@ -9,7 +9,8 @@ const ProjectRequirements = () => {
   const [showRequirementModal, setShowRequirementModal] = useState(false);
   const [selectedRequirement, setSelectedRequirement] = useState("");
   const [currentProject, setCurrentProject] = useState("");
-
+  const [currentRole, setCurrentRole] = useState("");
+  
   const getRequirements = async (user_id) => {
     try {
       const response = await fetch(
@@ -29,11 +30,18 @@ const ProjectRequirements = () => {
     if (user) {
       setCurrentUser(user)
       getRequirements(user.user_id);
+      setCurrentRole(user.roles[0])
+      if(user.roles[0] === "General Manager"){
+        setCurrentProject(localStorage.getItem("selectedProjectId"))
+      }
     }
   },[]);
 //modal functions
   const openRequirementModal = (requirement) => {
-    setCurrentProject(requirements[0].project_id)
+    if(currentUser.roles[0] === "Project Manager"){
+      setCurrentProject(requirements[0].project_id)
+    }
+    
     setSelectedRequirement(requirement);
     setRequirementModalElements(requirement);
     setShowRequirementModal(true);
@@ -192,8 +200,13 @@ const ProjectRequirements = () => {
             <th>Description</th>
             <th>Priority</th>
             <th>Status</th>
-            <th>Edit</th>
-            <th>Delete</th>
+            {/* {currentRole === "Developer" ? 
+              null : ( */}
+              
+                  <th>Edit</th>
+                  <th>Delete</th>
+              
+            
             
           </tr>
           {requirements.map((each) => (
@@ -217,7 +230,9 @@ const ProjectRequirements = () => {
                   </button></td>
             </tr>
           ))}
-          <tr class="rux-table__column-head">
+          {/* {currentRole === "Developer" ? 
+              null :( */}
+              <tr class="rux-table__column-head">
               <th colspan="6" className="button-section">
                 <div className="button-div1">
                   <button
@@ -230,7 +245,7 @@ const ProjectRequirements = () => {
                   </button>
                 </div>
               </th>
-            </tr>
+            </tr> 
         </tbody>
       </table>
     </div>
