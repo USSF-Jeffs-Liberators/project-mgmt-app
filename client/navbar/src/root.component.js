@@ -70,6 +70,8 @@ export default function Root(props) {
               onClick={() => {
                   if(link.href === "logout"){
                     localStorage.removeItem("user")
+                    setCurrentUser(undefined)
+                    setLoggedIn(false);
                   }
                   history.push("/" + link.href)
                               }}>
