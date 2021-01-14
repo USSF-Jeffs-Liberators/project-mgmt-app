@@ -8,7 +8,7 @@ export const ReqModal = (props) => {
       className="modal-wrapper"
       style={{
         transform: props.showRequirementModal
-          ? "translateY(-175vh)"
+          ? "translateY(-235vh)"
           : "translateY(10vh)",
         opacity: props.showRequirementModal ? "1" : 0,
         position: props.showRequirementModal ? "auto" : "fixed"
@@ -54,7 +54,7 @@ export const ReqModal = (props) => {
                 let reqStatus = document.getElementById("req-status").value
                 if (props.verifyDescription(reqDesc) && props.verifyPriority(priority) && props.verifyStatus(reqStatus)) {
                   if (props.selectedRequirement === null) {
-                    props.addRequirement(reqDesc, priority, reqStatus);
+                    props.addRequirement(reqDesc, priority, reqStatus, props.currentProject);
                   } else {
                     props.editRequirement(reqDesc, priority, reqStatus, props.selectedRequirement.requirement_id);
                   }

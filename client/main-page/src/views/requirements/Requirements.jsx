@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import AuthService from "../../services/auth.service";
-import EditRequirement from "./EditRequirement"
 import {ReqModal} from "./ReqModal"
 
 const ProjectRequirements = () => {
   const [requirements, setRequirements] = useState([]);
   const [showRequirementModal, setShowRequirementModal] = useState(false);
   const [selectedRequirement, setSelectedRequirement] = useState("");
+  const [currentProject, setCurrentProject] = useState("");
 
   const getRequirements = async (user_id) => {
     try {
@@ -31,6 +31,7 @@ const ProjectRequirements = () => {
   },[]);
 //modal functions
   const openRequirementModal = (requirement) => {
+    setCurrentProject(requirements[0].project_id)
     setSelectedRequirement(requirement);
     setRequirementModalElements(requirement);
     setShowRequirementModal(true);
@@ -47,13 +48,11 @@ const ProjectRequirements = () => {
     document.querySelector(".modal-wrapper").style.display = "block";
     document.querySelector("body").style.overflow = "hidden";
     document.querySelectorAll(".rux-button:not(.modal-button),.modal-button:not(.rux-button)").forEach(element => element.style.display = 'none')
-    // document.querySelector("#progress-svg").style.display = 'none';
   }
 
   const toggleElementsOn = () => {
     document.querySelector("body").style.overflow = "auto";
     document.querySelectorAll(".rux-button:not(.modal-button),.modal-button:not(.rux-button)").forEach(element => element.style.display = 'inline-flex')
-    // document.querySelector("#progress-svg").style.display = 'inline-flex';
   }
 
   const setRequirementModalElements = (requirement) => {
@@ -67,21 +66,22 @@ const ProjectRequirements = () => {
       document.getElementById("req-status").value = "";
     }
   }
-  // const addRequirement = async (reqDesc, reqType, reqStatus) => {
-  //   var requirement = {};
-  //   requirement.project_id = requirements[0].project_id;
-  //   requirement.requirment_desc = reqDesc;
-  //   requirement.priority = priority;
-  //   requirement.requirement_status = reqStatus;
+  const addRequirement = async (reqDesc, priority, reqStatus, projectId) => {
+    var requirement = {};
+    requirement.project_id = projectId;
+    requirement.requirement_desc = reqDesc;
+    requirement.priority = priority;
+    requirement.requirement_status = reqStatus;
 
-  //   await fetch("http://localhost:3001/requirements", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(requirement),
-  //   }).then(getRequirements());
-  // }
+    await fetch("http://localhost:3001/requirements", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requirement),
+    })
+    await getRequirements(currentUser.user_id);
+  }
 
   const editRequirement = async (reqDesc, priority, reqStatus, reqId) => {
     var requirement = {};
@@ -170,9 +170,10 @@ const ProjectRequirements = () => {
         ) : null}
       <ReqModal
           selectedRequirement={selectedRequirement}
+          currentProject = {currentProject}
           showRequirementModal={showRequirementModal}
           closeRequirementModal={closeRequirementModal}
-          // addRequirement={addRequirement}
+          addRequirement={addRequirement}
           editRequirement={editRequirement}
           verifyDescription={verifyDescription}
           verifyPriority={verifyPriority}
@@ -193,7 +194,6 @@ const ProjectRequirements = () => {
               <td>{each.priority}</td>
 
               <td><font color={getStatusColor(each.requirement_status)}>{each.requirement_status}</font></td>
-              {/* <td>{<EditRequirement each={each} /> }</td> */}
               <td><button
                     className="rux-button"
                     id = {`req-${each.requirement_id}`}
@@ -209,6 +209,20 @@ const ProjectRequirements = () => {
                   </button></td>
             </tr>
           ))}
+          <tr class="rux-table__column-head">
+              <th colspan="6" className="button-section">
+                <div className="button-div1">
+                  <button
+                    className="rux-button"
+                    onClick={() => {
+                      openRequirementModal(null);
+                    }}
+                  >
+                    Add Expense
+                  </button>
+                </div>
+              </th>
+            </tr>
         </tbody>
       </table>
     </div>
