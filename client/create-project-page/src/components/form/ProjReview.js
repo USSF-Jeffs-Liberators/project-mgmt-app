@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { RuxAccordion } from "../rux-accordion";
 
 export const ProjReview = ({ navigation, formData }) => {
-  //JSON.parse(projManager) breaks the app if you go to review before projManager is set.
-  //I'm going to fix this by implementing validation so the user can't go to review before the value is set.
-  const manager =
-    projManager != ""
-      ? JSON.parse(projManager)
-      : JSON.parse('{"first_name": "", "last_name": ""}');
+
+  useEffect(() => {
+    const fetchManagerData = async () => {
+      projManager !== ""
+        ? setManager(JSON.parse(projManager))
+        : setManager(JSON.parse('{"first_name": "", "last_name": ""}'));
+    };
+    fetchManagerData();
+  }, [projManager]);
+
+  const [manager, setManager] = useState([]);
+  
   const {
     projName,
     projDesc,
@@ -18,7 +24,7 @@ export const ProjReview = ({ navigation, formData }) => {
   } = formData;
 
   return (
-    <div className="form">
+    <div className="flex-child" style={{ marginRight: "10%", marginLeft: "10%", flex: "1", flexDirection: "column" }}>
       <h1 style={{ marginTop: "26px" }}>Review</h1>
       <RenderAccordion
         summary="Project Information"
@@ -38,7 +44,11 @@ export const ProjReview = ({ navigation, formData }) => {
       <RenderAccordion
         summary="Project Team"
         details={[
-          { "Project Manager": `${manager.first_name} ${manager.last_name}` },
+          {
+            "Project Manager": `${manager.first_name}${
+              "user_id" in manager ? " " : ""
+            }${manager.last_name}`,
+          },
         ]}
       />
       <rux-accordion>

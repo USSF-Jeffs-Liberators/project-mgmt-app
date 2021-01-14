@@ -111,10 +111,18 @@ export const MultiStepForm = () => {
         </div>
       );
     case "review":
-      return <ProjReview {...props} />;
+      return (
+        <div className="flex-container">
+          <ProjReview {...props} />
+        </div>
+      );
     // Add button onClick={() => go(`submit`)}
     case "submit":
-      return <ProjSubmit {...props} />;
+      return (
+        <div className="flex-container">
+          <ProjSubmit {...props} />
+        </div>
+      );
   }
 
   return (
