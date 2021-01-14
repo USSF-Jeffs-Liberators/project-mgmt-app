@@ -659,7 +659,8 @@ div.dhx_modal_cover {
 .gantt_task_progress {
   text-align: center;
   z-index: 0;
-  background: #299cb4;
+  background: rgb(0, 90, 143);
+  /* #299cb4 */
 }
 .gantt_task_progress_wrapper {
   border-radius: inherit;
@@ -673,7 +674,7 @@ div.dhx_modal_cover {
   position: absolute;
   box-sizing: border-box;
   background-color: #3db9d3;
-  border: 1px solid #2898b0;
+  border: 1px solid rgb(0, 90, 143);
   -webkit-user-select: none;
   -moz-user-select: none;
   -moz-user-select: -moz-none;
@@ -1869,3 +1870,4 @@ input[type="date"].amount-text {
   background-color: white;
   color: black;
 }
+
