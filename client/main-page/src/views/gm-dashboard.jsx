@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 
-// import IssueTrackerGM from "./Issue-Tracker/IssueGM";
+import IssueTracker from "./Issue-Tracker/Issue";
 import GanttChart from "./gantt-chart/App";
 import TeamRoster from "./team/Team";
-// import ProjectRequirements from "./requirements/Requirements";
+import ProjectRequirements from "./requirements/Requirements";
 
 export default function GeneralManagerDashboard() {
 
@@ -46,19 +46,19 @@ export default function GeneralManagerDashboard() {
         <h2>Gantt Chart</h2>
         <GanttChart />
       </section>
-      <section className="gm-issues col-s-12 col-6"><h2>This Project's Issues</h2></section>
       <section className="gm-issues col-s-12 col-6">
-        <h2>This Project's Team</h2>
+        <h2>Issues Tracker</h2>
+        <IssueTracker />
+      </section>
+      <section className="gm-team col-s-12 col-6">
+        <h2>Team Members</h2>
         <TeamRoster />
       </section>
-      <section className="gm-requirements col-12"><h2>This Project's Requirements</h2></section>
-      {/* <section></section> */}
-      {/* 
-      <section className="gm-issues col-s-6 col-4">
-        {/* {/* <h5>All Issues</h5>
-        <IssueTrackerGM /> */}
-        {/* </section> */}
-      {/* <section className="gm-requirements col-s-6 col-4"><h5>All Requirements</h5></section> */}
+      <section className="gm-requirements col-12">
+        <h2>Project Requirements</h2>
+        <ProjectRequirements/>
+      </section>
+
   </div>
   );
 }

@@ -582,17 +582,15 @@ app.get("/issues", (req, res) => {
 
 //Insert an Issue
 app.post("/issues", (req, res) => {
+  console.log('endpoint reached')
   pool.query(
-    "INSERT INTO Issue (project_id, author, issue_desc, severity, issue_timestamp, is_resolved, resolve_date, resolution) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
+    "INSERT INTO Issue (project_id, author, issue_desc, severity, issue_timestamp) VALUES ($1, $2, $3, $4, $5)",
     [
       req.body.project_id,
       req.body.author,
       req.body.issue_desc,
       req.body.severity,
-      req.body.issue_timestamp,
-      req.body.is_resolved,
-      req.body.resolve_date,
-      req.body.resolution,
+      req.body.issue_timestamp
     ],
     (error, results) => {
       if (error) {
@@ -824,6 +822,39 @@ app.post("/update-labor-expense", (req, res) => {
       req.body.expense_amount,
       req.body.project_id,
       req.body.employee,
+    ],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+});
+
+// deletes an issue
+app.delete("/issues/:id", (req, res) => {
+  pool.query(
+    "DELETE FROM Issue WHERE Issue_ID = $1",
+    [req.params.id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+});
+
+// updates an issue with a resolution
+app.post("/resolve-issue/:id", (req, res) => {
+  pool.query(
+    "UPDATE Issue SET Is_Resolved = $1, Resolve_Date = $2, Resolution = $3 WHERE Issue_ID = $4",
+    [
+      req.body.is_resolved,
+      req.body.resolve_date,
+      req.body.resolution,
+      req.params.id
     ],
     (error, results) => {
       if (error) {

@@ -136,6 +136,8 @@ nav rux-button {
   text-align: center;
 }
 
+.gm-issues,
+.gm-requirements,
 .project-select,
 .project-timeline,
 .project-requirements,
@@ -144,14 +146,10 @@ nav rux-button {
   float: left;
 }
 
-.gm-issues,
+.gm-team,
 .gm-funding-requests,
 .gm-budget {
   float: right;
-}
-
-.gm-requirements {
-  float: left;
 }
 
 /* Create-Project-Page Styling

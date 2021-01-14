@@ -255,7 +255,7 @@ const TeamRoster = (props) => {
                                 ? getDollarFigure(each.daily_rate)
                                 : null
                             ))}</td> : null }
-                        { userType === "Developer" ? <td>&nbsp;</td> : null }
+                        { userType === "Developer" ? null : null }
                         { userType === "General Manager" 
                             ? <td><rux-button 
                                 size="small" 

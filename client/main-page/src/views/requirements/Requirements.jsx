@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import AuthService from "../../services/auth.service";
 
 const ProjectRequirements = () => {
+
+  const userType = JSON.parse(localStorage.getItem('user')).roles[0]
+
   const [requirements, setRequirements] = useState([]);
 
   const getRequirements = async (user_id) => {
@@ -26,9 +29,7 @@ const ProjectRequirements = () => {
     }
   },[]);
 
-  
 
-  
 
   const deleteRequirement = async requirement_id => {
     try {
@@ -53,13 +54,13 @@ const ProjectRequirements = () => {
   };
 
   const getStatusColor = (status) => {
-    if (status === "Completed") {
+    if (status === "Completed" || status === "Low") {
       return "#08DB0F";
     }
-    if (status === "Not Started") {
+    if (status === "Not Started" || status === "High") {
       return "#FF0000";
     }
-    if (status === "Started") {
+    if (status === "Started" || status === "Medium") {
       return "FDC12A";
     }
     return "#ffffff";
@@ -72,25 +73,25 @@ const ProjectRequirements = () => {
           <th>Description</th>
           <th>Priority</th>
           <th>Status</th>
-          <th>Edit</th>
-          <th>Delete</th>
+          {userType !== 'Developer' ? (<th>Edit</th>) : (null)}
+          {userType !== 'Developer' ? (<th>Delete</th>) : (null)}
+          
         </tr>
         {requirements.map((each) => (
           <tr key={each.requirement_id}>
             <td>{each.requirement_desc}</td>
-            <td>{each.priority}</td>
-
+            <td><font color={getStatusColor(each.priority)}>{each.priority}</font></td>
             <td><font color={getStatusColor(each.requirement_status)}>{each.requirement_status}</font></td>
 
-            <td>{each.requirement_status}</td>
-            {/* <td>{<EditRequirement each={each} /> }</td> */}
-            <td><rux-button>Edit</rux-button></td>
-            <td><button
-                  className="rux-button"
-                  onClick={() => deleteRequirement(each.requirement_id)}
-                >
-                  Delete
-                </button></td>
+            {userType !== 'Developer' ? (<td><button className="rux-button">Edit</button></td>) : (null)}
+            {userType !== 'Developer' ? (
+              <td><button
+                className="rux-button"
+                onClick={() => deleteRequirement(each.requirement_id)}
+              >
+                Delete
+              </button></td>
+            ) : (null)}
           </tr>
         ))}
       </tbody>
