@@ -8,7 +8,7 @@
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 992px)  {
+@media only screen and (min-width: 992px) {
   .col-s-1 {
     width: 8.33%;
   }
@@ -94,12 +94,27 @@ nav rux-button {
   margin: 2px;
 }
 
+nav img {
+  max-width: 50px;
+  position: relative;
+  top: 10px;
+}
+
 /* Main-Page Styling
 ========================================================================== */
 
-#loggedOutPage, #homePage {
+#loggedOutPage,
+#homePage {
   text-align: center;
   margin-top: 100px;
+}
+
+#loggedOutPage img {
+  max-width: 300px;
+}
+
+#loggedOutPage h5 {
+  margin-top: 0;
 }
 
 #signupPage,
@@ -132,12 +147,31 @@ nav rux-button {
   border: 10px solid #182636;
 }
 
+.financePage h1,
 .dashboard h2 {
   text-align: center;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 25px;
+  letter-spacing: 0.5px;
+  padding: 10px;
+  background: #001825;
+  border: 2px solid #ffa011;
+  border-radius: 11px;
+  box-shadow: 0px 8px 17px 2px rgba(0, 0, 0, 0.14),
+    0px 3px 14px 2px rgba(0, 0, 0, 0.12), 0px 5px 5px -3px rgba(0, 0, 0, 0.2);
 }
 
 .dashboard h1 {
   text-align: center;
+  text-transform: uppercase;
+  font-weight: 400;
+  margin: 0;
+  padding: 10px;
+  /* background: #001825;
+  border: 2px solid #ffa011;
+  border-radius: 11px;
+  box-shadow: 0px 8px 17px 2px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12), 0px 5px 5px -3px rgba(0,0,0,0.2); */
 }
 
 .gm-issues,
@@ -195,7 +229,7 @@ pre {
 
 .flex-child {
   flex: content;
-}  
+}
 
 .flex-child:first-child {
   margin-right: 64px;
@@ -255,7 +289,6 @@ Form div Textarea {
   margin-top: 0.4rem;
 }
 
-
 Form div Select {
   min-width: 228px;
   margin-top: 0.4rem;
@@ -270,7 +303,7 @@ select {
   outline: 0;
   box-shadow: none;
   border: 0 !important;
-  background: #FFFFFF;
+  background: #ffffff;
   background-image: none;
 }
 
@@ -289,12 +322,12 @@ select::-ms-expand {
   /* background: #203246; */
   background-color: white;
   overflow: hidden;
-  border-radius: .25em;
+  border-radius: 0.25em;
 }
 
 select {
   flex: 1;
-  padding: 0 .5em;
+  padding: 0 0.5em;
   color: black;
   cursor: pointer;
   font-family: "Open Sans", sans-serif;
@@ -303,20 +336,20 @@ select {
 
 /* Arrow */
 .select-type::after {
-  content: '\25BC';
+  content: "\25BC";
   position: absolute;
   top: 0;
   right: 0;
   padding: 0 1em;
-  background: #005A8F;
+  background: #005a8f;
   cursor: pointer;
   pointer-events: none;
-  -webkit-transition: .25s all ease;
-  -o-transition: .25s all ease;
-  transition: .25s all ease;
+  -webkit-transition: 0.25s all ease;
+  -o-transition: 0.25s all ease;
+  transition: 0.25s all ease;
 }
 
 /* Transition */
 .select-type:hover::after {
-  background: #3A81BF;
+  background: #3a81bf;
 }

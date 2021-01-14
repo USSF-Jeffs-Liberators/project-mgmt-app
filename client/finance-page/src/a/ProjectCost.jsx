@@ -21,7 +21,7 @@ function ProjectCost(props) {
 
       <div class="table-wrapper">
         {/* EXPENSES */}
-        <h1>Expenses</h1>
+        <h1 className="financePage">Expenses</h1>
         <table class="rux-table">
           <tr class="rux-table__column-head">
             <th colspan="2">Description</th>
@@ -92,7 +92,7 @@ function ProjectCost(props) {
         <br></br>
 
         {/* FUNDING REQUESTS */}
-        <h1>Funding Requests</h1>
+        <h1 className="financePage">Funding Requests</h1>
         <table class="rux-table">
           <tr class="rux-table__column-head">
             <th>Submitted By</th>
