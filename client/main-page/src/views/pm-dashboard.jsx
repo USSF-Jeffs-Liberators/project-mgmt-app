@@ -5,7 +5,6 @@ import IssueTrackerPM from "./Issue-Tracker/IssuePM";
 import ProjectRequirements from "./requirements/Requirements";
 
 export default function ProjectManagerDashboard(props) {
-
   return (
     <div className="dashboard" id="pmDashboard">
       <section className="project-timeline col-12">
@@ -16,15 +15,14 @@ export default function ProjectManagerDashboard(props) {
         <h2>Issues Tracker</h2>
         <IssueTrackerPM />
       </section>
-      {/* <section className="project-team col-s-12 col-6">
+      <section className="project-team col-s-12 col-6">
         <h2>Team Members</h2>
-        <TeamRoster/>
-      </section> */}
+        <TeamRoster />
+      </section>
       <section className="project-requirements col-12">
         <h2>Project Requirements</h2>
         <ProjectRequirements />
       </section>
-      
     </div>
   );
 }
