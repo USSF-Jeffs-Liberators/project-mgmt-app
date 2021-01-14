@@ -39,6 +39,20 @@ function isInDateRange(d, d1, d2) {
 }
 
 export const MultiStepForm = () => {
+
+  const [userType, setUserType] = useState(undefined);
+  
+  // ////// GET CURRENT USER LOGGED IN //////
+  // useEffect(() => {
+  //   const user = AuthService.getCurrentUser();
+  //   if (user) {
+  //     setUserType(user.roles[0]);
+  //     user.roles[0] === "General Manager"
+  //       ? setProjectID(localStorage.selectedProjectId)
+  //       : getProjectID(user.user_id);
+  //   }
+  // }, []);
+
   useEffect(() => {
     const fetchUserData = async () => {
       const result = await axios(`http://localhost:3001/users/projects`);
