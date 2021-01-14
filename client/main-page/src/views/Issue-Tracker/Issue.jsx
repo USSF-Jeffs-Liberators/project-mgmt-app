@@ -207,7 +207,7 @@ class IssueTracker extends React.Component{
       return "#FF0000";
     }
     if (status === "Started" || status === "Medium") {
-      return "FDC12A";
+      return "#FDC12A";
     }
     return "#ffffff";
   }

@@ -61,7 +61,10 @@ const ProjectRequirements = () => {
       return "#FF0000";
     }
     if (status === "Started" || status === "Medium") {
-      return "FDC12A";
+      return "#FDC12A";
+    }
+    if (status === "Cancelled") {
+      return "#A9A9A9"
     }
     return "#ffffff";
   }
