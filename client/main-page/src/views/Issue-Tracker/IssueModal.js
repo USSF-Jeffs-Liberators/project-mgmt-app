@@ -8,7 +8,7 @@ export const IssueModal = (props) => {
       style={{
         transform: props.showIssueModal
           ? "translateY(0vh)"
-          : "translateY(-100vh)",
+          : "translateY(-1000vh)",
         opacity: props.showIssueModal ? "1" : 0,
       }}
     >
