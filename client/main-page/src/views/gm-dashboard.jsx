@@ -17,7 +17,7 @@ export default function GeneralManagerDashboard() {
   return (
     <div className="dashboard" id="gmDashboard">
       <section className="project-select col-1">
-        <h2>Select Project:</h2>
+        <h4>Select Project:</h4>
         <div class="select-type">
           <select id="project-select" onChange={() => {
             let x = document.getElementById("project-select").value
