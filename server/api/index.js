@@ -335,7 +335,7 @@ app.get("/projects/:id/expenses", (req, res) => {
 app.get("/projects/requirements/:userid", (req, res) => {
   const { userid } = req.params;
   pool.query(
-    "SELECT * FROM TEAM_MEMBER INNER JOIN Requirement on team_member.project_id = requirement.project_id where user_id = $1", 
+    "SELECT * FROM TEAM_MEMBER INNER JOIN Requirement on team_member.project_id = requirement.project_id where user_id = $1 order by requirement_id asc", 
     [userid],
     (error, results) => {
       if(error) {
@@ -428,6 +428,26 @@ app.post("/requirements", (req, res) => {
       res.status(200).json(results.rows);
     }
   );
+});
+app.patch("/requirements/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    if(req.body.requirement_desc && req.body.priority && req.body.requirement_status){
+        const { requirement_desc, priority, requirement_status } = req.body;
+        const updateRequirement = await pool.query(
+          "UPDATE requirement SET requirement_desc = $1, priority = $2, requirement_status = $3 WHERE requirement_id = $4",
+          [requirement_desc, priority, requirement_status, id]
+        );
+
+      res.status(200).json("Requirement was updated!");
+
+    } else {
+        res.status(400).send("Requirement not updated");
+    }
+
+  } catch (err) {
+    console.error(err.message);
+  }
 });
 //
 // ~~~~~ /tasks Endpoints: ~~~~~

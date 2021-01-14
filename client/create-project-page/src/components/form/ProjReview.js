@@ -1,8 +1,10 @@
 import React from "react";
-import { RuxAccordion } from "../../altcomponents/components/Accordion/rux-accordion";
+import { RuxAccordion } from "../rux-accordion";
 
 export const ProjReview = ({ navigation, formData }) => {
-  const { go } = navigation;
+  //JSON.parse(projManager) breaks the app if you go to review before projManager is set.
+  //I'm going to fix this by implementing validation so the user can't go to review before the value is set.
+  const manager = (projManager != "") ? JSON.parse(projManager) : JSON.parse('{"first_name": "", "last_name": ""}');
   const {
     projName,
     projDesc,
@@ -11,13 +13,13 @@ export const ProjReview = ({ navigation, formData }) => {
     projDeadline,
     projManager,
   } = formData;
+  
 
   return (
-    <div id="form">
+    <div className="form">
       <h1 style={{ marginTop: "26px" }}>Review</h1>
       <RenderAccordion
         summary="Project Information"
-        go={go}
         details={[
           { "Project Name": projName },
           { "Project Description": projDesc },
@@ -26,7 +28,6 @@ export const ProjReview = ({ navigation, formData }) => {
       />
       <RenderAccordion
         summary="Project Timeline"
-        go={go}
         details={[
           { "Project Start": projStart },
           { "Project Deadline": projDeadline },
@@ -34,12 +35,20 @@ export const ProjReview = ({ navigation, formData }) => {
       />
       <RenderAccordion
         summary="Project Team"
-        go={go}
-        details={[{ "Project Manager": projManager }]}
+        details={[
+          { "Project Manager": `${manager.first_name} ${manager.last_name}` },
+        ]}
       />
       <rux-accordion>
         <span slot="label">JSON View</span>
-        <div slot="content" style={{ whiteSpace: "normal", alignSelf: "flex-start", width: "368px" }}>
+        <div
+          slot="content"
+          style={{
+            whiteSpace: "normal",
+            alignSelf: "flex-start",
+            width: "368px",
+          }}
+        >
           <pre>
             <code>{JSON.stringify(formData, null, 2)}</code>
           </pre>
@@ -50,28 +59,31 @@ export const ProjReview = ({ navigation, formData }) => {
           className="rux-button"
           type="button"
           style={{ marginTop: "1rem" }}
-          onClick={() => navigation.previous()}
+          onClick={() => navigation.go("project form")}
         >
           Back
         </button>
         <button
           className="rux-button"
-          type="button"
+          type="submit"
           value="Submit"
           style={{ marginTop: "1rem" }}
-          onClick={() => navigation.next()}
+          onClick={() => navigation.go("submit")}
         >
-          Next
+          Submit
         </button>
       </div>
     </div>
   );
 };
 
-export const RenderAccordion = ({ summary, details, go }) => (
+export const RenderAccordion = ({ summary, details }) => (
   <rux-accordion>
     <span slot="label">{summary}</span>
-    <div slot="content" style={{ whiteSpace: "normal", alignSelf: "flex-start", width: "368px" }}>
+    <div
+      slot="content"
+      style={{ whiteSpace: "normal", alignSelf: "flex-start", width: "368px" }}
+    >
       <ul>
         {details.map((data, index) => {
           const objKey = Object.keys(data)[0];
@@ -79,15 +91,6 @@ export const RenderAccordion = ({ summary, details, go }) => (
           return <li>{`${objKey}: ${objValue}`}</li>;
         })}
       </ul>
-      <div style={{ float: "right" }} className="rux-button-group">
-        <rux-button
-          size="small"
-          iconOnly
-          onClick={() => go(`${summary.toLowerCase()}`)}
-        >
-          <rux-icon icon="resources" library="/icons/astro.svg" />
-        </rux-button>
-      </div>
     </div>
   </rux-accordion>
 );
