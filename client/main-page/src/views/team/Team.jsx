@@ -152,7 +152,7 @@ const TeamRoster = (props) => {
             } catch (err) {console.error(err.message)}
         }
         
-    ////// ADD DEVELOPER //////    let inputDeveloperRate = null;
+    ////// ADD DEVELOPER //////
     let [selectedDeveloper, setSelectedDeveloper] = useState([])
     let [inputDeveloperRate, setInputDeveloperRate] = useState([]);
 
@@ -190,42 +190,46 @@ const TeamRoster = (props) => {
             } catch (err) {console.error(err.message)}
     }
 
-     ////// ADD PROJECT MANAGER //////
-     let [selectedManager, setSelectedManager] = useState([]);
+     ////// CHANGE PROJECT MANAGER //////
+     let [selectedManager, setSelectedManager] = useState([])
      let [inputManagerRate, setInputManagerRate] = useState([]);
-
-    const handleSelectManager = e => {
-        selectedManager = e.target.value
-        setSelectedManager(selectedManager)
-    }
-    const handleInputManagerRate = e => {
-        inputManagerRate = e.target.value
-        setInputManagerRate(inputManagerRate)
-    }
+ 
+     const handleSelectManager = e => {
+         selectedManager = e.target.value
+         setSelectedManager(selectedManager)
+     }
+     const handleInputManagerRate = e => {
+         inputManagerRate = e.target.value
+         setInputManagerRate(inputManagerRate)
+     }
 
     const handleUpdateManager = async () => {
-        try {
-            let body = { 
-                user_id: selectedManager,
-                project_id: projectID, 
-                daily_rate: inputManagerRate
-            }
-            const requestOptions = {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body)
-            };
-            await fetch(`http://localhost:3001/team-members`, requestOptions)
-              .then(response => response.json())
-              .then(response => {
-              if(response.status === "failed")
-              alert(response.message)})
-              getAllUsersOnTeams();
-              getTeamRoster(allUsersOnTeams);
-              getMatches();
-              getUsersNotOnATeam();
-              document.getElementById("input__managerRate").value = "";
-        } catch (err) {console.error(err.message)}
+      if (projectManagers.length > 0) {
+        let managerToDelete = parseInt(document.getElementById("currentManager").getAttribute("currentManagerID"))
+        handleDeleteMember(managerToDelete)
+      }
+      try {
+        let body = { 
+            user_id: selectedManager,
+            project_id: projectID, 
+            daily_rate: inputManagerRate
+        }
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        };
+        await fetch(`http://localhost:3001/team-members`, requestOptions)
+        .then(response => response.json())
+        .then(response => {
+            if(response.status === "failed")
+            alert(response.message)})
+            getAllUsersOnTeams();
+            getTeamRoster(allUsersOnTeams);
+            getMatches();
+            getUsersNotOnATeam();
+          document.getElementById("input__managerRate").value = "";
+    } catch (err) {console.error(err.message)}
     }
 
     ////// REFORMAT DOLLAR FIGURES //////
@@ -251,7 +255,7 @@ const TeamRoster = (props) => {
                     { userType === "General Manager" ? <th>Modify</th> : null }
                 </tr>
                 {projectManagers.map(user => (
-                    <tr key={user.user_id}>
+                    <tr key={user.user_id} id="currentManager" currentManagerID={user.user_id}>
                         <td>{user.first_name} {user.last_name}</td>
                         { userType === "Project Manager" || userType === "General Manager" 
                             ? <td>{team.map(each => (
@@ -259,7 +263,7 @@ const TeamRoster = (props) => {
                                 ? getDollarFigure(each.daily_rate)
                                 : null
                             ))}</td> : null }
-                        { userType === "Developer" ? <td>&nbsp;</td> : null }
+                        {/* { userType === "Developer" ? <td>&nbsp;</td> : null } */}
                         { userType === "General Manager" 
                             ? <td><rux-button 
                                 size="small" 
@@ -277,7 +281,7 @@ const TeamRoster = (props) => {
                         <select className="rux-select" onChange={handleSelectManager}>
                             <option key="All" name="All">Choose Manager:</option>
                             {managersNotOnATeam.map(each => (
-                                <option key={each.user_id} value={each.user_id}>
+                                <option key={each.user_id} name={each.user_id} value={each.user_id}>
                                     {each.first_name} {each.last_name}
                                 </option>
                             ))}
