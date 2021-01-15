@@ -62,7 +62,7 @@ export const ProjSubmit = ({ formData }) => {
   return (
     <div className="flex-child" style={{ flexDirection: "column" }}>
       {lastProj ? (
-        <div style={{ marginTop: "5em"}}>
+        <div >
           <h1 class="project-header">The project has been created</h1>
           <RenderAccordion
             summary="View Project Summary"
