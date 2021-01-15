@@ -13,7 +13,7 @@ function ProjectCost(props) {
           ></div>
         </div>
       </div>
-      <h1 className="current-progress">
+      <h1 id="budget-details">
         {" "}
         {props.getDollarFigure(props.selectedProject.current_cost)} (Costs) /{" "}
         {props.getDollarFigure(props.selectedProject.budget)} (Budget)
