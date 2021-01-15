@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { RuxAccordion } from "../rux-accordion";
 
-export const ProjReview = ({ navigation, formData, ManagerFilter }) => {
+export const ProjReview = ({ navigation, formData }) => {
   const {
     projName,
     projDesc,
@@ -11,19 +12,35 @@ export const ProjReview = ({ navigation, formData, ManagerFilter }) => {
     projManager,
   } = formData;
 
+  const [mgrData, setMgrData] = useState({ first_name: "TestName" });
+
+  useEffect(() => {
+    const fetchMgrData = async () => {
+      var result = await axios(`http://localhost:3001/users/${projManager}`);
+      setMgrData(result.data[0]);
+    };
+    fetchMgrData();
+  }, [projManager]);
+
   function formatTimestamp(timestamp) {
+    function ensureDoubleDigits(timeUnit) {
+      if (timeUnit < 10) {
+        return "0" + timeUnit;
+      }
+      return timeUnit;
+    }
     return (
       timestamp.getFullYear() +
       "-" +
-      this.ensureDoubleDigits(timestamp.getMonth() + 1) +
+      ensureDoubleDigits(timestamp.getMonth() + 1) +
       "-" +
-      this.ensureDoubleDigits(timestamp.getDate()) +
+      ensureDoubleDigits(timestamp.getDate()) +
       " " +
-      this.ensureDoubleDigits(timestamp.getHours()) +
+      ensureDoubleDigits(timestamp.getHours()) +
       ":" +
-      this.ensureDoubleDigits(timestamp.getMinutes()) +
+      ensureDoubleDigits(timestamp.getMinutes()) +
       ":" +
-      this.ensureDoubleDigits(timestamp.getSeconds())
+      ensureDoubleDigits(timestamp.getSeconds())
     );
   }
 
@@ -83,7 +100,9 @@ export const ProjReview = ({ navigation, formData, ManagerFilter }) => {
         summary="Project Team"
         details={[
           {
-            "Project Manager": `${JSON.stringify(ManagerFilter())}`,
+            "Project Manager": `${mgrData.first_name}${
+              mgrData.last_name ? " " : ""
+            }${mgrData.last_name}`,
           },
         ]}
       />
