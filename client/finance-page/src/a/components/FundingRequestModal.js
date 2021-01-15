@@ -13,7 +13,7 @@ export const FundingRequestModal = (props) => {
       }}
     >
       <div className="modal-header">
-        <h2 align="center">{props.selectedFundingRequest === null ? ('Create') : ('Edit')} Funding Request</h2>
+        <h2 class="finance-header">{props.selectedFundingRequest === null ? ('Create') : ('Edit')} Funding Request</h2>
       </div>
       <div className="modal-content">
         <div className="modal-body">
