@@ -228,16 +228,16 @@ pre {
 }
 
 .flex-child {
-  flex: content;
-}
-
-.flex-child:first-child {
-  margin-right: 10%;
+  flex-grow: 2;
+  flex-basis: auto;
+  margin-left: 10em;
+  margin-right: 10em;
 }
 
 Form {
   display: flex;
   flex-direction: column;
+  min-width: 482px;
 }
 
 Form div {

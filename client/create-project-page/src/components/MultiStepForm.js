@@ -39,20 +39,6 @@ function isInDateRange(d, d1, d2) {
 }
 
 export const MultiStepForm = () => {
-
-  const [userType, setUserType] = useState(undefined);
-  
-  // ////// GET CURRENT USER LOGGED IN //////
-  // useEffect(() => {
-  //   const user = AuthService.getCurrentUser();
-  //   if (user) {
-  //     setUserType(user.roles[0]);
-  //     user.roles[0] === "General Manager"
-  //       ? setProjectID(localStorage.selectedProjectId)
-  //       : getProjectID(user.user_id);
-  //   }
-  // }, []);
-
   useEffect(() => {
     const fetchUserData = async () => {
       const result = await axios(`http://localhost:3001/users/projects`);
@@ -114,7 +100,21 @@ export const MultiStepForm = () => {
     return filteredUsers;
   }
 
-  const props = { formData, setForm, navigation, userData, UserFilter };
+  function ManagerFilter() {
+    const [filteredUsers, setFilteredUsers] = useState([]);
+    const { projManager } = formData;
+    useEffect(() => {
+      const filterUsers = () => {
+        var roleFiltered = userData.filter((each) => each["user_id"] == projManager);
+          setFilteredUsers(roleFiltered);
+        
+      };
+      filterUsers();
+    }, [userData]);
+    return filteredUsers[0];
+  }
+
+  const props = { formData, setForm, navigation, userData, UserFilter, ManagerFilter };
 
   switch (step.id) {
     case "project form":
@@ -130,7 +130,6 @@ export const MultiStepForm = () => {
           <ProjReview {...props} />
         </div>
       );
-    // Add button onClick={() => go(`submit`)}
     case "submit":
       return (
         <div className="flex-container">
@@ -145,32 +144,3 @@ export const MultiStepForm = () => {
     </div>
   );
 };
-
-{
-  /* <button
-            className="rux-button"
-            type="button"
-            style={{ marginTop: "1rem" }}
-            onClick={() => {
-              projStart != "" && projDeadline != ""
-                ? projStart < projDeadline
-                  ? navigation.next()
-                  : alert("The deadline must be after the start date.")
-                : alert("Please enter a valid date.");
-            }}
-          >
-            Next
-          </button> 
-        <button
-              className="rux-button"
-              type="button"
-              style={{ marginTop: "1rem" }}
-              onClick={() => {
-                projManager != ""
-                  ? navigation.next()
-                  : alert("Please select a project manager.");
-              }}
-            >
-              Next
-            </button>*/
-}

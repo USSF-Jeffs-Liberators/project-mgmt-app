@@ -155,7 +155,7 @@ app.get("/projects", (req, res) => {
 // INSERT Project
 app.post("/projects", (req, res) => {
   pool.query(
-    "INSERT INTO Project (Project_Manager, Project_Name, Project_Desc, Budget, Start_Date, Deadline_Date, End_Date, Current_Cost) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
+    "INSERT INTO Project (Project_Manager, Project_Name, Project_Desc, Budget, Start_Date, Deadline_Date) VALUES ($1, $2, $3, $4, $5, $6)",
     [
       req.body.project_manager,
       req.body.project_name,
@@ -163,8 +163,6 @@ app.post("/projects", (req, res) => {
       req.body.budget,
       req.body.start_date,
       req.body.deadline_date,
-      req.body.end_date,
-      req.body.current_cost,
     ],
     (error, results) => {
       if (error) {
