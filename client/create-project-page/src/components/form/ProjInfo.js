@@ -2,7 +2,6 @@ import React, { useState, useRef } from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import Textarea from "react-validation/build/textarea";
-// import Select from "react-validation/build/select";
 import CheckButton from "react-validation/build/button";
 
 export const ProjInfo = ({ formData, setForm, navigation, UserFilter }) => {
@@ -22,14 +21,56 @@ export const ProjInfo = ({ formData, setForm, navigation, UserFilter }) => {
           This field must be a string.
         </div>
       );
+    } else if (value.length > 255) {
+      return (
+        <div className="alert altert-danger" role="alert">
+          This field must be 255 characters or less.
+        </div>
+      );
     }
   };
-  
+
+  const currency = (value) => {
+    if (value.indexOf(".") === -1 || value.indexOf(".") - value.length !== -3) {
+      return (
+        <div className="alert altert-danger" role="alert">
+          This field must go to the hundreths decimal place.
+        </div>
+      );
+    }
+  };
+
   const required = (value) => {
     if (!value) {
       return (
         <div className="alert alert-danger" role="alert">
           This field is required!
+        </div>
+      );
+    }
+  };
+
+  const date = (value) => {
+    if (projStart > projDeadline) {
+      return (
+        <div className="alert alert-danger" role="alert">
+          The deadline must be after the start date.
+        </div>
+      );
+    }
+  };
+
+  const pmgr = (value) => {
+    if (typeof value !== "string") {
+      return (
+        <div className="alert altert-danger" role="alert">
+          This field must be a string.
+        </div>
+      );
+    } else if (!JSON.parse(value).user_id) {
+      return (
+        <div className="alert alert-danger" role="alert">
+          The selected project manager doesn't have a valid user id.
         </div>
       );
     }
@@ -48,18 +89,19 @@ export const ProjInfo = ({ formData, setForm, navigation, UserFilter }) => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      () => navigation.go("review");
-      console.log(JSON.stringify(formData, null, 2));
       setLoading(false);
+      navigation.go("review");
     } else {
       setLoading(false);
     }
   };
 
   return (
-    <Form className="flex-child" ref={form}>
+
+    <Form className="flex-child" ref={form} style={{ marginRight: "5em" }}>
       <h1 class="project-header">Project Information</h1>
-      <div className="rux-form-field" style={{ marginTop: "16px" }}>
+      <div className="rux-form-field" style={{ marginTop: "20px" }}>
+
         <label htmlFor="projName">Project Name</label>
         <Input
           type="text"
@@ -72,7 +114,7 @@ export const ProjInfo = ({ formData, setForm, navigation, UserFilter }) => {
           validations={[required, name]}
         />
       </div>
-      <div className="rux-form-field" style={{ marginTop: "16px" }}>
+      <div className="rux-form-field" style={{ marginTop: "20px" }}>
         <label htmlFor="projDesc">Project Description</label>
         <Textarea
           type="textarea"
@@ -85,7 +127,7 @@ export const ProjInfo = ({ formData, setForm, navigation, UserFilter }) => {
           validations={[required]}
         />
       </div>
-      <div className="rux-form-field" style={{ marginTop: "16px" }}>
+      <div className="rux-form-field" style={{ marginTop: "20px" }}>
         <label htmlFor="projBudget">Project Budget</label>
         <Input
           type="number"
@@ -97,10 +139,10 @@ export const ProjInfo = ({ formData, setForm, navigation, UserFilter }) => {
           value={projBudget}
           onChange={setForm}
           autoComplete="off"
-          validations={[required]}
+          validations={[required, currency]}
         />
       </div>
-      <div className="rux-form-field" style={{ marginTop: "16px" }}>
+      <div className="rux-form-field" style={{ marginTop: "20px" }}>
         <label htmlFor="projStart">Project Start</label>
         <Input
           type="date"
@@ -110,10 +152,10 @@ export const ProjInfo = ({ formData, setForm, navigation, UserFilter }) => {
           min="2020-01-01"
           max="2041-01-01"
           onChange={setForm}
-          validations={[required]}
+          validations={[required, date]}
         />
       </div>
-      <div className="rux-form-field" style={{ marginTop: "16px" }}>
+      <div className="rux-form-field" style={{ marginTop: "20px" }}>
         <label htmlFor="projDeadline">Project Deadline</label>
         <Input
           type="date"
@@ -123,21 +165,28 @@ export const ProjInfo = ({ formData, setForm, navigation, UserFilter }) => {
           min="2020-01-01"
           max="2041-01-01"
           onChange={setForm}
-          validations={[required]}
+          validations={[required, date]}
         />
       </div>
-      <div className="rux-form-field" style={{ marginTop: "16px" }}>
+      <div className="rux-form-field" style={{ marginTop: "20px" }}>
         <label htmlFor="projManager">Project Manager</label>
-          <div class="select-type">
-            <select name="projManager" id="projManager" value={projManager} onChange={setForm} autoComplete="off">
-              <option value="">Select Project Manager</option>
-              {UserFilter("Project Manager").map((each) => (
-                <option
-                  value={JSON.stringify(each)}
-                >{`${each.first_name} ${each.last_name}`}</option>
-              ))}
-            </select>
-          </div>
+        <div class="select-type">
+          <select
+            name="projManager"
+            id="projManager"
+            value={projManager}
+            onChange={setForm}
+            autoComplete="off"
+            validations={[required, pmgr]}
+          >
+            <option value="">Select Project Manager</option>
+            {UserFilter("Project Manager").map((each) => (
+              <option
+                value={(each.user_id)}
+              >{`${each.first_name} ${each.last_name}`}</option>
+            ))}
+          </select>
+        </div>
       </div>
       <div
         className="rux-button-group"
@@ -150,17 +199,15 @@ export const ProjInfo = ({ formData, setForm, navigation, UserFilter }) => {
         <button
           className="rux-button"
           type="button"
+          disabled={loading}
           style={{ marginTop: "1.5rem" }}
           onClick={handleReview}
         >
-          Review
-        </button>
-        {/* <button className="rux-button" disabled={loading}>
           {loading && (
             <span className="spinner-border spinner-border-sm"></span>
           )}
-          <span>Login</span>
-        </button> */}
+          <span>Review</span>
+        </button>
       </div>
       {message && (
         <div className="rux-form">
@@ -170,23 +217,6 @@ export const ProjInfo = ({ formData, setForm, navigation, UserFilter }) => {
         </div>
       )}
       <CheckButton style={{ display: "none" }} ref={checkBtn} />
-      {/* <div className="rux-button-group" style={{ alignSelf: "flex-start", margin: "0rem" }}> 
-          <button
-            className="rux-button"
-            type="button"
-            style={{ marginTop: "1rem" }}
-            onClick={() =>
-              projName != "" && projDesc != "" && projBudget != ""
-                ? projBudget.indexOf(".") != -1 &&
-                  projBudget.indexOf(".") - projBudget.length === -3
-                  ? navigation.next()
-                  : alert("The budget must have a cent value, like so: 0.00.")
-                : alert("Please fill out all fields.")
-            }
-          >
-            Next
-          </button> 
-        </div> */}
     </Form>
   );
 };
