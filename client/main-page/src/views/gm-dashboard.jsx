@@ -51,11 +51,11 @@ export default function GeneralManagerDashboard() {
       <section className="project-timeline col-12">
         <GanttChart />
       </section>
-      <section className="gm-issues col-s-12 col-6">
+      <section className="gm-issues col-s-12 col-8">
         <h2>Issues Tracker</h2>
         <IssueTracker />
       </section>
-      <section className="gm-team col-s-12 col-6">
+      <section className="gm-team col-s-12 col-4">
         <h2>Team Members</h2>
         <TeamRoster />
       </section>
