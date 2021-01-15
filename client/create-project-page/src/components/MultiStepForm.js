@@ -100,26 +100,12 @@ export const MultiStepForm = () => {
     return filteredUsers;
   }
 
-  // function ManagerFilter(pm) { //IF THIS TEST AT 9:07 AM WORKS, DELETE THIS FUNCTION
-  //   const [filteredUsers, setFilteredUsers] = useState([{}]);
-  //   useEffect(() => {
-  //     const filterUsers = (projectManager) => {
-  //       var idFiltered = userData.filter(
-  //         (each) => each["user_id"] === projectManager
-  //       );
-  //       setFilteredUsers(idFiltered);
-  //     };
-  //     filterUsers(pm);
-  //   }, [projManager]);
-  //   return filteredUsers[0];
-  // }
-
   const props = {
     formData,
     setForm,
     navigation,
     userData,
-    UserFilter
+    UserFilter,
   };
 
   switch (step.id) {

@@ -80,7 +80,7 @@ export const ProjReview = ({ navigation, formData }) => {
         flexDirection: "column",
       }}
     >
-      <h1 style={{ marginTop: "26px" }}>Review</h1>
+      <h1 class="project-header">Review</h1>
       <RenderAccordion
         summary="Project Information"
         details={[
