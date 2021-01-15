@@ -13,15 +13,15 @@ function ProjectCost(props) {
           ></div>
         </div>
       </div>
-      <h1 className="current-progress">
+      <h1 id="budget-details">
         {" "}
-        {props.getDollarFigure(props.selectedProject.current_cost)} (Costs) /{" "}
+        {props.getDollarFigure(props.selectedProject.current_cost)} (Expenses) /{" "}
         {props.getDollarFigure(props.selectedProject.budget)} (Budget)
       </h1>
-
+      <br></br>
       <div class="table-wrapper">
         {/* EXPENSES */}
-        <h1 className="financePage">Expenses</h1>
+        <h1 class="finance-header">Expenses</h1>
         <table class="rux-table">
           <tr class="rux-table__column-head">
             <th colspan="2">Description</th>
@@ -92,7 +92,7 @@ function ProjectCost(props) {
         <br></br>
 
         {/* FUNDING REQUESTS */}
-        <h1 className="financePage">Funding Requests</h1>
+        <h1 className="finance-header">Funding Requests</h1>
         <table class="rux-table">
           <tr class="rux-table__column-head">
             <th>Submitted By</th>

@@ -13,7 +13,7 @@ export const ExpenseModal = (props) => {
       }}
     >
       <div className="modal-header">
-        <h2 align="center">{props.selectedExpense === null ? ('Add') : ('Edit')} Expense</h2>
+        <h2 class="finance-header">{props.selectedExpense === null ? ('Add') : ('Edit')} Expense</h2>
       </div>
       <div className="modal-content">
         <div className="modal-body">
