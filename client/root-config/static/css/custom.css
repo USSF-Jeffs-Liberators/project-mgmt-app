@@ -232,7 +232,7 @@ pre {
 }
 
 .flex-child:first-child {
-  margin-right: 64px;
+  margin-right: 10%;
 }
 
 Form {
@@ -241,6 +241,7 @@ Form {
 }
 
 Form div {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -255,24 +256,13 @@ Form div label {
 }
 
 Form div Input {
-  box-sizing: border-box;
-  min-width: 228px;
   width: 100%;
-  border: 1px solid transparent;
-  border: 1px solid var(--inputBorderColor, transparent);
-  border-radius: 3px;
-  font-size: 1rem;
-  font-size: var(--fontSize, 1rem);
-  color: #000;
-  color: var(--inputTextColor, rgb(0, 0, 0));
-  height: 2.125rem;
-  padding: 0 1rem;
   margin-top: 0.4rem;
 }
 
 Form div Textarea {
   box-sizing: border-box;
-  min-width: 228px;
+  resize: vertical;
   width: 100%;
   border: 1px solid transparent;
   border: 1px solid var(--inputBorderColor, transparent);
@@ -289,11 +279,6 @@ Form div Textarea {
   margin-top: 0.4rem;
 }
 
-Form div Select {
-  min-width: 228px;
-  margin-top: 0.4rem;
-}
-
 /* Reset Select */
 select {
   -webkit-appearance: none;
@@ -303,7 +288,6 @@ select {
   outline: 0;
   box-shadow: none;
   border: 0 !important;
-  background: #ffffff;
   background-image: none;
 }
 
@@ -316,32 +300,44 @@ select::-ms-expand {
 .select-type {
   position: relative;
   display: flex;
-  width: 15em;
+  width: 100%;
   height: 2em;
   line-height: 2;
-  /* background: #203246; */
-  background-color: white;
+  cursor: pointer;
+  background: #005A8F;
   overflow: hidden;
-  border-radius: 0.25em;
+  border-radius: .25em;
+  margin-top: 0.4rem;
 }
 
 select {
   flex: 1;
-  padding: 0 0.5em;
-  color: black;
+  padding: 0 .5em;
+  color: rgb(255, 255, 255);
+  background-color: transparent;
   cursor: pointer;
   font-family: "Open Sans", sans-serif;
   font-size: 1rem;
+  width: 100%;
+}
+
+select option {
+  color: rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
 }
 
 /* Arrow */
 .select-type::after {
-  content: "\25BC";
+  flex: 1;
+  content: "▼";
   position: absolute;
+  right: 1.2rem;
   top: 0;
-  right: 0;
-  padding: 0 1em;
-  background: #005a8f;
+  text-align: center;
+  padding: 0 ;
+  height: 100%;
+  color: rgb(255, 255, 255);
+  background-color: transparent;
   cursor: pointer;
   pointer-events: none;
   -webkit-transition: 0.25s all ease;
@@ -350,6 +346,7 @@ select {
 }
 
 /* Transition */
-.select-type:hover::after {
-  background: #3a81bf;
+.select-type > select:hover,
+.select-type:hover {
+  background: #3A81BF;
 }
