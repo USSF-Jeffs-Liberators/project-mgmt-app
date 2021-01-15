@@ -13,7 +13,7 @@ export const ReviewModal = (props) => {
       }}
     >
       <div className="modal-header">
-        <h2 align="center">Review Funding Request</h2>
+        <h2 class="finance-header">Review Funding Request</h2>
       </div>
       <div className="modal-content">
         <div className="modal-body">
