@@ -1,26 +1,36 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { RuxAccordion } from "../rux-accordion";
 
 export const AvailableUsers = ({ UserFilter, userData }) => {
   return (
     <div
       className="flex-child"
-      style={{ flexDirection: "column", minWidth: "950px", maxWidth: "950px" }}
+      style={{
+        flexDirection: "column",
+        minWidth: "950px",
+        maxWidth: "950px",
+        marginRight: "5em",
+      }}
     >
-      <h1 style={{ marginTop: "26px" }}>Available Team Members</h1>
-      <RenderAccordion
-        summary="Project Managers"
-        availUsers={UserFilter("Project Manager")}
-      />
-      <RenderAccordion
-        summary="Developers"
-        availUsers={UserFilter("Developer")}
-      />
-      <h1 style={{ marginTop: "26px" }}>All Team Members</h1>
-      <RenderAccordion
-        summary="All Developers And Project Managers"
-        availUsers={userData.filter((each) => each.first_name != "admin")}
-      />
+      <div>
+        <h1 style={{ marginTop: "26px" }}>Available Team Members</h1>
+        <RenderAccordion
+          summary="Project Managers"
+          availUsers={UserFilter("Project Manager")}
+        />
+        <RenderAccordion
+          summary="Developers"
+          availUsers={UserFilter("Developer")}
+        />
+      </div>
+
+      <div>
+        <h1 style={{ marginTop: "26px" }}>All Team Members</h1>
+        <RenderAccordion
+          summary="All Developers And Project Managers"
+          availUsers={userData.filter((each) => each.first_name != "admin")}
+        />
+      </div>
     </div>
   );
 };

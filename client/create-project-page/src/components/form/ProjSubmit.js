@@ -1,21 +1,9 @@
 import React from "react";
 
-export const ProjSubmit = ({ navigation }) => {
+export const ProjSubmit = () => {
   return (
-
     <div className="flex-child" style={{ flexDirection: "column" }}>
-      <h1>On submission of the form, all data is sent to the db to create new entries in the relevant tables.</h1>
-
-      <div className="rux-button-group">
-        <button
-          className="rux-button"
-          type="button"
-          style={{ marginTop: "1rem" }}
-          onClick={() => navigation.previous()}
-        >
-          Back
-        </button>
-      </div>
+      <h1>The project has been created!</h1>
     </div>
   );
 };
