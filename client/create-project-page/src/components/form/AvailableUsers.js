@@ -7,7 +7,7 @@ export const AvailableUsers = ({ UserFilter, userData }) => {
       className="flex-child"
       style={{ flexDirection: "column", minWidth: "950px", maxWidth: "950px" }}
     >
-      <h1 style={{ marginTop: "26px" }}>Available Team Members</h1>
+      <h1 class="project-header">Available Team Members</h1>
       <RenderAccordion
         summary="Project Managers"
         availUsers={UserFilter("Project Manager")}
@@ -16,7 +16,7 @@ export const AvailableUsers = ({ UserFilter, userData }) => {
         summary="Developers"
         availUsers={UserFilter("Developer")}
       />
-      <h1 style={{ marginTop: "26px" }}>All Team Members</h1>
+      <h1 class="project-header">All Team Members</h1>
       <RenderAccordion
         summary="All Developers And Project Managers"
         availUsers={userData.filter((each) => each.first_name != "admin")}

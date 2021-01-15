@@ -58,7 +58,7 @@ export const ProjInfo = ({ formData, setForm, navigation, UserFilter }) => {
 
   return (
     <Form className="flex-child" ref={form}>
-      <h1 style={{ marginTop: "26px" }}>Project Information</h1>
+      <h1 class="project-header">Project Information</h1>
       <div className="rux-form-field" style={{ marginTop: "16px" }}>
         <label htmlFor="projName">Project Name</label>
         <Input

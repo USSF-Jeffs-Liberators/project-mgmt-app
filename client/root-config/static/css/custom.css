@@ -353,3 +353,17 @@ select {
 .select-type:hover::after {
   background: #3a81bf;
 }
+
+.project-header {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 25px;
+  letter-spacing: 0.5px;
+  margin-top: 26px;
+  padding: 10px;
+  background: #001825;
+  border: 2px solid #ffa011;
+  border-radius: 11px;
+  box-shadow: 0px 8px 17px 2px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12), 0px 5px 5px -3px rgba(0, 0, 0, 0.2);
+}
